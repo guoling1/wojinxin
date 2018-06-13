@@ -1,27 +1,16 @@
 <template>
   <div class="main">
+    <div class="top">
+      <img src="" alt="">
+      <div class="right">
+        <p class="welcome">欢迎您，</p>
+        <p class="phone">手机号：176543789</p>
+      </div>
+    </div>
     <ul>
-      <li v-for="index in 4">
-        <div class="top">
-          <div class="time">2018-06-01</div>
-          <div class="price">￥6000.00</div>
-        </div>
-        <div class="content">
-          <div class="left">
-            <img src="../assets/phone.png" alt="">
-          </div>
-          <div class="right">
-            <p class="color">机身颜色：灰色</p>
-            <p class="memory">内存：16G</p>
-            <p class="address">归属地：北京</p>
-            <p class="bank">开户行：平安银行</p>
-            <p class="package">合约套餐：36个月</p>
-          </div>
-        </div>
-        <div class="bottom">
-          <div class="state">订单状态：待审核</div>
-          <div class="button">查看详情</div>
-        </div>
+      <li>
+        <img src="../assets/orderIcon.png" alt="">
+        <span>我的订单</span>
       </li>
     </ul>
   </div>
@@ -44,75 +33,54 @@ export default {
   margin: 50px 0;
   width: 100%;
 
+  .top{
+    margin: 19px 15px 30px;
+    height: 92px;
+    background: #f4f4f4;
+    border-radius: 5px;
+    text-align: left;
+    box-shadow: 0 3px 12px #f4f4f4;
+
+    img{
+      margin-top: 14px;
+      margin-left: 28px;
+      display: inline-block;
+      width: 63px;
+      height: 63px;
+      border: 1px solid #fff;
+      border-radius: 50%;
+    }
+    .right{
+      display: inline-block;
+      margin-left: 30px;
+      vertical-align: top;
+      font-size: 14px;
+      .welcome{
+        margin: 28px 0 16px;
+        font-size: 12px;
+        color: #666;
+      }
+    }
+  }
   ul{
+    border-top: 10px solid #e7e7e7;
+    padding: 10px 15px;
+    text-align: left;
 
     li{
-      padding: 0 10px;
-      border-top: 10px solid #f4f4f4;
-      width: 100%;
-      .top{
-        height: 38px;
-        line-height: 38px;
-        border-bottom: 1px solid #d7d7d7;
+      height: 45px;
+      line-height: 45px;
+      border-bottom: 1px solid #e5e5e5;
 
-        .time{
-          float: left;
-          font-size: 11px;
-        }
-        .price{
-          float: right;
-          font-size: 14px;
-          color: #fd255a;
-        }
+      img{
+        display: inline-block;
+        margin-right: 5px;
+        vertical-align: middle;
+        width: 15px;
+        height: 19px;
       }
-      .content{
-        padding:15px 0 0;
-        font-size: 14px;
-        border-bottom: 1px solid #d7d7d7;
-        text-align: left;
-        .left{
-          display:inline-block;
-          /*float: left;*/
-
-          img{
-            width: 114px;
-            height: 114px;
-            border: 1px solid #d7d7d7;
-            border-radius: 3px;
-          }
-        }
-        .right{
-          display:inline-block;
-          p{
-            margin-bottom: 11px;
-            /*margin-left: 130px;*/
-          }
-        }
-
-      }
-      .bottom{
-        text-align:left;
-        font-size: 13px;
-        color: #666666;
-        height:44px;
-        line-height:44px;
-
-        .state{
-          display: inline-block;
-          text-align: left;
-        }
-        .button{
-          margin-top: 10px;
-          width: 82px;
-          height: 25px;
-          font-size: 12px;
-          color: #333;
-          line-height: 25px;
-          text-align: center;
-          border: 1px solid #333;
-          border-radius: 3px;
-          float: right;
-        }
+      span{
+        display: inline-block;
       }
     }
   }

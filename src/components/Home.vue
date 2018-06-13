@@ -8,7 +8,7 @@
         <img src="../assets/phone.png" alt="">
         <div class="title">iphone X</div>
         <div class="price">存款金额：<span>￥6400</span></div>
-        <div class="button">立即办理</div>
+        <div class="button" @click="toDetail()">立即办理</div>
       </li>
     </ul>
   </div>
@@ -20,6 +20,11 @@ export default {
   data () {
     return {
 
+    }
+  },
+  methods:{
+    toDetail(){
+      this.$router.push("/homeDetail")
     }
   }
 }

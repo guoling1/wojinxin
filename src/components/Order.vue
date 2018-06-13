@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <ul>
-      <li v-for="index in 4">
+      <li v-for="index in 4" @click="toDetail()">
         <div class="top">
           <div class="time">2018-06-01</div>
           <div class="price">￥6000.00</div>
@@ -34,6 +34,12 @@ export default {
     return {
 
     }
+  },
+  methods: {
+    toDetail(){
+      this.$router.push('/orderDetail')
+    }
+
   }
 }
 </script>
