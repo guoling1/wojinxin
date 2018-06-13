@@ -6,6 +6,13 @@ import router from './router'
 
 Vue.config.productionTip = false
 
+/*
+import axios from 'axios'
+axios.defaults.baseURL = "http://www.aihuikao.com/wofinance";
+axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+Vue.prototype.$axios= axios
+*/
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
