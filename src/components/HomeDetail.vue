@@ -8,7 +8,7 @@
     </div>
     <div class="address">
       <span class="attr">归属地区</span>
-      <span class="val">武汉</span>
+      <span class="val" @click="selectAddress()">武汉</span>
     </div>
     <div class="bank">
       <div class="top">
@@ -39,6 +39,14 @@
       <div class="button" @click="confirm()">确认</div>
     </div>
 
+    <!--选择地区-->
+    <div v-transfer-dom>
+      <popup v-model="showAddress" position="right" style="overflow: auto">
+        <div style="width:150px;">
+          <p v-for="index in 100" style="height: 30px;line-height: 30px;">北京</p>
+        </div>
+      </popup>
+    </div>
     <!--银行弹框-->
     <div v-transfer-dom class="showBank">
       <x-dialog v-model="showBank" class="dialog-demo">
@@ -149,6 +157,7 @@ export default {
           img:require('../assets/home.png')
         }
       ],
+      showAddress:false,
       showBank:false,
       showTips:false,
       showLogin:false,
@@ -156,6 +165,14 @@ export default {
     }
   },
   methods:{
+    selectAddress(){
+      var params = {pid:1}
+      this.showAddress = true;
+      this.$axios.post("/open/api/area/list",params)
+        .then(res=>{
+          console.log(res)
+        })
+    },
     selectBank(){
       this.showBank = true;
     },

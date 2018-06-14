@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import qs from "qs"
 
 Vue.config.productionTip = false
 
@@ -19,6 +20,10 @@ router.beforeEach((to, from, next) => {
 // http request 拦截器
 axios.interceptors.request.use(
   config => {
+
+    console.log(config)
+    config.data=qs.stringify(config.data)
+    console.log(config)
     return config;
   },
   err => {
