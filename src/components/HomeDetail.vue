@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <swiper :list="swiperList" height="333px" dots-position="center" show-desc-mask="false"></swiper>
+    <swiper :list="swiperList" height="333px" dots-position="center" :show-desc-mask="isMask"></swiper>
     <div class="productMessage">
       <p class="name">iPhoneX</p>
       <p class="price">预存金额<span>￥6000</span></p>
@@ -38,15 +38,29 @@
       <input type="number" placeholder="推荐人手机号(选填)">
       <div class="button">确认</div>
     </div>
+
+    <!--银行弹框-->
+    <div v-transfer-dom class="showBank">
+      <x-dialog v-model="showBank" class="dialog-demo">
+        <div class="top">
+          <span>选择银行</span>
+          <span @click="showBank=false" class="close">×</span>
+        </div>
+        <div @click="show=false">
+
+        </div>
+      </x-dialog>
+    </div>
   </div>
 </template>
 
 <script>
-  import {Swiper} from 'vux'
+  import {Swiper,XDialog } from 'vux'
 export default {
   name: 'Home',
   data () {
     return {
+      isMask:false,
       swiperList:[
         {
           img:require('../assets/phone.png')
@@ -54,11 +68,13 @@ export default {
         {
           img:require('../assets/home.png')
         }
-      ]
+      ],
+      showBank:true
     }
   },
   components:{
-    Swiper
+    Swiper,
+    XDialog
   }
 }
 </script>
@@ -167,6 +183,25 @@ export default {
       color: #fff;
       width: 30%;
     }
+  }
+
+  .showBank{
+    color: #444c59;
+
+
+    .top{
+      height: 41px;
+      line-height: 41px;
+      border-bottom: 1px solid #444c59;
+      font-size:18px;
+      .close{
+        font-size: 36px;
+        color: #b2b5bb;
+        position: absolute;
+        right: 0;
+      }
+    }
+
   }
 
 }

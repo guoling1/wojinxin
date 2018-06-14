@@ -23,7 +23,7 @@
 
 <script lang="babel">
   export default {
-    name: 'menu',
+    name: 'mainMenu',
     data () {
       return {
         common: {

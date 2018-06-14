@@ -1,11 +1,11 @@
 <template>
   <div id="app" class="flex-box-column flexBox">
     <div class="title">
-      <div class="back">
+      <div class="back" @click="back()" v-if="this.$route.name!='home'">
         <img src="./assets/back.png" alt="">
         <span>返回</span>
       </div>
-      <h1>沃金信</h1>
+      <h1>{{title}}</h1>
     </div>
     <router-view/>
   </div>
@@ -13,7 +13,22 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  data(){
+    return {
+      title:'沃金信'
+    }
+  },
+  methods: {
+    back(){
+      this.$router.go(-1)
+    }
+  },
+  watch:{
+    $route:function (cur) {
+      this.title = cur.meta.title
+    }
+  }
 }
 </script>
 

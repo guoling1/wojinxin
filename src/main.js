@@ -6,12 +6,53 @@ import router from './router'
 
 Vue.config.productionTip = false
 
-/*
 import axios from 'axios'
 axios.defaults.baseURL = "http://www.aihuikao.com/wofinance";
 axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-Vue.prototype.$axios= axios
-*/
+Vue.prototype.$axios= axios;
+
+// 监听路由变化
+router.beforeEach((to, from, next) => {
+  next()
+});
+
+// http request 拦截器
+axios.interceptors.request.use(
+  config => {
+    return config;
+  },
+  err => {
+    return Promise.reject(err);
+  });
+
+// http response 拦截器
+axios.interceptors.response.use(
+  response => {
+    /*if(response.data=='Please login!'){
+      router.replace({
+        path: '/login',
+        query: {redirect: router.currentRoute.fullPath}
+      })
+    }*/
+    return response;
+  },
+  error => {
+    /*if (error.response) {
+      console.log(error.response.status)
+      switch (error.response.status) {
+        case 401:
+          // 返回 401 清除token信息并跳转到登录页面
+          store.commit('LOGOUT');
+          router.replace({
+            path: 'login',
+            query: {redirect: router.currentRoute.fullPath}
+          })
+      }
+    }else {
+
+    }*/
+    return Promise.reject('系统异常')   // 返回接口返回的错误信息
+  });
 
 /* eslint-disable no-new */
 new Vue({
