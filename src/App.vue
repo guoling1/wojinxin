@@ -38,6 +38,7 @@ export default {
     position: fixed;
     width: 100%;
     height: 50px;
+    z-index: 10;
     /*color: #fefefe;*/
     background: #fff;
     padding: 15px 10px 0;

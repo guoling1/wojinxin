@@ -36,6 +36,16 @@ export default {
     }
   },
   methods: {
+    //获取订单列表
+    getData(){
+      this.$axios.post("/open/api/order/list",{mobile:""})
+        .then(res=>{
+
+        })
+        .catch(error => {
+
+        })
+    },
     toDetail(){
       this.$router.push('/orderDetail')
     }

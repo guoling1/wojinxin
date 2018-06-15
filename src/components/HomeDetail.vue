@@ -2,13 +2,13 @@
   <div class="main">
     <swiper :list="swiperList" height="333px" :auto="!isMask" :loop="!isMask" dots-position="center" :show-desc-mask="isMask"></swiper>
     <div class="productMessage">
-      <p class="name">iPhoneX</p>
-      <p class="price">预存金额<span>￥6000</span></p>
-      <p class="oldPrice">市场价：$8000</p>
+      <p class="name">{{productData.name}}</p>
+      <p class="price">预存金额<span>￥{{productData.price}}</span></p>
+      <p class="oldPrice">市场价：￥{{productData.sourcePrice}}</p>
     </div>
     <div class="address">
       <span class="attr">归属地区</span>
-      <span class="val" @click="openAddress()">{{address}}</span>
+      <span class="val" @click="openAddress()">{{address.name}}</span>
     </div>
     <div class="bank">
       <div class="top">
@@ -22,7 +22,7 @@
     </div>
     <div class="format">
       <span class="attr">可选规格</span>
-      <span class="val" @click="showFormat=true">{{color}}、{{memory}}、{{setMeal}}</span>
+      <span class="val" @click="openFormat()">{{color}}、{{memory}}、{{setMeal}}</span>
     </div>
     <div class="detail">
       <div class="subject">
@@ -43,7 +43,7 @@
     <div>
       <popup v-model="showAddress" position="right" style="overflow: auto">
         <div style="width:150px;">
-          <p v-for="address in addressList" @click="selectAddress(address.name)" class="addressList">{{address.name}}</p>
+          <p v-for="address in addressList" @click="selectAddress(address)" class="addressList">{{address.name}}</p>
         </div>
       </popup>
     </div>
@@ -128,7 +128,7 @@
           </li>
           <li class="taocan">
             <div class="subject">合约套餐</div>
-            <span :class="setMeal==item?'active':''" v-for="item in setMealList" @click="selectSetMeal(item)">{{item}}</span>
+            <span :class="setMeal==item?'active':''" v-for="item in setMealList" @click="selectSetMeal(item)">{{item.name}}</span>
           </li>
         </ul>
         <div class="button" @click="confirmFormat()">确认</div>
@@ -136,6 +136,7 @@
     </div>
 
     <toast v-model="warnText" type="warn" :text=errMsg></toast>
+    <toast v-model="showPrompt" position="middle" type="text" :text="promptMsg"></toast>
   </div>
 </template>
 
@@ -145,6 +146,8 @@ export default {
   name: 'Home',
   data () {
     return {
+      id:this.$route.query.id,
+      productData:{},
       isMask:false,
       swiperList:[
         {img:require('../assets/phone.png')},
@@ -157,7 +160,7 @@ export default {
       showLogin:false,
       showFormat:false,
       addressList:[],
-      address:'请选择',
+      address:{name:'请选择'},
       colorList:["深空灰","金色","玫瑰金"],
       color:'颜色',
       memoryList:["16G","32G","64G","128G"],
@@ -165,15 +168,61 @@ export default {
       setMealList:["3个月|59套餐","12个月|596套餐","36个月|596套餐"],
       setMeal:'套餐',
       warnText:false,
-      errMsg:''
+      errMsg:'',
+      showPrompt:false,
+      promptMsg:'',
+
     }
   },
   created(){
-    /*this.color = this.colorList[0];
-    this.memory = this.memoryList[0];
-    this.setMeal = this.setMealList[0];*/
+    this.getData();
+    this.getSwiper();
+    this.getStock();
   },
   methods:{
+    //获取产品轮播图
+    getSwiper(){
+      this.$axios.post("/open/api/product/swiper/list",{id:this.id})
+        .then(res=>{
+          this.swiperList = res.data
+        })
+        .catch(err=>{
+          this.errMsg=err
+          this.warnText = true
+        })
+    },
+    //获取产品信息
+    getData(){
+      this.$axios.post("/open/api/product/get",{id:this.id})
+        .then(res=>{
+          console.log(res)
+          this.productData = res.data;
+          this.memory = res.data.spec;
+          this.color = res.data.color;
+        })
+        .catch(err=>{
+          this.errMsg=err
+          this.warnText = true
+        })
+    },
+    //获取库存列表
+    getStock(){
+      let params = {
+        productId: this.id,
+        // color:this.color,
+        // memory:this.memory,
+        // amount:this.amount
+      }
+      this.$axios.post("/open/api/product/get",params)
+        .then(res=>{
+          this.swiperList = res.data
+        })
+        .catch(err=>{
+          this.errMsg=err
+          this.warnText = true
+        })
+    },
+    //获取地区
     openAddress(){
       var params = {pid:1}
       this.$axios.post("/open/api/area/list",params)
@@ -184,7 +233,14 @@ export default {
         .catch(err=>{
           this.errMsg=err
           this.warnText = true
-
+        })
+    },
+    //选择规格
+    openFormat(){
+      this.showFormat = true;
+      this.$axios.post("/open/api/code/packages/list",{areaId:this.address.id})
+        .then(res=>{
+          this.setMealList = res.data.list;
         })
     },
     selectAddress(address){
@@ -201,7 +257,22 @@ export default {
       this.setMeal = setMeal
     },
     selectBank(){
-      this.showBank = true;
+      //选择银行前先选择区域
+      if(this.address.id){
+        this.$axios.post("/open/api/area/list",{areaId:this.address.id})
+          .then(res=>{
+            this.showBank = true;
+            this.bankList = res.data;
+          })
+          .catch(err=>{
+            this.errMsg=err
+            this.warnText = true
+          })
+      }else {
+        this.showPrompt = true;
+        this.promptMsg = '请先选择区域'
+      }
+
     },
     confirm(){
       this.showTips = true;
