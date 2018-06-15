@@ -8,7 +8,7 @@
       </div>
     </div>
     <ul>
-      <li>
+      <li @click="toOrder()">
         <img src="../assets/orderIcon.png" alt="">
         <span>我的订单</span>
       </li>
@@ -22,6 +22,11 @@ export default {
   data () {
     return {
 
+    }
+  },
+  methods:{
+    toOrder(){
+      this.$router.push("/order")
     }
   }
 }

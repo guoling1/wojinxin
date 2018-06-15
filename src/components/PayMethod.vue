@@ -28,7 +28,7 @@
         <input type="text" placeholder="登陆银行账户付款">
       </div>
     </div>
-    <div class="button">下一步</div>
+    <div class="button" @click="submit()">下一步</div>
   </div>
 </template>
 
@@ -39,6 +39,11 @@ export default {
     return {
 
     }
+  },
+  methods:{
+    submit(){
+      this.$router.push("/writePhone")
+    }
   }
 }
 </script>
@@ -48,6 +53,7 @@ export default {
 .main{
   margin: 50px 0 0;
   background: #e7e7e7;
+  font-size: 14px;
   height: 100%;
   width: 100%;
   .shopMessage{

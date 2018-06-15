@@ -1,10 +1,12 @@
 <template>
   <div class="main">
-    <div class="banner">
-      <img src="../assets/banner.png" alt="" style="width: 100%;height: 100%">
-    </div>
+    <swiper :list="swiperList" aspect-ratio=1.146 :auto="!descMask" :loop="!descMask" :show-dots="showDots" :show-desc-mask="descMask"></swiper>
+    <!--<div class="banner">
+      &lt;!&ndash;<img src="../assets/banner.png" alt="" style="width: 100%;height: 100%">&ndash;&gt;
+
+    </div>-->
     <ul>
-      <li v-for="index in 4">
+      <li v-for="index in 5">
         <img src="../assets/phone.png" alt="">
         <div class="title">iphone X</div>
         <div class="price">存款金额：<span>￥6400</span></div>
@@ -15,17 +17,32 @@
 </template>
 
 <script>
+  import {Swiper } from 'vux'
 export default {
   name: 'Home',
   data () {
     return {
-
+      swiperList:[{img:require('../assets/banner.png')}],
+      showDots:false,
+      descMask:false
     }
   },
+  created(){
+    this.getData()
+  },
   methods:{
+    getData(){
+      this.$axios.post("/wofinance/open/api/product/list")
+        .then(res=>{
+
+        })
+    },
     toDetail(){
       this.$router.push("/homeDetail")
     }
+  },
+  components:{
+    Swiper
   }
 }
 </script>

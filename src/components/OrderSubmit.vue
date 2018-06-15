@@ -42,8 +42,8 @@
         </li>
       </ul>
     </div>
-    <div class="button">订单支付</div>
-    <div v-transfer-dom class="showSubmit">
+    <div class="button" @click="submit()">订单支付</div>
+    <div class="showSubmit">
       <x-dialog v-model="showSubmit" class="dialog-demo">
         <div class="top">
           <span>支付方式</span>
@@ -67,7 +67,7 @@
             <span class="value">84758465784759834</span>
           </li>
         </ul>
-        <div class="bottom">在线支付</div>
+        <div class="bottom" @click="pay()">在线支付</div>
       </x-dialog>
     </div>
   </div>
@@ -80,6 +80,14 @@ export default {
   data () {
     return {
       showSubmit:false
+    }
+  },
+  methods:{
+    submit(){
+      this.showSubmit = true;
+    },
+    pay(){
+      this.$router.push("/payMethod")
     }
   },
   components:{

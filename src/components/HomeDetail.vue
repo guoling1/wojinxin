@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <swiper :list="swiperList" height="333px" dots-position="center" :show-desc-mask="isMask"></swiper>
+    <swiper :list="swiperList" height="333px" :auto="!isMask" :loop="!isMask" dots-position="center" :show-desc-mask="isMask"></swiper>
     <div class="productMessage">
       <p class="name">iPhoneX</p>
       <p class="price">预存金额<span>￥6000</span></p>
@@ -8,7 +8,7 @@
     </div>
     <div class="address">
       <span class="attr">归属地区</span>
-      <span class="val" @click="selectAddress()">武汉</span>
+      <span class="val" @click="openAddress()">{{address}}</span>
     </div>
     <div class="bank">
       <div class="top">
@@ -22,7 +22,7 @@
     </div>
     <div class="format">
       <span class="attr">可选规格</span>
-      <span class="val" @click="showFormat=true">机身、颜色、合约套餐</span>
+      <span class="val" @click="showFormat=true">{{color}}、{{memory}}、{{setMeal}}</span>
     </div>
     <div class="detail">
       <div class="subject">
@@ -40,15 +40,15 @@
     </div>
 
     <!--选择地区-->
-    <div v-transfer-dom>
+    <div>
       <popup v-model="showAddress" position="right" style="overflow: auto">
         <div style="width:150px;">
-          <p v-for="index in 100" style="height: 30px;line-height: 30px;">北京</p>
+          <p v-for="address in addressList" @click="selectAddress(address.name)" class="addressList">{{address.name}}</p>
         </div>
       </popup>
     </div>
     <!--银行弹框-->
-    <div v-transfer-dom class="showBank">
+    <div  class="showBank">
       <x-dialog v-model="showBank" class="dialog-demo">
         <div class="top">
           <span>选择银行</span>
@@ -63,7 +63,7 @@
       </x-dialog>
     </div>
     <!--友情提示-->
-    <div v-transfer-dom class="showBank showTips">
+    <div  class="showBank showTips">
       <x-dialog v-model="showTips" class="dialog-demo">
         <div class="top">
           <span>友情提示</span>
@@ -80,7 +80,8 @@
         </div>
       </x-dialog>
     </div>
-    <div v-transfer-dom class="showBank showTips">
+    <!--登录框-->
+    <div  class="showBank showTips">
       <x-dialog v-model="showLogin" class="dialog-demo">
         <div class="top">
           <span>手机验证登录</span>
@@ -101,12 +102,12 @@
             </li>
           </ul>
         </div>
-          <div class="buy">立即购买</div>
+          <div class="buy" @click="toBuy()">立即购买</div>
       </x-dialog>
     </div>
     <!--选择规格-->
-    <div v-transfer-dom class="showFormat">
-      <popup v-model="showFormat" @on-hide="log('hide')" @on-show="log('show')">
+    <div class="showFormat">
+      <popup v-model="showFormat" >
         <div class="top">
           <img src="../assets/phone.png" alt="">
           <div class="right">
@@ -117,61 +118,87 @@
 
         </div>
         <ul>
-          <li>
+          <li >
             <div class="subject">机身颜色</div>
-            <span class="active">深空灰</span>
-            <span>深空灰</span>
-            <span>深空灰</span>
+            <span :class="color==item?'active':''" v-for="item in colorList" @click="selectColor(item)">{{item}}</span>
           </li>
           <li>
             <div class="subject">内存</div>
-            <span class="active">16G</span>
-            <span>深空灰</span>
-            <span>深空灰</span>
+            <span :class="memory==item?'active':''" v-for="item in memoryList" @click="selectMemory(item)">{{item}}</span>
           </li>
           <li class="taocan">
             <div class="subject">合约套餐</div>
-            <span class="active">36个月|596套餐</span>
-            <span>深空灰</span>
-            <span>深空灰</span>
+            <span :class="setMeal==item?'active':''" v-for="item in setMealList" @click="selectSetMeal(item)">{{item}}</span>
           </li>
         </ul>
         <div class="button" @click="confirmFormat()">确认</div>
       </popup>
     </div>
+
+    <toast v-model="warnText" type="warn" :text=errMsg></toast>
   </div>
 </template>
 
 <script>
-  import {Swiper,XDialog,Popup  } from 'vux'
+  import {Swiper,XDialog,Popup,TransferDom   } from 'vux'
 export default {
   name: 'Home',
   data () {
     return {
       isMask:false,
       swiperList:[
-        {
-          img:require('../assets/phone.png')
-        },
-        {
-          img:require('../assets/home.png')
-        }
+        {img:require('../assets/phone.png')},
+        {img:require('../assets/banner.png')},
+        {img:require('../assets/home.png')}
       ],
       showAddress:false,
       showBank:false,
       showTips:false,
       showLogin:false,
-      showFormat:false
+      showFormat:false,
+      addressList:[],
+      address:'请选择',
+      colorList:["深空灰","金色","玫瑰金"],
+      color:'颜色',
+      memoryList:["16G","32G","64G","128G"],
+      memory:'内存',
+      setMealList:["3个月|59套餐","12个月|596套餐","36个月|596套餐"],
+      setMeal:'套餐',
+      warnText:false,
+      errMsg:''
     }
   },
+  created(){
+    /*this.color = this.colorList[0];
+    this.memory = this.memoryList[0];
+    this.setMeal = this.setMealList[0];*/
+  },
   methods:{
-    selectAddress(){
+    openAddress(){
       var params = {pid:1}
-      this.showAddress = true;
       this.$axios.post("/open/api/area/list",params)
         .then(res=>{
-          console.log(res)
+          this.addressList = res.data;
+          this.showAddress = true;
         })
+        .catch(err=>{
+          this.errMsg=err
+          this.warnText = true
+
+        })
+    },
+    selectAddress(address){
+      this.address = address;
+      this.showAddress = false;
+    },
+    selectColor(color){
+      this.color = color;
+    },
+    selectMemory(memory){
+      this.memory = memory
+    },
+    selectSetMeal(setMeal){
+      this.setMeal = setMeal
     },
     selectBank(){
       this.showBank = true;
@@ -185,13 +212,16 @@ export default {
     },
     confirmFormat(){
       this.showFormat = false;
+    },
+    toBuy(){
+      this.$router.push("/shopInfor")
     }
   },
   components:{
     Swiper,
     XDialog,
     Popup
-  }
+  },
 }
 </script>
 
@@ -444,11 +474,12 @@ export default {
       text-align: left;
       li{
         .subject{
-          margin: 14px 0;
+          margin: 14px 0 0;
           font-size: 14px;
         }
         span{
           display: inline-block;
+          margin-top: 14px;
           text-align: center;
           width: 82px;
           height: 25px;
@@ -476,6 +507,11 @@ export default {
       background: #fc3a79;
       color: #fff;
     }
+  }
+  .addressList{
+    height: 30px;
+    line-height: 30px;
+    font-size: 14px
   }
 
 }

@@ -38,7 +38,7 @@
         <span>记住卡号</span>
       </div>
     </div>
-    <div class="button">开通并付款</div>
+    <div class="button" @click="submit()">开通并付款</div>
   </div>
 </template>
 
@@ -49,6 +49,11 @@ export default {
     return {
 
     }
+  },
+  methods:{
+    submit(){
+      this.$router.push('/orderDetail')
+    }
   }
 }
 </script>
@@ -58,6 +63,7 @@ export default {
 .main{
   margin: 50px 0 0;
   background: #e7e7e7;
+  font-size: 14px;
   height: 100%;
   width: 100%;
   .shopMessage{

@@ -69,7 +69,7 @@
         </li>
       </ul>
     </div>
-    <div class="button">提交订单</div>
+    <div class="button" @click="submit()">提交订单</div>
   </div>
 </template>
 
@@ -80,7 +80,13 @@ export default {
     return {
 
     }
+  },
+  methods:{
+    submit(){
+      this.$router.push("/orderSubmit")
+    }
   }
+
 }
 </script>
 
