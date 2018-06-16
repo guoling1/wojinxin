@@ -98,13 +98,12 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="less">
-  .main {
-    margin: 50px 0;
-    width: 100%;
-    background: #f5f5f5;
-
-  .banner {
+<style scoped lang="less"  type="text/less">
+.main{
+  margin: 50px 0;
+  width: 100%;
+  background:#f5f5f5;
+  .banner{
     width: 100%;
     height: 430px;
   }
