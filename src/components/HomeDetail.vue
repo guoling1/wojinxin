@@ -90,14 +90,14 @@
         <div class="content" style="padding-top: 4px">
           <ul>
             <li>
-              <input type="number" placeholder="输入手机号">
+              <input v-model="formData.phone" type="number" placeholder="输入手机号">
             </li>
             <li>
-              <input type="text" placeholder="输入验证码">
-              <span>fdf</span>
+              <input v-model="formData.validataCode" type="text" placeholder="输入验证码">
+              <img :src="imgSrc" @click="imgClick()" alt="">
             </li>
             <li>
-              <input type="text" placeholder="输入短信验证码">
+              <input v-model="formData.messageCode" type="text" placeholder="输入短信验证码">
               <span @click="getCode()">{{count}}</span>
             </li>
           </ul>
@@ -147,14 +147,16 @@ export default {
   name: 'Home',
   data () {
     return {
+      formData:{
+        phone:'',
+        validataCode:'',
+        messageCode:''
+      },
+      imgSrc:'http://wojinxin.hdjincheng.cn/wofinance/servlet/validateCodeServlet',
       id:this.$route.query.id,
       productData:{},
       isMask:false,
-      swiperList:[
-        {img:require('../assets/phone.png')},
-        {img:require('../assets/banner.png')},
-        {img:require('../assets/home.png')}
-      ],
+      swiperList:[],
       showAddress:false,
       showBank:false,
       showTips:false,
@@ -186,7 +188,10 @@ export default {
     getSwiper(){
       this.$axios.post("/open/api/product/swiper/list",{id:this.id})
         .then(res=>{
-          this.swiperList = res.data
+          // this.swiperList = res.data
+          for(let i=0;i<res.data.length;i++){
+            this.swiperList.push({img:res.data[i]})
+          }
         })
         .catch(err=>{
           this.errMsg=err
@@ -201,6 +206,7 @@ export default {
           this.productData = res.data;
           this.memory = res.data.spec;
           this.color = res.data.color;
+          this.setMealList = res.data.packageList;
         })
         .catch(err=>{
           this.errMsg=err
@@ -215,14 +221,14 @@ export default {
         // memory:this.memory,
         // amount:this.amount
       }
-      this.$axios.post("/open/api/product/get",params)
-        .then(res=>{
-          this.swiperList = res.data
-        })
-        .catch(err=>{
-          this.errMsg=err
-          this.warnText = true
-        })
+      // this.$axios.post("/open/api/product/get",params)
+      //   .then(res=>{
+      //     this.swiperList = res.data
+      //   })
+      //   .catch(err=>{
+      //     this.errMsg=err
+      //     this.warnText = true
+      //   })
     },
     //获取地区
     openAddress(){
@@ -240,10 +246,10 @@ export default {
     //选择规格
     openFormat(){
       this.showFormat = true;
-      this.$axios.post("/open/api/code/packages/list",{areaId:this.address.id})
-        .then(res=>{
-          this.setMealList = res.data.list;
-        })
+      // this.$axios.post("/open/api/code/packages/list",{areaId:this.address.id})
+      //   .then(res=>{
+      //     this.setMealList = res.data.list;
+      //   })
     },
     selectAddress(address){
       this.address = address;
@@ -288,6 +294,26 @@ export default {
     },
     toBuy(){
       this.$router.push("/shopInfor")
+    },
+    login(){
+      // this.validateCode()
+      this.$axios.post("/open/api/customer/save",{mobile:this.formData.phone})
+        .then(res=>{
+          localStorage.setItem("phone",this.formData.phone)
+          this.phone = this.formData.phone;
+          this.showLogin = false;
+        })
+    },
+    //点击图片重新获取验证码
+    imgClick(){
+      this.imgSrc = "http://wojinxin.hdjincheng.cn/wofinance/servlet/validateCodeServlet?"+Math.random();
+    },
+    //验证图形验证码
+    validateCode(){
+      this.$axios.get("/servlet/validateCodeServlet?validateCode="+this.formData.validateCode)
+        .then(res=>{
+          console.log(res.data)
+        })
     },
     //获取验证码
     getCode(){
@@ -482,6 +508,15 @@ export default {
           input{
             margin-top: 23px;
             height: 30px;
+            width: 60%;
+          }
+          img{
+            float: right;
+            margin-top: 28px;
+            display: inline-block;
+            height: 20px;
+            width: 70px;
+            border-radius: 4px;
           }
           span{
             float: right;

@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <ul>
-      <li v-for="index in 4" @click="toDetail()">
+      <li v-for="(item,index) in 4">
         <div class="top">
           <div class="time">2018-06-01</div>
           <div class="price">￥6000.00</div>
@@ -20,7 +20,7 @@
         </div>
         <div class="bottom">
           <div class="state">订单状态：待审核</div>
-          <div class="button">查看详情</div>
+          <div class="button" @click="toDetail(item.id)">查看详情</div>
         </div>
       </li>
     </ul>
@@ -38,7 +38,7 @@ export default {
   methods: {
     //获取订单列表
     getData(){
-      this.$axios.post("/open/api/order/list",{mobile:""})
+      this.$axios.post("/open/api/order/list",{mobile:localStorage.getItem("phone")})
         .then(res=>{
 
         })
@@ -46,8 +46,8 @@ export default {
 
         })
     },
-    toDetail(){
-      this.$router.push('/orderDetail')
+    toDetail(id){
+      this.$router.push({path:'/orderDetail',query:{id:id}})
     }
 
   }

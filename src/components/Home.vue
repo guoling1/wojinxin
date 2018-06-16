@@ -6,7 +6,7 @@
 
     </div>-->
     <scroller use-pullup :pullup-config="pullupDefaultConfig" @on-pullup-loading="loadMore"
-              lock-x ref="scrollerBottom" height="-48" style="margin-top: 50px">
+              lock-x ref="scrollerBottom"  height="-50">
       <div>
         <swiper :list="swiperList" aspect-ratio=1.146 :auto="!descMask" :loop="!descMask" :show-dots="showDots"
                 :show-desc-mask="descMask"></swiper>
@@ -54,7 +54,8 @@
         swiperList: [{img: require('../assets/banner.png')}],
         showDots: false,
         descMask: false,
-        pageNo:1
+        pageNo:1,
+        pageSize:10,
       }
     },
     created() {
@@ -63,18 +64,19 @@
         this.$refs.scrollerBottom.reset({top: 0})
       })
       this.loadMore()
+      // this.getData()
     },
     methods: {
       toDetail(id) {
         this.$router.push({path:"/homeDetail",query:{id:id}})
       },
       fetchData(cb) {
-        this.$axios.post('/open/api/product/list',{areaId: 2,pageNo:this.pageNo,pageSize:10}).then(response => {
+        this.$axios.post('/open/api/product/list',{areaId: 2,pageNo:this.pageNo,pageSize:this.pageSize}).then(response => {
           this.$nextTick(() => {
             this.$refs.scrollerBottom.reset()
             this.pageNo+=1
           })
-          cb(response.data.retObject.list)
+          cb(response.data.list)
         })
       },
       refresh() {
@@ -98,12 +100,13 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="less"  type="text/less">
-.main{
-  margin: 50px 0;
-  width: 100%;
-  background:#f5f5f5;
-  .banner{
+<style scoped lang="less">
+  .main {
+    margin: 50px 0;
+    width: 100%;
+    background: #f5f5f5;
+
+  .banner {
     width: 100%;
     height: 430px;
   }

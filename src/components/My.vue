@@ -4,7 +4,7 @@
       <img src="" alt="">
       <div class="right">
         <p class="welcome">欢迎您，</p>
-        <p class="phone">手机号：176543789</p>
+        <p class="phone">手机号：{{phone}}</p>
       </div>
     </div>
     <ul class="list">
@@ -54,21 +54,32 @@
           validataCode:'',
           messageCode:''
         },
-        showLogin: true,
+        showLogin: false,
         count: '获取验证码',
         timer: null,
         imgSrc:'http://wojinxin.hdjincheng.cn/wofinance/servlet/validateCodeServlet'
       }
     },
     created(){
-
+      //若未登陆弹出登陆框
+      if(localStorage.getItem("phone")){
+        this.phone = localStorage.getItem("phone")
+      }else {
+        this.showLogin = true
+      }
     },
     methods: {
       toOrder() {
         this.$router.push("/order")
       },
       login(){
-        this.validateCode()
+        // this.validateCode()
+        this.$axios.post("/open/api/customer/save",{mobile:this.formData.phone})
+          .then(res=>{
+            localStorage.setItem("phone",this.formData.phone)
+            this.phone = this.formData.phone;
+            this.showLogin = false;
+          })
       },
       //点击图片重新获取验证码
       imgClick(){
@@ -198,6 +209,7 @@
             input {
               margin-top: 23px;
               height: 30px;
+              width: 60%;
             }
             img{
               float: right;
