@@ -75,7 +75,7 @@
           <p>3.如不清楚账户状态可拨打10010资讯</p>
         </div>
         <div class="bottom">
-          <div>取消</div>
+          <div @click="showTips = false">取消</div>
           <div @click="confirmTips()">确认</div>
         </div>
       </x-dialog>
@@ -98,7 +98,7 @@
             </li>
             <li>
               <input type="text" placeholder="输入短信验证码">
-              <span>获取验证码</span>
+              <span @click="getCode()">{{count}}</span>
             </li>
           </ul>
         </div>
@@ -140,7 +140,8 @@
 </template>
 
 <script>
-  import {Swiper,XDialog,Popup,TransferDom   } from 'vux'
+  import {Swiper,Popup,TransferDom} from 'vux'
+  const TIME_COUNT = 60;
 export default {
   name: 'Home',
   data () {
@@ -165,7 +166,9 @@ export default {
       setMealList:["3个月|59套餐","12个月|596套餐","36个月|596套餐"],
       setMeal:'套餐',
       warnText:false,
-      errMsg:''
+      errMsg:'',
+      count: '获取验证码',
+      timer: null,
     }
   },
   created(){
@@ -215,18 +218,32 @@ export default {
     },
     toBuy(){
       this.$router.push("/shopInfor")
+    },
+    //获取验证码
+    getCode(){
+      if (!this.timer) {
+        this.count = TIME_COUNT;
+        this.timer = setInterval(() => {
+          if (this.count > 0 && this.count <= TIME_COUNT) {
+            this.count--;
+          } else {
+            this.count = "获取验证码";
+            clearInterval(this.timer);
+            this.timer = null;
+          }
+        }, 1000)
+      }
     }
   },
   components:{
     Swiper,
-    XDialog,
     Popup
   },
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="less">
+<style scoped lang="less" type="text/less">
 .main{
   margin: 50px 0;
   width: 100%;

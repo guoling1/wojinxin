@@ -5,13 +5,14 @@ import App from './App'
 import router from './router'
 import qs from "qs"
 
-import { Toast } from 'vux'
+import { Toast,XDialog } from 'vux'
 Vue.component('toast',Toast);
+Vue.component('xDialog',XDialog);
 
 Vue.config.productionTip = false;
 
 import axios from 'axios'
-axios.defaults.baseURL = "http://www.aihuikao.com/wofinance";
+axios.defaults.baseURL = "http://wojinxin.hdjincheng.cn/wofinance";
 axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded';
 Vue.prototype.$axios= axios;
 

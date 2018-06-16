@@ -91,7 +91,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="less">
+<style scoped lang="less" type="text/less">
 .main{
   margin: 50px 0 0;
   width: 100%;
