@@ -16,6 +16,18 @@ axios.defaults.baseURL = "http://wojinxin.hdjincheng.cn/wofinance";
 axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded';
 Vue.prototype.$axios= axios;
 
+// 全局过滤器
+Vue.filter('formatDate', function (value) {
+  let time = new Date(value);
+  let y = time.getFullYear();//年
+  let m = time.getMonth() + 1;//月
+  let d = time.getDate();//日
+  let h = time.getHours();//时
+  let mm = time.getMinutes();//分
+  let s = time.getSeconds();//秒
+  return y+"-"+m+"-"+d+" "+h+":"+mm+":"+s
+})
+
 // 监听路由变化
 router.beforeEach((to, from, next) => {
   next()
@@ -24,8 +36,13 @@ router.beforeEach((to, from, next) => {
 // http request 拦截器
 axios.interceptors.request.use(
   config => {
-    config.data=qs.stringify(config.data)
-    return config;
+    console.log(config)
+    if((/\/open\/api\/order\/save/).test(config.url)){
+      return config;
+    }else {
+      config.data=qs.stringify(config.data)
+      return config;
+    }
   },
   err => {
     return Promise.reject(err);

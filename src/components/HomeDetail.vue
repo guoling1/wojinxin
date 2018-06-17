@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <swiper :list="swiperList" height="333px" :auto="!isMask" :loop="!isMask" dots-position="center" :show-desc-mask="isMask"></swiper>
+    <swiper :list="swiperList" aspect-ratio="0.9" :auto="!isMask" :loop="!isMask" dots-position="center" :show-desc-mask="isMask"></swiper>
     <div class="productMessage">
       <p class="name">{{productData.name}}</p>
       <p class="price">预存金额<span>￥{{productData.price}}</span></p>
@@ -17,12 +17,12 @@
       </div>
       <div class="bottom">
         <span>总销量：388件</span>
-        <span>库存：紧张</span>
+        <span>库存：{{stock}}件</span>
       </div>
     </div>
     <div class="format">
       <span class="attr">可选规格</span>
-      <span class="val" @click="openFormat()">{{color}}、{{memory}}、{{setMeal}}</span>
+      <span class="val" @click="openFormat()">{{color}}、{{memory}}、{{setMeal.name}}</span>
     </div>
     <div class="detail">
       <div class="subject">
@@ -107,9 +107,9 @@
     </div>
     <!--选择规格-->
     <div class="showFormat">
-      <popup v-model="showFormat" >
+      <popup v-model="showFormat" style="height: 60%;overflow: auto">
         <div class="top">
-          <img src="../assets/phone.png" alt="">
+          <img src="../assets/phone.png" alt="" style="margin-top: 10px">
           <div class="right">
             <p class="price">￥1399-1599</p>
             <p>总销量：1001件</p>
@@ -176,22 +176,62 @@ export default {
       promptMsg:'',
       count: '获取验证码',
       timer: null,
+      stock:""
     }
   },
   created(){
+    this.formatData()
     this.getData();
     this.getSwiper();
     this.getStock();
   },
   methods:{
+    //处理规格
+    formatData(){
+      this.$axios.post("/open/api/productSpec/list",{prodectId:this.id})
+        .then(res=>{
+          let resData = res.data;
+          let colorList = [];
+          let memoryList = [];
+          for(let i=0;i<resData.length;i++){
+            colorList.push(resData[i].color);
+            memoryList.push(resData[i].memory);
+          }
+          for(let i=0;i<colorList.length;i++){
+            for (let j=i+1;j<colorList.length;j++ ){
+              if(colorList[i]==colorList[j]){
+                colorList.splice(j,1);
+                colorList.length--;
+                j--;
+              }
+            }
+          }
+          for(let i=0;i<memoryList.length;i++){
+            for (let j=i+1;j<memoryList.length;j++ ){
+              if(memoryList[i]==memoryList[j]){
+                memoryList.splice(j,1);
+                memoryList.length--;
+                j--;
+              }
+            }
+          }
+          this.colorList = colorList;
+          this.memoryList = memoryList;
+        //  默认规格
+          this.color  = this.colorList[0];
+          this.memory  = this.memoryList[0];
+          this.setMeal  = this.setMealList[0];
+        })
+    },
     //获取产品轮播图
     getSwiper(){
       this.$axios.post("/open/api/product/swiper/list",{id:this.id})
         .then(res=>{
-          // this.swiperList = res.data
+          var arr=[]
           for(let i=0;i<res.data.length;i++){
-            this.swiperList.push({img:res.data[i]})
+            arr.push({img:res.data[i]})
           }
+          this.swiperList = arr
         })
         .catch(err=>{
           this.errMsg=err
@@ -207,6 +247,7 @@ export default {
           this.memory = res.data.spec;
           this.color = res.data.color;
           this.setMealList = res.data.packageList;
+          this.stock = res.data.amount;
         })
         .catch(err=>{
           this.errMsg=err
@@ -217,18 +258,18 @@ export default {
     getStock(){
       let params = {
         productId: this.id,
-        // color:this.color,
-        // memory:this.memory,
+        color:this.color,
+        memory:this.memory,
         // amount:this.amount
       }
-      // this.$axios.post("/open/api/product/get",params)
-      //   .then(res=>{
-      //     this.swiperList = res.data
-      //   })
-      //   .catch(err=>{
-      //     this.errMsg=err
-      //     this.warnText = true
-      //   })
+      this.$axios.post("/open/api/productDetail/list",params)
+        .then(res=>{
+          // this.swiperList = res.data
+        })
+        .catch(err=>{
+          this.errMsg=err
+          this.warnText = true
+        })
     },
     //获取地区
     openAddress(){
@@ -283,26 +324,59 @@ export default {
 
     },
     confirm(){
-      this.showTips = true;
+      let formData = {
+        addressName:this.address.name,
+        addressId:this.address.id,
+        productName:this.productData.name,
+        setMealPrice:this.setMeal.price,
+        setMealName:this.setMeal.name,
+        price:this.productData.price,
+        busiType:this.productData.busiType,
+        color:this.color,
+        memory:this.memory
+      }
+      if(!formData.addressId){
+        this.showPrompt = true;
+        this.promptMsg = "请补全信息"
+      }else{
+        this.showTips = true;
+      }
     },
     confirmTips(){
-      this.showTips = false;
-      this.showLogin = true;
+      if(localStorage.getItem("phone")){
+        let formData = {
+          addressName:this.address.name,
+          addressId:this.address.id,
+          productName:this.productData.name,
+          setMealPrice:this.setMeal.price,
+          setMealName:this.setMeal.name,
+          circle:this.setMeal.circle,
+          price:this.productData.price,
+          busiType:this.productData.busiType,
+          color:this.color,
+          memory:this.memory
+        }
+        this.$router.push({path:"/shopInfor",query:formData})
+      }else {
+        this.showTips = false;
+        this.showLogin = true;
+      }
     },
     confirmFormat(){
       this.showFormat = false;
     },
     toBuy(){
-      this.$router.push("/shopInfor")
-    },
-    login(){
       // this.validateCode()
       this.$axios.post("/open/api/customer/save",{mobile:this.formData.phone})
         .then(res=>{
           localStorage.setItem("phone",this.formData.phone)
           this.phone = this.formData.phone;
           this.showLogin = false;
+          this.$router.push("/shopInfor")
         })
+    },
+    login(){
+
     },
     //点击图片重新获取验证码
     imgClick(){
@@ -334,7 +408,7 @@ export default {
   components:{
     Swiper,
     Popup
-  },
+  }
 }
 </script>
 

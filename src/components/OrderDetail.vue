@@ -3,26 +3,26 @@
     <div class="order">
       <div class="orderTitle">订单信息</div>
       <div class="content">
-        <p>订单状态：待审核</p>
-        <p>订单编号：SJ356498579</p>
-        <p>创建时间：2017-07-31 14：51</p>
+        <p>订单状态：xx</p>
+        <p>订单编号：{{orderMsg.orderNo}}</p>
+        <p>创建时间：{{orderMsg.createTime | formatDate}}</p>
       </div>
     </div>
     <div class="person">
       <div class="orderTitle">购买人信息</div>
       <div class="content">
         <div class="top">
-          <span class="name">马良</span>
-          <span class="phone">174654509</span>
+          <span class="name">{{orderMsg.name}}</span>
+          <span class="phone">{{orderMsg.mobile}}</span>
         </div>
-        <p class="address">疯狂可点击观看空对地攻击开发工具了的就看见放得开了就</p>
+        <p class="address">{{orderMsg.address}}</p>
       </div>
     </div>
     <div class="shop">
       <div class="orderTitle">商品信息</div>
       <div class="top">
         <div class="time">2018-06-01</div>
-        <div class="price">￥6000.00</div>
+        <div class="price">￥{{orderMsg.productPrice}}</div>
       </div>
       <div class="content">
         <div class="left">
@@ -31,9 +31,9 @@
         <div class="right">
           <p class="color">机身颜色：灰色</p>
           <p class="memory">内存：16G</p>
-          <p class="address">归属地：北京</p>
-          <p class="bank">开户行：平安银行</p>
-          <p class="package">合约套餐：36个月</p>
+          <p class="address">归属地：{{orderMsg.region}}</p>
+          <p class="bank">开户行：{{orderMsg.bank}}</p>
+          <p class="package">合约套餐：{{orderMsg.circle}}个月</p>
         </div>
       </div>
     </div>
@@ -44,7 +44,15 @@
   export default {
     name: 'Home',
     data() {
-      return {}
+      return {
+        orderMsg:{}
+      }
+    },
+    created() {
+      this.$axios.post("/open/api/order/get", {id: this.$route.query.id})
+        .then(res => {
+          this.orderMsg = res.data;
+        })
     }
   }
 </script>
@@ -56,101 +64,101 @@
     width: 100%;
     text-align: left;
 
-  .orderTitle {
-    padding-left: 10px;
-    height: 30px;
-    line-height: 30px;
-    background: #f4f4f4;
-    font-size: 13px;
-    font-weight: bold;
-    text-align: left;
-  }
+    .orderTitle {
+      padding-left: 10px;
+      height: 30px;
+      line-height: 30px;
+      background: #f4f4f4;
+      font-size: 13px;
+      font-weight: bold;
+      text-align: left;
+    }
 
-  .order {
+    .order {
 
-  .content {
-    padding: 16px 10px;
-    font-size: 13px;
-    color: #999;
+      .content {
+        padding: 16px 10px;
+        font-size: 13px;
+        color: #999;
 
-  p {
-    height: 27px;
-    line-height: 27px;
-  }
+        p {
+          height: 27px;
+          line-height: 27px;
+        }
 
-  }
-  }
+      }
+    }
 
-  .person {
+    .person {
 
-  .content {
-    padding: 0 10px 15px;
+      .content {
+        padding: 0 10px 15px;
 
-  .top {
-    height: 45px;
-    line-height: 45px;
-    font-weight: bold;
+        .top {
+          height: 45px;
+          line-height: 45px;
+          font-weight: bold;
 
-  .phone {
-    float: right;
-  }
+          .phone {
+            float: right;
+          }
 
-  }
-  .address {
-    font-size: 14px;
-    line-height: 20px;
-  }
+        }
+        .address {
+          font-size: 14px;
+          line-height: 20px;
+        }
 
-  }
-  }
-  .shop {
+      }
+    }
+    .shop {
 
-  .top {
-    padding: 0 10px;
-    height: 38px;
-    line-height: 38px;
-    border-bottom: 1px solid #d7d7d7;
+      .top {
+        padding: 0 10px;
+        height: 38px;
+        line-height: 38px;
+        border-bottom: 1px solid #d7d7d7;
 
-  .time {
-    float: left;
-    font-size: 11px;
-  }
+        .time {
+          float: left;
+          font-size: 11px;
+        }
 
-  .price {
-    float: right;
-    font-size: 14px;
-    color: #fd255a;
-  }
+        .price {
+          float: right;
+          font-size: 14px;
+          color: #fd255a;
+        }
 
-  }
-  .content {
-    padding: 15px 10px;
-    font-size: 14px;
-    text-align: left;
+      }
+      .content {
+        padding: 15px 10px;
+        font-size: 14px;
+        text-align: left;
 
-  .left {
-    display: inline-block;
+        .left {
+          display: inline-block;
 
-  img {
-    width: 114px;
-    height: 114px;
-    border: 1px solid #d7d7d7;
-    margin-right: 15px;
-    border-radius: 3px;
-  }
+          img {
+            width: 114px;
+            height: 114px;
+            border: 1px solid #d7d7d7;
+            margin-right: 15px;
+            border-radius: 3px;
+          }
 
-  }
-  .right {
-    display: inline-block;
+        }
+        .right {
+          display: inline-block;
 
-  p {
-    margin-bottom: 11px;
-  }
+          p {
+            margin-bottom: 11px;
+          }
 
-  }
+        }
 
-  }
-  }
+      }
+    }
 
   }
 </style>

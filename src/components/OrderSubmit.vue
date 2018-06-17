@@ -5,19 +5,19 @@
       <ul>
         <li>
           <span class="attr">订单编号：</span>
-          <span class="value">84758465784759834</span>
+          <span class="value">{{orderMsg.orderNo}}</span>
         </li>
         <li>
           <span class="attr">创建时间：</span>
-          <span class="value">84758465784759834</span>
+          <span class="value">{{orderMsg.createTime}}</span>
         </li>
         <li>
           <span class="attr">托管金额：</span>
-          <span class="value">84758465784759834</span>
+          <span class="value">{{orderMsg.deposit}}</span>
         </li>
         <li>
           <span class="attr">订单状态：</span>
-          <span class="value">84758465784759834</span>
+          <span class="value">xxx</span>
         </li>
       </ul>
     </div>
@@ -26,19 +26,19 @@
       <ul>
         <li>
           <span class="attr">商品名称：</span>
-          <span class="value">84758465784759834</span>
+          <span class="value">{{orderMsg.productName}}</span>
         </li>
         <li>
           <span class="attr">商品规格：</span>
-          <span class="value">84758465784759834</span>
+          <span class="value">xxx</span>
         </li>
         <li>
           <span class="attr">手机号码：</span>
-          <span class="value">84758465784759834</span>
+          <span class="value">{{orderMsg.productMobile}}</span>
         </li>
         <li>
           <span class="attr">套餐名称：</span>
-          <span class="value">84758465784759834</span>
+          <span class="value">xxx</span>
         </li>
       </ul>
     </div>
@@ -52,19 +52,19 @@
         <ul>
           <li>
             <span class="attr">订单编号：</span>
-            <span class="value">84758465784759834</span>
+            <span class="value">{{orderMsg.orderNo}}</span>
           </li>
           <li>
             <span class="attr">创建时间：</span>
-            <span class="value">84758465784759834</span>
+            <span class="value">{{orderMsg.createTime}}</span>
           </li>
           <li>
             <span class="attr">托管金额：</span>
-            <span class="value">84758465784759834</span>
+            <span class="value">{{orderMsg.deposit}}</span>
           </li>
           <li>
             <span class="attr">订单状态：</span>
-            <span class="value">84758465784759834</span>
+            <span class="value">xxx</span>
           </li>
         </ul>
         <div class="bottom" @click="pay()">在线支付</div>
@@ -79,10 +79,20 @@ export default {
   name: 'Home',
   data () {
     return {
-      showSubmit:false
+      showSubmit:false,
+      orderMsg:{}
     }
   },
+  created(){
+    this.getData()
+  },
   methods:{
+    getData(){
+      this.$axios.post("/open/api/order/get",{id:this.$route.query.id})
+        .then(res=>{
+          this.orderMsg = res.data;
+        })
+    },
     submit(){
       this.showSubmit = true;
     },

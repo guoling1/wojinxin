@@ -87,7 +87,7 @@
       },
       //验证图形验证码
       validateCode(){
-        this.$axios.get("/servlet/validateCodeServlet?validateCode="+this.formData.validateCode)
+        this.$axios.get("/servlet/validateCodeServlet",{params:{validateCode:this.formData.validataCode}})
           .then(res=>{
             console.log(res.data)
           })
