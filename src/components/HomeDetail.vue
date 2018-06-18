@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <swiper :list="swiperList" aspect-ratio="0.9" :auto="!isMask" :loop="!isMask" dots-position="center" :show-desc-mask="isMask"></swiper>
+    <swiper :list="swiperList" :aspect-ratio="aspectRatio" :auto="!isMask" :loop="!isMask" dots-position="center" :show-desc-mask="isMask"></swiper>
     <div class="productMessage">
       <p class="name">{{productData.name}}</p>
       <p class="price">预存金额<span>￥{{productData.price}}</span></p>
@@ -8,15 +8,20 @@
     </div>
     <div class="address">
       <span class="attr">归属地区</span>
-      <span class="val" @click="openAddress()">{{address.name}}</span>
+      <span class="val">北京</span>
+      <!--<span class="val" @click="openAddress()">{{address.name}}</span>-->
+    </div>
+    <div class="address">
+      <span class="attr">手机号</span>
+      <span class="val" @click="toSelectPhone()">{{$store.state.phone.phone}}</span>
     </div>
     <div class="bank">
-      <div class="top">
-        <span class="attr">存款银行</span>
-        <span class="val" @click="selectBank()">请选择</span>
-      </div>
+      <!--<div class="top">-->
+        <!--<span class="attr">存款银行</span>-->
+        <!--<span class="val" @click="selectBank()">请选择</span>-->
+      <!--</div>-->
       <div class="bottom">
-        <span>总销量：388件</span>
+        <span>总销量：{{productData.sellAmount}}件</span>
         <span>库存：{{stock}}件</span>
       </div>
     </div>
@@ -30,7 +35,10 @@
         <span>图文详情</span>
         <i></i>
       </div>
-      <div class="detail">
+      <div class="detail" id="content">
+        dddsv
+      </div>
+      <div class="detail" id="content1">
         dddsv
       </div>
     </div>
@@ -107,13 +115,12 @@
     </div>
     <!--选择规格-->
     <div class="showFormat">
-      <popup v-model="showFormat" style="height: 60%;overflow: auto">
+      <popup :hide-on-blur="hideBlur" v-model="showFormat" style="height: 60%;overflow: auto">
         <div class="top">
           <img src="../assets/phone.png" alt="" style="margin-top: 10px">
           <div class="right">
-            <p class="price">￥1399-1599</p>
-            <p>总销量：1001件</p>
-            <p>已选：标准</p>
+            <p class="price">￥{{productData.price}}</p>
+            <p>库存：{{stock}}件</p>
           </div>
 
         </div>
@@ -147,6 +154,7 @@ export default {
   name: 'Home',
   data () {
     return {
+      hideBlur:false,
       formData:{
         phone:'',
         validataCode:'',
@@ -156,6 +164,7 @@ export default {
       id:this.$route.query.id,
       productData:{},
       isMask:false,
+      aspectRatio:0.9,
       swiperList:[],
       showAddress:false,
       showBank:false,
@@ -176,16 +185,21 @@ export default {
       promptMsg:'',
       count: '获取验证码',
       timer: null,
-      stock:""
+      stock:"",
+      selectPhone:'请选择'
     }
   },
   created(){
-    this.formatData()
+
     this.getData();
+    this.formatData()
     this.getSwiper();
-    this.getStock();
+
   },
   methods:{
+    toSelectPhone(){
+      this.$router.push('/selectPhone')
+    },
     //处理规格
     formatData(){
       this.$axios.post("/open/api/productSpec/list",{prodectId:this.id})
@@ -217,10 +231,14 @@ export default {
           }
           this.colorList = colorList;
           this.memoryList = memoryList;
-        //  默认规格
-          this.color  = this.colorList[0];
-          this.memory  = this.memoryList[0];
+          this.productData.price = resData[0].price;
+          this.productData.sourcePrice = resData[0].sourcePrice;
+          this.savePrice = resData[0].savePrice;
           this.setMeal  = this.setMealList[0];
+          this.stock = res.data[0].amount;
+            //  默认规格
+            this.color  = resData[0].color;
+            this.memory  = resData[0].memory;
         })
     },
     //获取产品轮播图
@@ -242,29 +260,12 @@ export default {
     getData(){
       this.$axios.post("/open/api/product/get",{id:this.id})
         .then(res=>{
-          console.log(res)
           this.productData = res.data;
-          this.memory = res.data.spec;
-          this.color = res.data.color;
           this.setMealList = res.data.packageList;
+          this.setMeal  = this.setMealList[0];
           this.stock = res.data.amount;
-        })
-        .catch(err=>{
-          this.errMsg=err
-          this.warnText = true
-        })
-    },
-    //获取库存列表
-    getStock(){
-      let params = {
-        productId: this.id,
-        color:this.color,
-        memory:this.memory,
-        // amount:this.amount
-      }
-      this.$axios.post("/open/api/productDetail/list",params)
-        .then(res=>{
-          // this.swiperList = res.data
+          document.getElementById("content").innerHTML = this.productData.content
+          document.getElementById("content1").innerHTML = this.productData.configDetail
         })
         .catch(err=>{
           this.errMsg=err
@@ -307,7 +308,8 @@ export default {
     },
     selectBank(){
       //选择银行前先选择区域
-      if(this.address.id){
+      console.log(this.addressId)
+      if(this.address.name=="请选择"){
         this.$axios.post("/open/api/area/list",{areaId:this.address.id})
           .then(res=>{
             this.showBank = true;
@@ -326,16 +328,18 @@ export default {
     confirm(){
       let formData = {
         addressName:this.address.name,
-        addressId:this.address.id,
+        // addressId:this.address.id,
+        addressId:2,
         productName:this.productData.name,
         setMealPrice:this.setMeal.price,
         setMealName:this.setMeal.name,
         price:this.productData.price,
         busiType:this.productData.busiType,
         color:this.color,
-        memory:this.memory
+        memory:this.memory,
+        setMeal:this.setMeal
       }
-      if(!formData.addressId){
+      if(!formData.addressId||this.$store.state.phone.phone=="请选择"){
         this.showPrompt = true;
         this.promptMsg = "请补全信息"
       }else{
@@ -345,8 +349,9 @@ export default {
     confirmTips(){
       if(localStorage.getItem("phone")){
         let formData = {
-          addressName:this.address.name,
-          addressId:this.address.id,
+          addressName:"北京",
+          // addressId:this.address.id,
+          addressId:2,
           productName:this.productData.name,
           setMealPrice:this.setMeal.price,
           setMealName:this.setMeal.name,
@@ -356,6 +361,7 @@ export default {
           color:this.color,
           memory:this.memory
         }
+        this.showTips = false
         this.$router.push({path:"/shopInfor",query:formData})
       }else {
         this.showTips = false;
@@ -363,7 +369,19 @@ export default {
       }
     },
     confirmFormat(){
-      this.showFormat = false;
+      this.$axios.post('/open/api/productSpec/list',{prodectId:this.id,color:this.color,memory:this.memory})
+        .then(res=>{
+          if(res.data){
+            this.savePrice = res.data[0].savePrice;
+            this.productData.price = res.data[0].price;
+            this.productData.sourcePrice = res.data[0].sourcePrice;
+            this.showFormat = false;
+          }else {
+            this.showPrompt = true;
+            this.promptMsg = "暂无库存，请选择其他颜色或内存"
+          }
+        })
+
     },
     toBuy(){
       // this.validateCode()
@@ -372,7 +390,21 @@ export default {
           localStorage.setItem("phone",this.formData.phone)
           this.phone = this.formData.phone;
           this.showLogin = false;
-          this.$router.push("/shopInfor")
+          let formData = {
+            addressName:"北京",
+            // addressId:this.address.id,
+            addressId:2,
+            productName:this.productData.name,
+            setMealPrice:this.setMeal.price,
+            setMealName:this.setMeal.name,
+            circle:this.setMeal.circle,
+            price:this.productData.price,
+            busiType:this.productData.busiType,
+            color:this.color,
+            memory:this.memory
+          }
+          this.showTips = false
+          this.$router.push({path:"/shopInfor",query:formData})
         })
     },
     login(){
@@ -408,6 +440,36 @@ export default {
   components:{
     Swiper,
     Popup
+  },
+  watch:{
+    color(cur,old){
+      this.$axios.post('/open/api/productSpec/list',{prodectId:this.id,color:this.color,memory:this.memory})
+        .then(res=>{
+          if(res.data){
+            this.savePrice = res.data[0].savePrice;
+            this.productData.price = res.data[0].price;
+            this.productData.sourcePrice = res.data[0].sourcePrice;
+            this.stock = res.data[0].amount;
+          }else {
+            this.showPrompt = true;
+            this.promptMsg = "暂无库存，请选择其他颜色"
+          }
+        })
+    },
+    memory(cur,old){
+      this.$axios.post('/open/api/productSpec/list',{prodectId:this.id,color:this.color,memory:this.memory})
+        .then(res=>{
+          if(res.data){
+            this.savePrice = res.data[0].savePrice;
+            this.productData.price = res.data[0].price;
+            this.productData.sourcePrice = res.data[0].sourcePrice;
+            this.stock = res.data[0].amount;
+          }else {
+            this.showPrompt = true;
+            this.promptMsg = "暂无库存，请选择其他内存"
+          }
+        })
+    }
   }
 }
 </script>

@@ -12,8 +12,16 @@
           <span class="value">{{productMsg.productName}}</span>
         </li>
         <li>
+          <span class="attr">所选规格：</span>
+          <span class="value">{{productMsg.memory}}{{productMsg.color}}</span>
+        </li>
+        <li>
           <span class="attr">所选套餐：</span>
           <span class="value">{{productMsg.setMealName}}</span>
+        </li>
+        <li>
+          <span class="attr">所选号码：</span>
+          <span class="value">{{formData.number}}</span>
         </li>
         <li>
           <span class="attr">冻结金额：</span>
@@ -45,7 +53,7 @@
         </li>
         <li>
           <span>手机号</span>
-          <input type="text" placeholder="这里输入手机号" v-model="formData.mobile">
+          <input type="text" placeholder="这里输入手机号" v-model="formData.mobile" style="background: #fff" disabled>
         </li>
         <li>
           <span>证件类型</span>
@@ -65,7 +73,7 @@
         </li>
         <li>
           <span>备注</span>
-          <input type="text" placeholder="这里输入详细地址" v-model="formData.remarks">
+          <input type="text" placeholder="这里输入备注" v-model="formData.remarks">
         </li>
       </ul>
     </div>
@@ -75,150 +83,173 @@
 </template>
 
 <script>
-export default {
-  name: 'Home',
-  data () {
-    return {
-      productMsg:{},
-      formData:{
-        productName:'',//产品名称
-        productPrice:'',//产品价格
-        productMobile:'',//产品手机号
-        circle:'',//套餐周期
-        deposit:'',//托管金额
-        areaId:'',//区域id
-        bank:'',//银行
-        endDay:'',//截止日期
-        region:'',//所属区域
-        customerName:'',//客户名称
-        xingPinyin:'',//姓拼音
-        mingPinyin:'',//名拼音
-        country:'',//国家
-        agreetmentNo:'',//合同号
-        mobile:'',//客户手机号
-        price:'',//价格
-        busiType:'',//业务类型
-        idcardType:'',//证件类型
-        idcard:'',//身份证号
-        address:'',
-        remarks:'',
-        memory:'',
-        color:''
-      },
-      showPrompt:false,
-      promptMsg:''
-    }
-  },
-  created(){
-    this.productMsg = this.$route.query
-    console.log(this.productMsg)
-    this.formData={
-      productName:this.$route.query.productName,//产品名称
-        productPrice:this.$route.query.price,//产品价格
-        productMobile:'1231546546',//产品手机号
-        circle:this.$route.query.circle,//套餐周期
-        deposit:'122',//托管金额
-        areaId:this.$route.query.addressId,//区域id
-        bank:'平安',//银行
-        endDay:'2019-01-01',//截止日期
-        region:this.$route.query.addressName,//所属区域
-        customerName:'',//客户名称
-        xingPinyin:'',//姓拼音
-        mingPinyin:'',//名拼音
-        country:'中国',//国家
-        agreetmentNo:'111111',//合同号
-        mobile:'',//客户手机号
-        price:this.$route.query.setMealPrice,//价格
-        busiType:this.$route.query.busiType,//业务类型
-        idcardType:'身份证',//证件类型
-        idcard:'',//身份证号
-        address:'',
-        remarks:'',
-        color:this.$route.query.color,
-        memory:this.$route.query.memory
-    }
-  },
-  methods:{
-    submit(){
-      let params = new FormData;
-      for(var i in this.formData){
-        params.append(i,this.formData[i])
+  export default {
+    name: 'Home',
+    data() {
+      return {
+        productMsg: {},
+        formData: {
+          productName: '',//产品名称
+          productPrice: '',//产品价格
+          productMobile: '',//产品手机号
+          circle: '',//套餐周期
+          deposit: '',//托管金额
+          areaId: '',//区域id
+          bank: '',//银行
+          endDay: '',//截止日期
+          region: '',//所属区域
+          customerName: '',//客户名称
+          xingPinyin: '',//姓拼音
+          mingPinyin: '',//名拼音
+          country: '',//国家
+          agreetmentNo: '',//合同号
+          mobile: '',//客户手机号
+          price: '',//价格
+          busiType: '',//业务类型
+          idcardType: '',//证件类型
+          idcard: '',//身份证号
+          address: '', //详细地址
+          remarks: '',//备注
+          productMemory: '',//内存
+          productColor: '',//颜色
+          setMeal: "",//所选号码
+        },
+        showPrompt: false,
+        promptMsg: ''
       }
-      this.$axios.post("/open/api/order/save",params)
-        .then(res=>{
-          this.$router.push("/orderSubmit?id="+res.data.id)
-        })
-        .catch(err=>{
-          this.errMsg=err
-          this.warnText = true
-        })
-    }
-  }
+    },
+    created() {
+      console.log(this.$store.state.phone.phone)
+      this.productMsg = this.$route.query;
+      this.formData = {
+        productName: this.$route.query.productName,//产品名称
+        productPrice: this.$route.query.price,//产品价格
+        productMobile: this.$store.state.phone.phone,//产品手机号
+        circle: this.$route.query.circle,//套餐周期
+        deposit: '122',//托管金额
+        areaId: this.$route.query.addressId,//区域id
+        bank: '平安',//银行
+        endDay: '2019-01-01',//截止日期
+        region: this.$route.query.addressName,//所属区域
+        customerName: '',//客户名称
+        xingPinyin: '',//姓拼音
+        mingPinyin: '',//名拼音
+        country: '中国',//国家
+        agreetmentNo: '111111',//合同号
+        mobile: localStorage.getItem("phone"),//客户手机号
+        price: this.$route.query.setMealPrice,//价格
+        busiType: this.$route.query.busiType,//业务类型
+        idcardType: '身份证',//证件类型
+        idcard: '',//身份证号
+        address: '',
+        remarks: '',
+        productColor: this.$route.query.color,
+        productMemory: this.$route.query.memory,
+        setMeal: this.$route.query.setMeal,
+        number:this.$store.state.phone.phone
+      }
+    },
+    methods: {
+      submit() {
+        let params = new FormData;
+        let flag = true;
+        for (var i in this.formData) {
+          params.append(i, this.formData[i])
+        }
+        for (var i in this.formData) {
+          if(this.formData[i]==""){
+            flag = false
+            break;
+          }
+        }
+        if(flag){
+          this.$axios.post("/open/api/order/save", params)
+            .then(res => {
+              console.log(res)
+              if(res.retCode=="0000"){
+                this.$router.push("/orderSubmit?id=" + res.data.id)
+                localStorage.setItem("productMessage",JSON.stringify(this.formData))
+              }else {
+                this.showPrompt = true;
+                this.promptMsg = res.retMsg
+              }
+            })
+            .catch(err => {
+              this.errMsg = err
+              this.warnText = true
+            })
+        }else {
+          this.showPrompt = true;
+          this.promptMsg = '请补全信息'
+        }
 
-}
+      }
+    }
+
+  }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less" type="text/less">
-.main{
-  margin: 50px 0 0;
-  width: 100%;
-  .shopMessage{
-    padding: 0 15px;
-    text-align: left;
-    border-top: 10px solid #eaeaea;
-    .subject{
-      height: 52px;
-      line-height: 52px;
-    }
-    ul{
-      margin-bottom:15px;
-      li{
-        height: 34px;
-        line-height: 34px;
-        margin-top: -1px;
-        border: 1px solid #e7e7e7;
-        .attr{
-          text-align: center;
-          display: inline-block;
-          margin-right: 60px;
-          height: 100%;
-          width: 72px;
-          font-size: 12px;
-          color: #fff;
-          background: #444c59;
+  .main {
+    margin: 50px 0 0;
+    width: 100%;
+    .shopMessage {
+      padding: 0 15px;
+      text-align: left;
+      border-top: 10px solid #eaeaea;
+      .subject {
+        height: 52px;
+        line-height: 52px;
+      }
+      ul {
+        margin-bottom: 15px;
+        li {
+          height: 34px;
+          line-height: 34px;
+          margin-top: -1px;
+          border: 1px solid #e7e7e7;
+          .attr {
+            text-align: center;
+            display: inline-block;
+            margin-right: 10px;
+            height: 100%;
+            width: 72px;
+            font-size: 12px;
+            color: #fff;
+            background: #444c59;
+          }
+          .value {
+            font-size: 14px;
+          }
         }
-        .value{
+      }
+    }
+    .userMessage {
+      padding: 0 15px;
+      text-align: left;
+      border-top: 10px solid #eaeaea;
+      ul {
+        padding-top: 18px;
+        li {
           font-size: 14px;
+          height: 37px;
+          line-height: 37px;
+          border-bottom: 1px solid #e5e5e5;
+          span {
+            display: inline-block;
+            width: 106px;
+          }
         }
       }
     }
-  }
-  .userMessage{
-    padding: 0 15px;
-    text-align: left;
-    border-top: 10px solid #eaeaea;
-    ul{
-      padding-top:18px;
-      li{
-        font-size: 14px;
-        height: 37px;
-        line-height: 37px;
-        border-bottom: 1px solid #e5e5e5;
-        span{
-          display: inline-block;
-          width: 106px;
-        }
-      }
+    .button {
+      margin-top: 37px;
+      height: 48px;
+      line-height: 48px;
+      color: #fff;
+      font-weight: bold;
+      background: #fc3a79;
     }
   }
-  .button{
-    margin-top: 37px;
-    height: 48px;
-    line-height: 48px;
-    color: #fff;
-    font-weight: bold;
-    background: #fc3a79;
-  }
-}
 </style>

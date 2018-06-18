@@ -9,15 +9,15 @@
         </li>
         <li>
           <span class="attr">创建时间：</span>
-          <span class="value">{{orderMsg.createTime}}</span>
+          <span class="value">{{orderMsg.createTime|formatDate}}</span>
         </li>
         <li>
           <span class="attr">托管金额：</span>
-          <span class="value">{{orderMsg.deposit}}</span>
+          <span class="value">{{orderMsg.deposit}}元</span>
         </li>
         <li>
-          <span class="attr">订单状态：</span>
-          <span class="value">xxx</span>
+          <span class="attr">银行：</span>
+          <span class="value">{{orderMsg.bank}}</span>
         </li>
       </ul>
     </div>
@@ -30,7 +30,7 @@
         </li>
         <li>
           <span class="attr">商品规格：</span>
-          <span class="value">xxx</span>
+          <span class="value">{{productData.productMemory}}{{productData.productColor}}</span>
         </li>
         <li>
           <span class="attr">手机号码：</span>
@@ -38,7 +38,36 @@
         </li>
         <li>
           <span class="attr">套餐名称：</span>
-          <span class="value">xxx</span>
+          <span class="value">{{productData.circle}}个月|{{productData.price}}元套餐</span>
+        </li>
+        <li>
+          <span class="attr">价格：</span>
+          <span class="value">{{orderMsg.productPrice}}</span>
+        </li>
+        <li>
+          <span class="attr">所在地区：</span>
+          <span class="value">{{orderMsg.region}}</span>
+        </li>
+      </ul>
+    </div>
+    <div class="userMessage">
+      <div class="subject">客户信息</div>
+      <ul>
+        <li>
+          <span class="attr">客户姓名：</span>
+          <span class="value">{{orderMsg.customerName}}</span>
+        </li>
+        <li>
+          <span class="attr">收货地址：</span>
+          <span class="value">{{orderMsg.address}}</span>
+        </li>
+        <li>
+          <span class="attr">身份证号：</span>
+          <span class="value">{{orderMsg.idcard}}</span>
+        </li>
+        <li>
+          <span class="attr">手机号码：</span>
+          <span class="value">{{orderMsg.mobile}}</span>
         </li>
       </ul>
     </div>
@@ -52,7 +81,8 @@
         <ul>
           <li>
             <span class="attr">订单编号：</span>
-            <span class="value">{{orderMsg.orderNo}}</span>
+            <span class="value" style="width: 60%;height: 70%;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;
+ display: inline-block;">{{orderMsg.orderNo}}</span>
           </li>
           <li>
             <span class="attr">创建时间：</span>
@@ -80,10 +110,12 @@ export default {
   data () {
     return {
       showSubmit:false,
-      orderMsg:{}
+      orderMsg:{},
+      productData:JSON.parse(localStorage.getItem("productMessage"))
     }
   },
   created(){
+    console.log(this.productData)
     this.getData()
   },
   methods:{
@@ -97,7 +129,7 @@ export default {
       this.showSubmit = true;
     },
     pay(){
-      this.$router.push("/payMethod")
+      this.$router.push({path:"/payMethod",query:{orderNo:this.orderMsg.orderNo,id:this.$route.query.id}})
     }
   },
   components:{
@@ -109,7 +141,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less" type="text/less">
 .main{
-  margin: 50px 0 0;
+  margin: 50px 0;
   width: 100%;
 ul{
 
@@ -122,7 +154,7 @@ li{
 .attr{
   text-align: center;
   display: inline-block;
-  margin-right: 60px;
+  margin-right: 10px;
   height: 100%;
   width: 72px;
   font-size: 12px;

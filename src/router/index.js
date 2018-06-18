@@ -10,6 +10,7 @@ import ShopInfor from '@/components/ShopInfor'
 import WritePhone from '@/components/WritePhone'
 import PayMethod from '@/components/PayMethod'
 import OrderSubmit from '@/components/OrderSubmit'
+import SelectPhone from '@/components/SelectPhone'
 
 Vue.use(Router)
 
@@ -94,6 +95,14 @@ export default new Router({
         title:"订单提交成功"
       },
       component: OrderSubmit
+    },
+    {
+      path:'/selectPhone',
+      name:'selectPhone',
+      meta:{
+        title:"手机号选择"
+      },
+      component: SelectPhone
     }
   ]
 })

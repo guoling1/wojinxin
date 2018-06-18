@@ -21,7 +21,7 @@
     <div class="shop">
       <div class="orderTitle">商品信息</div>
       <div class="top">
-        <div class="time">2018-06-01</div>
+        <div class="time">{{orderMsg.productName}}</div>
         <div class="price">￥{{orderMsg.productPrice}}</div>
       </div>
       <div class="content">
@@ -29,8 +29,8 @@
           <img src="../assets/phone.png" alt="">
         </div>
         <div class="right">
-          <p class="color">机身颜色：灰色</p>
-          <p class="memory">内存：16G</p>
+          <p class="color">机身颜色：{{orderMsg.productColor}}</p>
+          <p class="memory">内存：{{orderMsg.productMemory}}</p>
           <p class="address">归属地：{{orderMsg.region}}</p>
           <p class="bank">开户行：{{orderMsg.bank}}</p>
           <p class="package">合约套餐：{{orderMsg.circle}}个月</p>

@@ -7,7 +7,10 @@
       </div>
       <h1>{{title}}</h1>
     </div>
-    <router-view/>
+    <keep-alive>
+      <router-view/>
+    </keep-alive>
+
   </div>
 </template>
 
@@ -218,6 +221,7 @@ html, body {
   // Source: http://github.com/necolas/normalize.css
   img {
     border: 0;
+    width: 100%;
     -ms-interpolation-mode: bicubic;
   }
   // Forms

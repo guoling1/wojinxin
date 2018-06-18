@@ -11,8 +11,8 @@
             <img src="../assets/phone.png" alt="">
           </div>
           <div class="right">
-            <p class="color">机身颜色：xx</p>
-            <p class="memory">内存：xx</p>
+            <p class="color">机身颜色：{{item.productColor}}</p>
+            <p class="memory">内存：{{item.productMemory}}</p>
             <p class="address">归属地：{{item.region}}</p>
             <p class="bank">开户行：{{item.bank}}</p>
             <p class="package">合约套餐：{{item.circle}}个月</p>

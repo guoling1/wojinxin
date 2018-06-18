@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import qs from "qs"
+import store from "./store"
 
 import { Toast,XDialog } from 'vux'
 Vue.component('toast',Toast);
@@ -36,7 +37,6 @@ router.beforeEach((to, from, next) => {
 // http request 拦截器
 axios.interceptors.request.use(
   config => {
-    console.log(config)
     if((/\/open\/api\/order\/save/).test(config.url)){
       return config;
     }else {
@@ -53,16 +53,10 @@ axios.interceptors.response.use(
   response => {
     let {status,data} = response;
     if(status == 200) {
-      if(data.retCode !="0000"){
-        response.status = 500;
-        response.statusMessage = data.retMsg || '系统异常';
-        response.statusText = "Internal Server Error";
-      }else {
         response.data = data.retObject;
-      }
-    }else {
-      response.statusMessage = '系统异常';
     }
+    response.retMsg = data.retMsg;
+    response.retCode = data.retCode;
     return response;
   },
   error => {
@@ -73,6 +67,7 @@ axios.interceptors.response.use(
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

@@ -8,7 +8,7 @@
     <scroller use-pullup :pullup-config="pullupDefaultConfig" @on-pullup-loading="loadMore"
               lock-x ref="scrollerBottom"  height="-50">
       <div>
-        <swiper :list="swiperList" aspect-ratio=1.146 :auto="!descMask" :loop="!descMask" :show-dots="showDots"
+        <swiper :list="swiperList" :aspect-ratio="aspectRatio" :auto="!descMask" :loop="!descMask" :show-dots="showDots"
                 :show-desc-mask="descMask"></swiper>
         <ul>
           <li v-for="(item,index) in list">
@@ -49,6 +49,7 @@
     name: 'Home',
     data() {
       return {
+        aspectRatio:1.146,
         list: [],
         pullupDefaultConfig: pullupDefaultConfig,
         swiperList: [{img: require('../assets/banner.png')}],
@@ -71,7 +72,7 @@
         this.$router.push({path:"/homeDetail",query:{id:id}})
       },
       fetchData(cb) {
-        this.$axios.post('/open/api/product/list',{areaId: 2,pageNo:this.pageNo,pageSize:this.pageSize}).then(response => {
+        this.$axios.post('/open/api/product/list',{sellFlag:1,areaId: 2,pageNo:this.pageNo,pageSize:this.pageSize}).then(response => {
           this.$nextTick(() => {
             this.$refs.scrollerBottom.reset()
             this.pageNo+=1

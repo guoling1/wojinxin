@@ -4,11 +4,11 @@
       <ul>
         <li>
           <span class="attr">订单金额：</span>
-          <span class="value">￥6000.00</span>
+          <span class="value">￥{{orderMsg.productPrice}}</span>
         </li>
         <li>
           <span class="attr">商品名称：</span>
-          <span class="value">平安银行放大镜看的附件是快乐的时间发货</span>
+          <span class="value">{{orderMsg.productName}}</span>
         </li>
       </ul>
     </div>
@@ -16,18 +16,18 @@
       <span>直接付款(免登录)</span>
       <span class="right">支持银行</span>
     </div>
-    <div class="direct">
-      <div>
-        <span>银行卡号</span>
-        <input type="text" placeholder="信用卡/储蓄卡/中银通卡">
-      </div>
-    </div>
-    <div class="other">
-      <div>
-        <p>其他方式付款</p>
-        <input type="text" placeholder="登陆银行账户付款">
-      </div>
-    </div>
+    <!--<div class="direct">-->
+      <!--<div>-->
+        <!--<span>银行卡号</span>-->
+        <!--<input type="text" placeholder="信用卡/储蓄卡/中银通卡">-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<div class="other">-->
+      <!--<div>-->
+        <!--<p>其他方式付款</p>-->
+        <!--<input type="text" placeholder="登陆银行账户付款">-->
+      <!--</div>-->
+    <!--</div>-->
     <div class="button" @click="submit()">下一步</div>
   </div>
 </template>
@@ -37,12 +37,25 @@ export default {
   name: 'Home',
   data () {
     return {
-
+      orderMsg:{}
     }
   },
+  created(){
+    this.getData()
+  },
   methods:{
+    getData(){
+      this.$axios.post("/open/api/order/get",{id:this.$route.query.id})
+        .then(res=>{
+          this.orderMsg = res.data;
+        })
+    },
     submit(){
-      this.$router.push("/writePhone")
+      this.$axios.post("/open/api/aotoLoginURL",{orderNo:this.$route.query.orderNo})
+        .then(res=>{
+          window.location.href=res.data;
+        })
+      // this.$router.push("/writePhone")
     }
   }
 }

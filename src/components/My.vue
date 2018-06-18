@@ -12,6 +12,14 @@
         <img src="../assets/orderIcon.png" alt="">
         <span>我的订单</span>
       </li>
+      <li @click="signOut()" v-if="isLogin">
+        <img src="../assets/orderIcon.png" alt="">
+        <span>退出登录</span>
+      </li>
+      <li v-else @click="showLogin = true">
+        <img src="../assets/orderIcon.png" alt="">
+        <span >登录</span>
+      </li>
     </ul>
 
     <!--登录框-->
@@ -54,23 +62,33 @@
           validataCode:'',
           messageCode:''
         },
+        phone:'',
         showLogin: false,
         count: '获取验证码',
         timer: null,
-        imgSrc:'http://wojinxin.hdjincheng.cn/wofinance/servlet/validateCodeServlet'
+        imgSrc:'http://wojinxin.hdjincheng.cn/wofinance/servlet/validateCodeServlet',
+        isLogin:false
       }
     },
     created(){
       //若未登陆弹出登陆框
       if(localStorage.getItem("phone")){
         this.phone = localStorage.getItem("phone")
+        this.isLogin =true
       }else {
         this.showLogin = true
+        this.isLogin = false
       }
     },
     methods: {
       toOrder() {
         this.$router.push("/order")
+      },
+      signOut(){
+        this.phone = ""
+        localStorage.clear();
+        this.isLogin = false
+
       },
       login(){
         // this.validateCode()
@@ -78,6 +96,7 @@
           .then(res=>{
             localStorage.setItem("phone",this.formData.phone)
             this.phone = this.formData.phone;
+            this.isLogin = true;
             this.showLogin = false;
           })
       },
