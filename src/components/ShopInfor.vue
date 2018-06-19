@@ -25,7 +25,7 @@
         </li>
         <li>
           <span class="attr">冻结金额：</span>
-          <span class="value">{{productMsg.price}}</span>
+          <span class="value">{{productMsg.savePrice}}</span>
         </li>
         <li>
           <span class="attr">托管周期：</span>
@@ -73,7 +73,7 @@
         </li>
         <li>
           <span>备注</span>
-          <input type="text" placeholder="这里输入备注" v-model="formData.remarks">
+          <input type="text" placeholder="这里输入备注" v-model="remarks">
         </li>
       </ul>
     </div>
@@ -109,17 +109,16 @@
           idcardType: '',//证件类型
           idcard: '',//身份证号
           address: '', //详细地址
-          remarks: '',//备注
           productMemory: '',//内存
           productColor: '',//颜色
           setMeal: "",//所选号码
         },
+        remarks: '',//备注
         showPrompt: false,
         promptMsg: ''
       }
     },
     created() {
-      console.log(this.$store.state.phone.phone)
       this.productMsg = this.$route.query;
       this.formData = {
         productName: this.$route.query.productName,//产品名称
@@ -142,10 +141,10 @@
         idcardType: '身份证',//证件类型
         idcard: '',//身份证号
         address: '',
-        remarks: '',
         productColor: this.$route.query.color,
         productMemory: this.$route.query.memory,
-        setMeal: this.$route.query.setMeal,
+        packageName: this.$route.query.setMealName,
+        savePrice: this.$route.query.savePrice,
         number:this.$store.state.phone.phone
       }
     },
@@ -162,6 +161,7 @@
             break;
           }
         }
+        params.append("remarks",this.remarks)
         if(flag){
           this.$axios.post("/open/api/order/save", params)
             .then(res => {

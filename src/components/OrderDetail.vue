@@ -3,7 +3,7 @@
     <div class="order">
       <div class="orderTitle">订单信息</div>
       <div class="content">
-        <p>订单状态：xx</p>
+        <p>订单状态：{{orderMsg.payStatus}}</p>
         <p>订单编号：{{orderMsg.orderNo}}</p>
         <p>创建时间：{{orderMsg.createTime | formatDate}}</p>
       </div>
@@ -33,10 +33,11 @@
           <p class="memory">内存：{{orderMsg.productMemory}}</p>
           <p class="address">归属地：{{orderMsg.region}}</p>
           <p class="bank">开户行：{{orderMsg.bank}}</p>
-          <p class="package">合约套餐：{{orderMsg.circle}}个月</p>
+          <p class="package">合约套餐：{{orderMsg.packageName}}</p>
         </div>
       </div>
     </div>
+    <div class="button" @click="submit()" v-if="orderMsg.payStatus=='待支付'">立即付款</div>
   </div>
 </template>
 
@@ -53,6 +54,15 @@
         .then(res => {
           this.orderMsg = res.data;
         })
+    },
+    methods:{
+      submit(){
+        this.$axios.post("/open/api/aotoLoginURL",{orderNo:this.orderMsg.orderNo})
+          .then(res=>{
+            window.location.href=res.data;
+          })
+        // this.$router.push("/writePhone")
+      }
     }
   }
 </script>
@@ -62,6 +72,7 @@
   .main {
     margin: 50px 0;
     width: 100%;
+    padding-bottom: 50px;
     text-align: left;
 
     .orderTitle {
@@ -135,6 +146,7 @@
         padding: 15px 10px;
         font-size: 14px;
         text-align: left;
+        display: flex;
 
         .left {
           display: inline-block;
@@ -158,6 +170,16 @@
         }
 
       }
+    }
+    .button{
+      margin: 15px ;
+      /*width: 203px;*/
+      text-align: center;
+      height: 43px;
+      line-height: 43px;
+      background: #fc3a79;
+      border-radius: 5px;
+      color: #fff;
     }
 
   }

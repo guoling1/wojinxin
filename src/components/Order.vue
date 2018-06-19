@@ -15,11 +15,11 @@
             <p class="memory">内存：{{item.productMemory}}</p>
             <p class="address">归属地：{{item.region}}</p>
             <p class="bank">开户行：{{item.bank}}</p>
-            <p class="package">合约套餐：{{item.circle}}个月</p>
+            <p class="package">合约套餐：{{item.packageName}}</p>
           </div>
         </div>
         <div class="bottom">
-          <div class="state">订单状态：xx</div>
+          <div class="state">订单状态：{{item.payStatus}}</div>
           <div class="button" @click="toDetail(item.id)">查看详情</div>
         </div>
       </li>
@@ -73,11 +73,11 @@ export default {
   },
   created(){
     //若未登陆弹出登陆框
-    // if(localStorage.getItem("phone")){
+    if(localStorage.getItem("phone")){
       this.getData()
-    // }else {
-    //   this.showLogin = true
-    // }
+    }else {
+      this.showLogin = true
+    }
   },
   methods: {
     login(){
@@ -87,6 +87,7 @@ export default {
           localStorage.setItem("phone",this.formData.phone)
           this.phone = this.formData.phone;
           this.showLogin = false;
+          this.getData()
         })
     },
     //点击图片重新获取验证码
@@ -138,6 +139,7 @@ export default {
 .main{
   margin: 50px 0;
   width: 100%;
+  padding-bottom: 50px;
 
   .list{
 
@@ -165,8 +167,10 @@ export default {
         font-size: 14px;
         border-bottom: 1px solid #d7d7d7;
         text-align: left;
+        display: flex;
         .left{
           display:inline-block;
+          margin-right: 10px;
           /*float: left;*/
 
           img{

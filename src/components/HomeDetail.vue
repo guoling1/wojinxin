@@ -80,7 +80,7 @@
         <div class="content">
           <p>1.联通黑名单用户不能办理</p>
           <p>2.在联通已经拥有超过5个号码（含5个）不能办理</p>
-          <p>3.如不清楚账户状态可拨打10010资讯</p>
+          <p>3.如不清楚账户状态可拨打10010咨询</p>
         </div>
         <div class="bottom">
           <div @click="showTips = false">取消</div>
@@ -190,15 +190,29 @@ export default {
     }
   },
   created(){
-
-    this.getData();
-    this.formatData()
-    this.getSwiper();
-
+    console.log(this)
+    this.init();
   },
+  // beforeRouteLeave(to, from, next) {
+  //   // 设置下一个路由的 meta
+  //   if(to.name=='selectPhone'){
+  //     to.meta.keepAlive = true;
+  //     from.meta.keepAlive = true;
+  //   }else if(to.name=='home'){
+  //     from.meta.keepAlive = false;
+  //     to.meta.keepAlive = false;
+  //   }
+  //   next();
+  // },
   methods:{
+    init(){
+      console.log(1);
+      this.getData();
+      this.formatData();
+      this.getSwiper();
+    },
     toSelectPhone(){
-      this.$router.push('/selectPhone')
+      this.$router.push('/selectPhone?id='+this.$route.query.id)
     },
     //处理规格
     formatData(){
@@ -308,7 +322,6 @@ export default {
     },
     selectBank(){
       //选择银行前先选择区域
-      console.log(this.addressId)
       if(this.address.name=="请选择"){
         this.$axios.post("/open/api/area/list",{areaId:this.address.id})
           .then(res=>{
@@ -359,7 +372,8 @@ export default {
           price:this.productData.price,
           busiType:this.productData.busiType,
           color:this.color,
-          memory:this.memory
+          memory:this.memory,
+          savePrice:this.savePrice,
         }
         this.showTips = false
         this.$router.push({path:"/shopInfor",query:formData})
@@ -377,6 +391,7 @@ export default {
             this.productData.sourcePrice = res.data[0].sourcePrice;
             this.showFormat = false;
           }else {
+
             this.showPrompt = true;
             this.promptMsg = "暂无库存，请选择其他颜色或内存"
           }
@@ -418,7 +433,6 @@ export default {
     validateCode(){
       this.$axios.get("/servlet/validateCodeServlet?validateCode="+this.formData.validateCode)
         .then(res=>{
-          console.log(res.data)
         })
     },
     //获取验证码
@@ -445,30 +459,33 @@ export default {
     color(cur,old){
       this.$axios.post('/open/api/productSpec/list',{prodectId:this.id,color:this.color,memory:this.memory})
         .then(res=>{
-          if(res.data){
+          if(Array.isArray(res.data)){
             this.savePrice = res.data[0].savePrice;
             this.productData.price = res.data[0].price;
             this.productData.sourcePrice = res.data[0].sourcePrice;
-            this.stock = res.data[0].amount;
+            // this.showFormat = false;
           }else {
             this.showPrompt = true;
-            this.promptMsg = "暂无库存，请选择其他颜色"
+            this.promptMsg = "暂无库存，请选择其他颜色或内存"
           }
         })
     },
     memory(cur,old){
       this.$axios.post('/open/api/productSpec/list',{prodectId:this.id,color:this.color,memory:this.memory})
         .then(res=>{
-          if(res.data){
+          if(Array.isArray(res.data)){
             this.savePrice = res.data[0].savePrice;
             this.productData.price = res.data[0].price;
             this.productData.sourcePrice = res.data[0].sourcePrice;
-            this.stock = res.data[0].amount;
+            // this.showFormat = false;
           }else {
             this.showPrompt = true;
-            this.promptMsg = "暂无库存，请选择其他内存"
+            this.promptMsg = "暂无库存，请选择其他颜色或内存"
           }
         })
+    },
+    '$route.query.reload':function (v) {
+      if(v && !this._inactive) this.init()
     }
   }
 }
@@ -479,6 +496,7 @@ export default {
 .main{
   margin: 50px 0;
   width: 100%;
+  padding-bottom: 50px;
   .productMessage{
     margin-bottom: 20px;
     .name{

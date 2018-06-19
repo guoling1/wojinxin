@@ -67,6 +67,7 @@ export default {
   margin: 50px 0 0;
   background: #e7e7e7;
   font-size: 14px;
+  padding-bottom: 50px;
   height: 100%;
   width: 100%;
   .shopMessage{

@@ -53,7 +53,7 @@ axios.interceptors.response.use(
   response => {
     let {status,data} = response;
     if(status == 200) {
-        response.data = data.retObject;
+      response.data = data.retObject||data;
     }
     response.retMsg = data.retMsg;
     response.retCode = data.retCode;

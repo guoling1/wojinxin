@@ -7,8 +7,8 @@
       </div>
       <h1>{{title}}</h1>
     </div>
-    <keep-alive>
-      <router-view/>
+    <keep-alive include="Home">
+      <router-view />
     </keep-alive>
 
   </div>
@@ -19,7 +19,8 @@ export default {
   name: 'App',
   data(){
     return {
-      title:'沃金信'
+      title:'沃金信',
+      keepAlive:''
     }
   },
   methods: {
@@ -30,7 +31,8 @@ export default {
   watch:{
     $route:function (cur) {
       this.title = cur.meta.title
-    }
+      this.keepAlive = cur.meta.keepAlive
+    },
   }
 }
 </script>

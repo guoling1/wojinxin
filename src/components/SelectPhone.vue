@@ -10,21 +10,34 @@
 
 <script>
 export default {
-  name: 'Home',
+  name: 'SelectPhone',
   data () {
     return {
       phoneList:[],
-      selectNum:''
+      selectNum:'',
+      pageNo:1
     }
   },
   created(){
     this.getData()
   },
+  // beforeRouteLeave(to, from, next) {
+  //   // 设置下一个路由的 meta
+  //   to.meta.keepAlive = true;
+  //   next();
+  // },
   methods:{
+
     getData(){
-      this.$axios.post("/open/api/numberpool/list")
+      this.$axios.post("/open/api/numberpool/list",{pageNo:this.pageNo})
         .then(res=>{
           this.phoneList = res.data.list;
+
+          if((res.data.count-res.data.firstResult)<20){
+            this.pageNo=1
+          }else {
+            this.pageNo++;
+          }
           for(let i=0;i<this.phoneList.length;i++){
             this.phoneList[i].number = parseFloat(this.phoneList[i].number).toString()
           }
@@ -33,8 +46,11 @@ export default {
     submit(){
       // localStorage.setItem("selectPhone",this.selectNum)
       this.$store.commit("PHONE",this.selectNum)
-      this.$router.go(-1)
+      this.$router.push("/homeDetail?id="+this.$route.query.id)
     }
+  },
+  watch:{
+
   }
 }
 </script>

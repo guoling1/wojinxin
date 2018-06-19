@@ -25,7 +25,8 @@ export default new Router({
       		path:'/home',
       		name:'home',
           meta:{
-            title:"沃金信"
+            title:"沃金信",
+            keepAlive:false
           },
       		component:Home
       	},
@@ -59,7 +60,8 @@ export default new Router({
       path:'/homeDetail',
       name:'homeDetail',
       meta:{
-        title:"详情"
+        title:"详情",
+        keepAlive:true
       },
       component: HomeDetail
     },
@@ -100,7 +102,8 @@ export default new Router({
       path:'/selectPhone',
       name:'selectPhone',
       meta:{
-        title:"手机号选择"
+        title:"手机号选择",
+        keepAlive:false
       },
       component: SelectPhone
     }

@@ -38,7 +38,7 @@
         </li>
         <li>
           <span class="attr">套餐名称：</span>
-          <span class="value">{{productData.circle}}个月|{{productData.price}}元套餐</span>
+          <span class="value">{{productData.packageName}}</span>
         </li>
         <li>
           <span class="attr">价格：</span>
@@ -86,7 +86,7 @@
           </li>
           <li>
             <span class="attr">创建时间：</span>
-            <span class="value">{{orderMsg.createTime}}</span>
+            <span class="value">{{orderMsg.createTime|formatDate}}</span>
           </li>
           <li>
             <span class="attr">托管金额：</span>
@@ -94,7 +94,7 @@
           </li>
           <li>
             <span class="attr">订单状态：</span>
-            <span class="value">xxx</span>
+            <span class="value">{{orderMsg.payStatus}}</span>
           </li>
         </ul>
         <div class="bottom" @click="pay()">在线支付</div>
@@ -142,6 +142,7 @@ export default {
 <style scoped lang="less" type="text/less">
 .main{
   margin: 50px 0;
+  padding-bottom: 50px;
   width: 100%;
 ul{
 
@@ -184,7 +185,7 @@ li{
     border-top: 10px solid #eaeaea;
   }
   .button{
-    margin-top: 37px;
+    /*margin-top: 37px;*/
     height: 48px;
     line-height: 48px;
     color: #fff;

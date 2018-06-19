@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <div class="myTop">
-      <img src="" alt="">
+      <img src="../assets/tx.png" alt="">
       <div class="right">
         <p class="welcome">欢迎您，</p>
         <p class="phone">手机号：{{phone}}</p>
@@ -35,7 +35,7 @@
               <input v-model="formData.phone" type="number" placeholder="输入手机号">
             </li>
             <li>
-              <input v-model="formData.validataCode" type="text" placeholder="输入验证码">
+              <input v-model="formData.validataCode" @blur="validateCode()" type="text" placeholder="输入验证码">
               <img :src="imgSrc" @click="imgClick()" alt="">
             </li>
             <li>
@@ -108,7 +108,7 @@
       validateCode(){
         this.$axios.get("/servlet/validateCodeServlet",{params:{validateCode:this.formData.validataCode}})
           .then(res=>{
-            console.log(res.data)
+            console.log(res)
           })
       },
       //获取验证码
@@ -135,6 +135,7 @@
   .main {
     margin: 50px 0;
     width: 100%;
+    padding-bottom: 50px;
 
     .myTop {
       margin: 19px 15px 30px;
