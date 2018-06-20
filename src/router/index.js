@@ -13,6 +13,7 @@ import OrderSubmit from '@/components/OrderSubmit'
 import SelectPhone from '@/components/SelectPhone'
 import Login from '@/components/Login'
 import ChangePwd from '@/components/ChangePwd'
+import Regist from '@/components/Regist'
 
 Vue.use(Router)
 
@@ -122,6 +123,13 @@ export default new Router({
         title:"修改密码"
       },
       component: ChangePwd
+    },{
+      path:'/regist',
+      name:'regist',
+      meta:{
+        title:"注册"
+      },
+      component: Regist
     }
   ]
 })

@@ -12,7 +12,7 @@
         <!--<img src="../assets/orderIcon.png" alt="">-->
         <span>我的订单</span>
       </li>
-      <li @click="toLogin('修改密码')">
+      <li @click="toLogin('修改密码')" v-if="isLogin">
         <!--<img src="../assets/orderIcon.png" alt="">-->
         <span>修改密码</span>
       </li>
@@ -20,11 +20,11 @@
         <!--<img src="../assets/orderIcon.png" alt="">-->
         <span>退出登录</span>
       </li>
-      <li v-if="!isLogin" @click="toLogin('登录')">
+      <li v-if="!isLogin" @click="toLogin()">
         <!--<img src="../assets/orderIcon.png" alt="">-->
         <span >登录</span>
       </li>
-      <li v-if="!isLogin" @click="toLogin('注册')">
+      <li v-if="!isLogin" @click="toRegist()">
         <!--<img src="../assets/orderIcon.png" alt="">-->
         <span >注册</span>
       </li>
@@ -80,18 +80,17 @@
       }
     },
     created(){
-      //若未登陆弹出登陆框
       if(localStorage.getItem("phone")){
         this.phone = localStorage.getItem("phone")
         this.isLogin =true
-      }else {
-        this.showLogin = true
-        this.isLogin = false
       }
     },
     methods: {
-      toLogin(type){
-        this.$router.push("/login?type="+type)
+      toLogin(){
+        this.$router.push("/login")
+      },
+      toRegist(){
+        this.$router.push("./regist")
       },
       toOrder() {
         this.$router.push("/order")
