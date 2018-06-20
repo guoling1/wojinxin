@@ -106,7 +106,7 @@
 <script>
   import {XDialog} from "vux"
 export default {
-  name: 'Home',
+  name: 'OrderSubmit',
   data () {
     return {
       showSubmit:false,

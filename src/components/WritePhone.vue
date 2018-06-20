@@ -44,7 +44,7 @@
 
 <script>
 export default {
-  name: 'Home',
+  name: 'WritePhone',
   data () {
     return {
 

@@ -34,7 +34,7 @@
 
 <script>
 export default {
-  name: 'Home',
+  name: 'PayMethod',
   data () {
     return {
       orderMsg:{}

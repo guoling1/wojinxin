@@ -11,6 +11,8 @@ import WritePhone from '@/components/WritePhone'
 import PayMethod from '@/components/PayMethod'
 import OrderSubmit from '@/components/OrderSubmit'
 import SelectPhone from '@/components/SelectPhone'
+import Login from '@/components/Login'
+import ChangePwd from '@/components/ChangePwd'
 
 Vue.use(Router)
 
@@ -106,6 +108,20 @@ export default new Router({
         keepAlive:false
       },
       component: SelectPhone
+    },{
+      path:'/login',
+      name:'login',
+      meta:{
+        title:"登录"
+      },
+      component: Login
+    },{
+      path:'/changePwd',
+      name:'changePwd',
+      meta:{
+        title:"修改密码"
+      },
+      component: ChangePwd
     }
   ]
 })

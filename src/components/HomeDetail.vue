@@ -190,23 +190,10 @@ export default {
     }
   },
   created(){
-    console.log(this)
     this.init();
   },
-  // beforeRouteLeave(to, from, next) {
-  //   // 设置下一个路由的 meta
-  //   if(to.name=='selectPhone'){
-  //     to.meta.keepAlive = true;
-  //     from.meta.keepAlive = true;
-  //   }else if(to.name=='home'){
-  //     from.meta.keepAlive = false;
-  //     to.meta.keepAlive = false;
-  //   }
-  //   next();
-  // },
   methods:{
     init(){
-      console.log(1);
       this.getData();
       this.formatData();
       this.getSwiper();
@@ -374,6 +361,7 @@ export default {
           color:this.color,
           memory:this.memory,
           savePrice:this.savePrice,
+          phone:this.$store.state.phone.phone
         }
         this.showTips = false
         this.$router.push({path:"/shopInfor",query:formData})

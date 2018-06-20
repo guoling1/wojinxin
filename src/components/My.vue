@@ -9,16 +9,24 @@
     </div>
     <ul class="list">
       <li @click="toOrder()">
-        <img src="../assets/orderIcon.png" alt="">
+        <!--<img src="../assets/orderIcon.png" alt="">-->
         <span>我的订单</span>
       </li>
+      <li @click="toLogin('修改密码')">
+        <!--<img src="../assets/orderIcon.png" alt="">-->
+        <span>修改密码</span>
+      </li>
       <li @click="signOut()" v-if="isLogin">
-        <img src="../assets/orderIcon.png" alt="">
+        <!--<img src="../assets/orderIcon.png" alt="">-->
         <span>退出登录</span>
       </li>
-      <li v-else @click="showLogin = true">
-        <img src="../assets/orderIcon.png" alt="">
+      <li v-if="!isLogin" @click="toLogin('登录')">
+        <!--<img src="../assets/orderIcon.png" alt="">-->
         <span >登录</span>
+      </li>
+      <li v-if="!isLogin" @click="toLogin('注册')">
+        <!--<img src="../assets/orderIcon.png" alt="">-->
+        <span >注册</span>
       </li>
     </ul>
 
@@ -47,6 +55,7 @@
         <div class="buy" @click="login()">登录</div>
         <!--<p>若无账号则自动注册</p>-->
       </x-dialog>
+
     </div>
   </div>
 </template>
@@ -54,7 +63,7 @@
 <script>
   const TIME_COUNT = 60;
   export default {
-    name: 'Home',
+    name: 'My',
     data() {
       return {
         formData:{
@@ -81,6 +90,9 @@
       }
     },
     methods: {
+      toLogin(type){
+        this.$router.push("/login?type="+type)
+      },
       toOrder() {
         this.$router.push("/order")
       },

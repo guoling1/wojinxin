@@ -56,7 +56,7 @@
 <script>
   const TIME_COUNT = 60;
 export default {
-  name: 'Home',
+  name: 'Order',
   data () {
     return {
       formData:{

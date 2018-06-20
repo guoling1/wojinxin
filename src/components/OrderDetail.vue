@@ -43,7 +43,7 @@
 
 <script>
   export default {
-    name: 'Home',
+    name: 'OrderDetail',
     data() {
       return {
         orderMsg:{}
