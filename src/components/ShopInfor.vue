@@ -25,11 +25,11 @@
         </li>
         <li>
           <span class="attr">冻结金额：</span>
-          <span class="value">{{productMsg.savePrice}}</span>
+          <span class="value">{{productMsg.deposit}}</span>
         </li>
         <li>
           <span class="attr">托管周期：</span>
-          <span class="value"></span>
+          <span class="value">{{productMsg.circle}}个月</span>
         </li>
       </ul>
     </div>
@@ -125,7 +125,7 @@
         productPrice: this.$route.query.price,//产品价格
         productMobile: this.$store.state.phone.phone,//产品手机号
         circle: this.$route.query.circle,//套餐周期
-        deposit: this.$route.query.savePrice,//托管金额
+        deposit: this.$route.query.deposit,//托管金额
         areaId: this.$route.query.addressId,//区域id
         bank: '平安',//银行
         endDay: '2019-01-01',//截止日期
@@ -144,7 +144,7 @@
         productColor: this.$route.query.color,
         productMemory: this.$route.query.memory,
         packageName: this.$route.query.setMealName,
-        savePrice: this.$route.query.savePrice,
+        deposit: this.$route.query.deposit,
         number:this.$store.state.phone.phone
       }
     },

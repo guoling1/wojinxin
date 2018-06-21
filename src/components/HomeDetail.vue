@@ -230,7 +230,7 @@ export default {
           this.memoryList = memoryList;
           this.productData.price = resData[0].price;
           this.productData.sourcePrice = resData[0].sourcePrice;
-          this.savePrice = resData[0].savePrice;
+          this.deposit = resData[0].deposit;
           this.setMeal  = this.setMealList[0];
           this.stock = res.data[0].amount;
             //  默认规格
@@ -356,7 +356,7 @@ export default {
           busiType:this.productData.busiType,
           color:this.color,
           memory:this.memory,
-          savePrice:this.savePrice,
+          deposit:this.deposit,
           phone:this.$store.state.phone.phone
         }
         this.showTips = false
@@ -370,7 +370,7 @@ export default {
       this.$axios.post('/open/api/productSpec/list',{prodectId:this.id,color:this.color,memory:this.memory})
         .then(res=>{
           if(res.data){
-            this.savePrice = res.data[0].savePrice;
+            this.deposit = res.data[0].deposit;
             this.productData.price = res.data[0].price;
             this.productData.sourcePrice = res.data[0].sourcePrice;
             this.showFormat = false;
@@ -412,7 +412,7 @@ export default {
                     busiType:this.productData.busiType,
                     color:this.color,
                     memory:this.memory,
-                    savePrice:this.savePrice,
+                    deposit:this.deposit,
                     phone:this.$store.state.phone.phone
                   }
                   this.showTips = false
@@ -435,7 +435,7 @@ export default {
       this.$axios.post('/open/api/productSpec/list',{prodectId:this.id,color:this.color,memory:this.memory})
         .then(res=>{
           if(Array.isArray(res.data)){
-            this.savePrice = res.data[0].savePrice;
+            this.deposit = res.data[0].deposit;
             this.productData.price = res.data[0].price;
             this.productData.sourcePrice = res.data[0].sourcePrice;
             // this.showFormat = false;
@@ -449,7 +449,7 @@ export default {
       this.$axios.post('/open/api/productSpec/list',{prodectId:this.id,color:this.color,memory:this.memory})
         .then(res=>{
           if(Array.isArray(res.data)){
-            this.savePrice = res.data[0].savePrice;
+            this.deposit = res.data[0].deposit;
             this.productData.price = res.data[0].price;
             this.productData.sourcePrice = res.data[0].sourcePrice;
             // this.showFormat = false;
