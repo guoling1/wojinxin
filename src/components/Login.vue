@@ -86,7 +86,7 @@
         input {
           margin-top: 23px;
           height: 30px;
-          width: 60%;
+          width: 100%;
         }
         img{
           float: right;

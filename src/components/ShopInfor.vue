@@ -125,7 +125,7 @@
         productPrice: this.$route.query.price,//产品价格
         productMobile: this.$store.state.phone.phone,//产品手机号
         circle: this.$route.query.circle,//套餐周期
-        deposit: '122',//托管金额
+        deposit: this.$route.query.savePrice,//托管金额
         areaId: this.$route.query.addressId,//区域id
         bank: '平安',//银行
         endDay: '2019-01-01',//截止日期

@@ -164,7 +164,7 @@ export default {
       showAddress:false,
       showBank:false,
       showTips:false,
-      showLogin:true,
+      showLogin:false,
       showFormat:false,
       addressList:[],
       address:{name:'请选择'},
@@ -375,7 +375,6 @@ export default {
             this.productData.sourcePrice = res.data[0].sourcePrice;
             this.showFormat = false;
           }else {
-
             this.showPrompt = true;
             this.promptMsg = "暂无库存，请选择其他颜色或内存"
           }
@@ -412,7 +411,9 @@ export default {
                     price:this.productData.price,
                     busiType:this.productData.busiType,
                     color:this.color,
-                    memory:this.memory
+                    memory:this.memory,
+                    savePrice:this.savePrice,
+                    phone:this.$store.state.phone.phone
                   }
                   this.showTips = false
                   this.$router.push({path:"/shopInfor",query:formData})

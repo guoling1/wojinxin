@@ -4,10 +4,10 @@
       <li>
         <input v-model="formData.phone" type="number" placeholder="手机号">
       </li>
-      <li v-if="type=='修改密码'">
+      <li>
         <input v-model="formData.password" type="password" placeholder="输入密码">
       </li>
-      <li v-if="type=='修改密码'">
+      <li>
         <input v-model="formData.password1" type="password" placeholder="确认密码">
       </li>
     </ul>
@@ -18,7 +18,7 @@
 
 <script>
     export default {
-        name: "Login",
+        name: "ChangePwd",
       data(){
           return {
             formData:{
@@ -31,21 +31,6 @@
           }
       },
       methods:{
-        //获取验证码
-        getCode(){
-          if (!this.timer) {
-            this.count = TIME_COUNT;
-            this.timer = setInterval(() => {
-              if (this.count > 0 && this.count <= TIME_COUNT) {
-                this.count--;
-              } else {
-                this.count = "获取验证码";
-                clearInterval(this.timer);
-                this.timer = null;
-              }
-            }, 1000)
-          }
-        },
         changePwd(){
           if(!this.phoneReg.test(this.formData.phone)){
             this.showPrompt = true;
@@ -63,11 +48,20 @@
                 if(res.retCode=='0000'){
                   this.showPrompt = true;
                   this.promptMsg = "修改成功,请重新登录";
-                  this.$router.push("/login")
+                  localStorage.clear()
+                  let _this = this;
+                  setTimeout(function () {
+                    _this.$router.push("/login")
+                  },1000)
+
                 }else {
                   this.showPrompt = true;
                   this.promptMsg = res.retMsg
                 }
+              })
+              .catch(err=>{
+                this.showPrompt = true;
+                this.promptMsg = '系统异常'
               })
           }
         },

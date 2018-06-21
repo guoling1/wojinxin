@@ -5,8 +5,8 @@
         <input v-model="formData.phone" type="number" placeholder="输入手机号">
       </li>
       <li>
-        <input v-model="formData.validataCode" @blur="validateCode()" type="text" placeholder="输入验证码">
-        <img :src="imgSrc" @click="imgClick()" alt="">
+        <input v-model="formData.validataCode" type="text" placeholder="输入验证码">
+        <img :src="imgMsg.img" @click="imgClick()" alt="">
       </li>
       <li>
         <input v-model="formData.messageCode" type="text" placeholder="输入短信验证码">
@@ -34,10 +34,13 @@
             showPrompt:false,
             promptMsg:'',
             timer: null,
-            imgSrc:'http://wojinxin.hdjincheng.cn/wofinance/servlet/validateCodeServlet',
+            imgMsg:{},
             messCode:'',
-            isMessCode:false
+            isImgCode:false
           }
+      },
+      created(){
+          this.imgClick()
       },
       methods:{
         //获取验证码
@@ -62,6 +65,7 @@
             })
         },
         login(){
+
           if(!this.phoneReg.test(this.formData.phone)){
             this.showPrompt = true;
             this.promptMsg = '请输入正确的手机号'
@@ -69,37 +73,62 @@
             this.showPrompt = true;
             this.promptMsg = '请输入验证码'
           } else {
-            if(this.formData.messageCode!=this.messCode){
-              this.showPrompt = true;
-              this.promptMsg = '验证码不正确'
-            }else {
-              let params = {
-                mobile:this.formData.phone,
-                password:this.formData.password
-              }
-              this.$axios.post("/open/oauth/login",params)
-                .then(res=>{
-                  if(res.retCode=='0000'){
-                    localStorage.setItem("token",res.data.token);
-                    localStorage.setItem("phone",this.formData.phone);
-                    this.$router.go(-1)
-                  }else {
+            this.$axios.get("/open/validate/verify", {params: {code: this.formData.validataCode, key: this.imgMsg.key}})
+              .then(res => {
+                if (res.retCode != "0000") {
+                  this.showPrompt = true;
+                  this.promptMsg = res.retMsg;
+                  this.isImgCode = false;
+                } else {
+                  this.isImgCode = true;
+                  if(!this.isImgCode){
                     this.showPrompt = true;
-                    this.promptMsg = res.retMsg
-                  }
-                })
+                    this.promptMsg = '图形验证码不正确'
+                  }else {
+                    let params = {
+                      mobile:this.formData.phone,
+                      code:this.formData.messageCode
+                    }
+                    this.$axios.post("/open/api/customer/save",params)
+                      .then(res=>{
+                        if(res.retCode=='0000'){
+                          // localStorage.setItem("token",res.data.token);
+                          // localStorage.setItem("phone",this.formData.phone);
+                          this.$router.go(-1)
+                        }else {
+                          this.showPrompt = true;
+                          this.promptMsg = res.retMsg
+                        }
+                      })
+                      .catch(err=>{
+                        this.showPrompt = true;
+                        this.promptMsg = '系统异常'
+                      })
+                }}
+              })
             }
-          }
+
         },
         //点击图片重新获取验证码
         imgClick(){
-          this.imgSrc = "http://wojinxin.hdjincheng.cn/wofinance/servlet/validateCodeServlet?"+Math.random();
+          this.$axios.post("/open/validate/gcode")
+            .then(res=>{
+              if(res.retCode=="0000"){
+                this.imgMsg = res.data
+              }
+            })
         },
         //验证图形验证码
         validateCode(){
-          this.$axios.get("/servlet/validateCodeServlet",{params:{validateCode:this.formData.validataCode}})
+          this.$axios.get("/open/validate/verify",{params:{code:this.formData.validataCode,key:this.imgMsg.key}})
             .then(res=>{
-              console.log(res)
+              if(res.retCode!="0000"){
+                this.showPrompt = true;
+                this.promptMsg = res.retMsg;
+                this.isImgCode = false;
+              }else {
+                this.isImgCode = true;
+              }
             })
         }
       }

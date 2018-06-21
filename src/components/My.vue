@@ -12,7 +12,7 @@
         <!--<img src="../assets/orderIcon.png" alt="">-->
         <span>我的订单</span>
       </li>
-      <li @click="toLogin('修改密码')" v-if="isLogin">
+      <li @click="toChangePwd()" v-if="isLogin">
         <!--<img src="../assets/orderIcon.png" alt="">-->
         <span>修改密码</span>
       </li>
@@ -94,6 +94,9 @@
       },
       toOrder() {
         this.$router.push("/order")
+      },
+      toChangePwd(){
+        this.$router.push("/changePwd")
       },
       signOut(){
         this.phone = ""

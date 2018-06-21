@@ -24,8 +24,12 @@
         </div>
       </li>
     </ul>
+    <div v-if="showLogin" class="prompt">
+      <p>您还未登录</p>
+      <p>前往<router-link to="/my">个人中心</router-link>登录！</p>
+    </div>
     <!--登录框-->
-    <div class="showLogin">
+    <!--<div class="showLogin">
       <x-dialog v-model="showLogin" class="dialog-demo">
         <div class="top">
           <span>手机验证登录</span>
@@ -47,9 +51,9 @@
           </ul>
         </div>
         <div class="buy" @click="login()">登录</div>
-        <!--<p>若无账号则自动注册</p>-->
+        &lt;!&ndash;<p>若无账号则自动注册</p>&ndash;&gt;
       </x-dialog>
-    </div>
+    </div>-->
   </div>
 </template>
 
@@ -212,6 +216,20 @@ export default {
           border-radius: 3px;
           float: right;
         }
+      }
+    }
+  }
+  .prompt{
+    margin-top: 20%;
+    font-size: 14px;
+    p{
+      line-height: 20px;
+      margin-top: 15px;
+      a{
+        display: inline-block;
+        margin: 0 3px;
+        color: #fc3a79;
+        text-decoration: underline;
       }
     }
   }
