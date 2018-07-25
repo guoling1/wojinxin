@@ -139,7 +139,7 @@ export default {
     line-height: 48px;
     color: #fff;
     font-weight: bold;
-    background: #fc3a79;
+    background: #fe8d23;
     border-radius: 5px;
   }
 }

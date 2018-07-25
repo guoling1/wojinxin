@@ -105,7 +105,7 @@
           background-image: url("../assets/my1.png");
         }
         p {
-          color: #fc3a79;
+          color: #fe8d23;
         }
       }
     }

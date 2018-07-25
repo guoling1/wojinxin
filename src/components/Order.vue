@@ -228,7 +228,7 @@ export default {
       a{
         display: inline-block;
         margin: 0 3px;
-        color: #fc3a79;
+        color: #fe8d23;
         text-decoration: underline;
       }
     }
@@ -300,7 +300,7 @@ export default {
       width: 203px;
       height: 43px;
       line-height: 43px;
-      background: #fc3a79;
+      background: #fe8d23;
       border-radius: 5px;
       color: #fff;
     }

@@ -484,7 +484,7 @@ export default {
       span{
         font-size: 19px;
         font-weight: bold;
-        color: #fc3a79;
+        color: #fe8d23;
       }
     }
     .oldPrice{
@@ -500,7 +500,7 @@ export default {
   .val{
     float: right;
     font-size: 12px;
-    color: #fc3a79;
+    color: #fe8d23;
   }
   .address{
     margin: 0 15px;
@@ -567,7 +567,7 @@ export default {
     .button{
       display: inline-block;
       float: right;
-      background: #fc3a79;
+      background: #fe8d23;
       color: #fff;
       width: 30%;
     }
@@ -667,7 +667,7 @@ export default {
       width: 203px;
       height: 43px;
       line-height: 43px;
-      background: #fc3a79;
+      background: #fe8d23;
       border-radius: 5px;
       color: #fff;
     }
@@ -688,7 +688,7 @@ export default {
         margin-bottom: 20px;
       }
       div:nth-child(2){
-        background: #fc3a79;
+        background: #fe8d23;
       }
     }
   }
@@ -716,7 +716,7 @@ export default {
         }
         .price{
           font-size: 19px;
-          color: #fc3a79;
+          color: #fe8d23;
         }
       }
     }
@@ -741,7 +741,7 @@ export default {
           border-radius: 4px;
         }
         span.active{
-          background: #fc3a79;
+          background: #fe8d23;
           color: #fff;
         }
       }
@@ -755,7 +755,7 @@ export default {
       margin-top: 46px;
       height: 44px;
       line-height: 44px;
-      background: #fc3a79;
+      background: #fe8d23;
       color: #fff;
     }
   }

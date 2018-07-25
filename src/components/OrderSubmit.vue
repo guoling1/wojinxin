@@ -190,7 +190,7 @@ li{
     line-height: 48px;
     color: #fff;
     font-weight: bold;
-    background: #fc3a79;
+    background: #fe8d23;
     position: fixed;
     bottom: 0;
     left: 0;
@@ -225,7 +225,7 @@ li{
       line-height: 40px;
       color: #fff;
       border-radius: 4px;
-      background: #fc3a79;
+      background: #fe8d23;
     }
   }
 }

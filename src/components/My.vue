@@ -274,7 +274,7 @@
         width: 203px;
         height: 43px;
         line-height: 43px;
-        background: #fc3a79;
+        background: #fe8d23;
         border-radius: 5px;
         color: #fff;
       }

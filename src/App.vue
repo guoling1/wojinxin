@@ -1,6 +1,9 @@
 <template>
   <div id="app" class="flex-box-column flexBox">
     <div class="title">
+      <div class="back" v-if="this.$route.name=='home'">
+        <span>登录</span>
+      </div>
       <div class="back" @click="back()" v-if="this.$route.name!='home'">
         <img src="./assets/back.png" alt="">
         <span>返回</span>
