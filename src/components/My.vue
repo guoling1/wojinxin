@@ -9,25 +9,33 @@
     </div>
     <ul class="list">
       <li @click="toOrder()">
-        <!--<img src="../assets/orderIcon.png" alt="">-->
+        <img src="../assets/orderIcon.png" alt="">
         <span>我的订单</span>
       </li>
-      <li @click="toChangePwd()" v-if="isLogin">
-        <!--<img src="../assets/orderIcon.png" alt="">-->
+      <li>
+        <img src="../assets/bag.png" alt="" style="width: 20px;height: 19px">
+        <span>我的佣金</span>
+      </li>
+      <li @click="isShowCode()">
+        <img src="../assets/code.png" alt="" style="width: 17.5px;height: 17.5px">
+        <span>我的二维码</span>
+      </li>
+      <!--<li @click="toChangePwd()" v-if="isLogin">
+        &lt;!&ndash;<img src="../assets/orderIcon.png" alt="">&ndash;&gt;
         <span>修改密码</span>
       </li>
       <li @click="signOut()" v-if="isLogin">
-        <!--<img src="../assets/orderIcon.png" alt="">-->
+        &lt;!&ndash;<img src="../assets/orderIcon.png" alt="">&ndash;&gt;
         <span>退出登录</span>
       </li>
       <li v-if="!isLogin" @click="toLogin()">
-        <!--<img src="../assets/orderIcon.png" alt="">-->
+        &lt;!&ndash;<img src="../assets/orderIcon.png" alt="">&ndash;&gt;
         <span >登录</span>
       </li>
       <li v-if="!isLogin" @click="toRegist()">
-        <!--<img src="../assets/orderIcon.png" alt="">-->
+        &lt;!&ndash;<img src="../assets/orderIcon.png" alt="">&ndash;&gt;
         <span >注册</span>
-      </li>
+      </li>-->
     </ul>
 
     <!--登录框-->
@@ -55,7 +63,16 @@
         <div class="buy" @click="login()">登录</div>
         <!--<p>若无账号则自动注册</p>-->
       </x-dialog>
+    </div>
 
+    <!--推广码-->
+    <div class="showCode">
+      <x-dialog v-model="showCode" class="dialog-demo">
+        <span class="close" @click="showCode = false">
+          <img src="../assets/closeWrite.png" alt="">
+        </span>
+        <img src="../assets/qrcode.png" alt="" class="qrcode">
+      </x-dialog>
     </div>
   </div>
 </template>
@@ -76,7 +93,8 @@
         count: '获取验证码',
         timer: null,
         imgSrc:'http://wojinxin.hdjincheng.cn/wofinance/servlet/validateCodeServlet',
-        isLogin:false
+        isLogin:false,
+        showCode:false
       }
     },
     created(){
@@ -86,6 +104,9 @@
       }
     },
     methods: {
+      isShowCode(){
+        this.showCode = true
+      },
       toLogin(){
         this.$router.push("/login")
       },
@@ -146,6 +167,28 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less" type="text/less">
+  .showCode{
+    .close{
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      display: inline-block;
+      width: 100px;
+      height: 100px;
+      background: #fe8d23;
+      border-radius: 50%;
+      img{
+        width: 20px;
+        height: 20px;
+        margin-top: 60px;
+        margin-left: -36px;
+      }
+    }
+    .qrcode{
+      margin: 71px;
+      width: 50%;
+    }
+  }
   .main {
     margin: 50px 0;
     width: 100%;

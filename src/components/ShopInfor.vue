@@ -41,15 +41,15 @@
         </li>
         <li>
           <span>客户姓名</span>
-          <input type="text" placeholder="这里输入客户姓名" v-model="formData.customerName">
+          <input type="text" placeholder="这里输入客户姓名" v-model="formData.customerName" @blur="changePY()">
         </li>
         <li>
           <span>姓拼音</span>
-          <input type="text" placeholder="这里输入姓拼音" v-model="formData.xingPinyin">
+          <input type="text" placeholder="姓拼音" v-model="formData.xingPinyin" disabled style="background: #fff">
         </li>
         <li>
           <span>名拼音</span>
-          <input type="text" placeholder="这里输入名拼音" v-model="formData.mingPinyin">
+          <input type="text" placeholder="名拼音" v-model="formData.mingPinyin" disabled style="background: #fff">
         </li>
         <li>
           <span>手机号</span>
@@ -83,6 +83,7 @@
 </template>
 
 <script>
+  import PINYIN from './pinyin'
   export default {
     name: 'ShopInfo',
     data() {
@@ -144,11 +145,16 @@
         productColor: this.$route.query.color,
         productMemory: this.$route.query.memory,
         packageName: this.$route.query.setMealName,
-        deposit: this.$route.query.deposit,
         number:this.$store.state.phone.phone
       }
     },
     methods: {
+      changePY(){
+        var pyList = this.CC2PY(this.formData.customerName)
+        this.formData.xingPinyin = pyList[0].substring(0,1).toUpperCase()+pyList[0].substring(1);
+        this.formData.mingPinyin = pyList.slice(1).join('').substring(0,1).toUpperCase()+pyList.slice(1).join('').substring(1);
+        console.log(this.formData.xingPinyin)
+      },
       submit() {
         let params = new FormData;
         let flag = true;
@@ -183,7 +189,74 @@
           this.promptMsg = '请补全信息'
         }
 
+      },
+      CC2PY(l1) {
+
+    var l2 = l1.length;
+
+    var I1 = [];
+
+    var reg = new RegExp('[a-zA-Z0-9\- ]');
+
+    for (var i = 0; i < l2; i++) {
+
+      var val = l1.substr(i, 1);
+
+      var name = this.arraySearch(val, PINYIN.pinyin);
+
+      if (reg.test(val)) {
+
+        I1 .push(val) ;
+
+      } else if (name !== false) {
+
+        I1.push(name);
+
       }
+
+    }
+
+    // I1 = I1.replace(/ /g, '-');
+    //
+    // while (I1.indexOf('--') > 0) {
+    //
+    //     I1 = I1.replace('--', '-');
+    //
+    // }
+
+    return I1;
+
+  },
+      arraySearch (l1, l2) {
+
+    for (var name in PINYIN.pinyin) {
+
+      if (PINYIN.pinyin[name].indexOf(l1) != -1) {
+
+        return this.ucfirst(name);
+
+        break;
+
+      }
+
+    }
+
+    return false;
+
+  },
+      ucfirst(l1) {
+
+    if (l1.length > 0) {
+
+      var first = l1.substr(0, 1);
+
+      var spare = l1.substr(1, l1.length);
+
+      return first + spare;
+
+    }
+
+  }
     }
 
   }

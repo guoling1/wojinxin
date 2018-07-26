@@ -89,7 +89,7 @@
       </x-dialog>
     </div>
     <!--登录框-->
-    <div  class="showBank showTips">
+    <!--<div  class="showBank showTips">
       <x-dialog v-model="showLogin" class="dialog-demo">
         <div class="top">
           <span>登录</span>
@@ -107,6 +107,31 @@
         </div>
         <router-link to="/regist" style="font-size: 14px;float: right;margin-right: 15px;color: #666;">注册</router-link>
           <div class="buy" @click="toBuy()">立即购买</div>
+      </x-dialog>
+    </div>-->
+    <!--注册框-->
+    <div  class="showBank  regist">
+      <x-dialog v-model="showLogin" class="dialog-demo">
+        <div class="top" >
+          <span>登录</span>
+          <span @click="showLogin=false" class="close"></span>
+        </div>
+        <div class="content" style="padding-top: 4px">
+          <ul>
+            <li>
+              <input v-model="formData.phone" type="number" placeholder="输入手机号">
+            </li>
+            <li>
+              <input v-model="formData.validataCode" type="text" placeholder="输入验证码">
+              <img :src="imgMsg.img" @click="imgClick()" alt="">
+            </li>
+            <li>
+              <input v-model="formData.messageCode" type="text" placeholder="输入短信验证码">
+              <span @click="getCode()">{{count}}</span>
+            </li>
+          </ul>
+        </div>
+        <div class="buy" @click="toBuy()">立即购买</div>
       </x-dialog>
     </div>
     <!--选择规格-->
@@ -151,9 +176,14 @@ export default {
   data () {
     return {
       hideBlur:false,
-      formData:{
+      /*formData:{
         phone:'',
         password:''
+      },*/
+      formData:{
+        phone:'',
+        validataCode:'',
+        messageCode:''
       },
       imgSrc:'http://wojinxin.hdjincheng.cn/wofinance/servlet/validateCodeServlet',
       id:this.$route.query.id,
@@ -183,6 +213,9 @@ export default {
       stock:"",
       selectPhone:'请选择',
       phoneReg:/^1[3|4|5|7|8][0-9]{9}$/,
+      imgMsg:{},
+      messCode:'',
+      isImgCode:false
     }
   },
   created(){
@@ -364,6 +397,7 @@ export default {
       }else {
         this.showTips = false;
         this.showLogin = true;
+        this.imgClick()
       }
     },
     confirmFormat(){
@@ -385,10 +419,14 @@ export default {
       if(!this.phoneReg.test(this.formData.phone)){
         this.showPrompt = true;
         this.promptMsg = '请输入正确的手机号'
+      }else if(this.formData.messageCode==''){
+        this.showPrompt = true;
+        this.promptMsg = '请输入验证码'
       }else {
         let params = {
           mobile:this.formData.phone,
-          password:this.formData.password
+          password:this.formData.password,
+          key: this.imgMsg.key
         }
         this.$axios.post("/open/oauth/login",params)
           .then(res=>{
@@ -424,6 +462,94 @@ export default {
             }
           })
       }
+    },
+    //获取验证码
+    getCode(){
+      this.$axios.post("/open/api/customer/smscode",{mobile:this.formData.phone})
+        .then(res=>{
+          if(res.retCode=='0000'){
+            this.messCode = res.data;
+            if (!this.timer) {
+              this.count = TIME_COUNT;
+              this.timer = setInterval(() => {
+                if (this.count > 0 && this.count <= TIME_COUNT) {
+                  this.count--;
+                } else {
+                  this.count = "获取验证码";
+                  clearInterval(this.timer);
+                  this.timer = null;
+                }
+              }, 1000)
+            }
+          }
+        })
+    },
+    login(){
+
+      if(!this.phoneReg.test(this.formData.phone)){
+        this.showPrompt = true;
+        this.promptMsg = '请输入正确的手机号'
+      }else if(this.formData.messageCode==''){
+        this.showPrompt = true;
+        this.promptMsg = '请输入验证码'
+      } else {
+        this.$axios.get("/open/validate/verify", {params: {code: this.formData.validataCode, key: this.imgMsg.key}})
+          .then(res => {
+            if (res.retCode != "0000") {
+              this.showPrompt = true;
+              this.promptMsg = res.retMsg;
+              this.isImgCode = false;
+            } else {
+              this.isImgCode = true;
+              if(!this.isImgCode){
+                this.showPrompt = true;
+                this.promptMsg = '图形验证码不正确'
+              }else {
+                let params = {
+                  mobile:this.formData.phone,
+                  code:this.formData.messageCode
+                }
+                this.$axios.post("/open/api/customer/save",params)
+                  .then(res=>{
+                    if(res.retCode=='0000'){
+                      // localStorage.setItem("token",res.data.token);
+                      // localStorage.setItem("phone",this.formData.phone);
+                      this.$router.go(-1)
+                    }else {
+                      this.showPrompt = true;
+                      this.promptMsg = res.retMsg
+                    }
+                  })
+                  .catch(err=>{
+                    this.showPrompt = true;
+                    this.promptMsg = '系统异常'
+                  })
+              }}
+          })
+      }
+
+    },
+    //点击图片重新获取验证码
+    imgClick(){
+      this.$axios.post("/open/validate/gcode")
+        .then(res=>{
+          if(res.retCode=="0000"){
+            this.imgMsg = res.data
+          }
+        })
+    },
+    //验证图形验证码
+    validateCode(){
+      this.$axios.get("/open/validate/verify",{params:{code:this.formData.validataCode,key:this.imgMsg.key}})
+        .then(res=>{
+          if(res.retCode!="0000"){
+            this.showPrompt = true;
+            this.promptMsg = res.retMsg;
+            this.isImgCode = false;
+          }else {
+            this.isImgCode = true;
+          }
+        })
     }
   },
   components:{
@@ -468,6 +594,63 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less" type="text/less">
+  .regist{
+    margin: 50px 0;
+    width: 100%;
+    padding-bottom: 50px;
+    .top{
+      background: #444c59;
+      color:#fff;
+      .close{
+        background-image: url("../assets/closeWrite.png") !important;
+      }
+    }
+    ul {
+      padding: 0 15px;
+      text-align: left;
+      li {
+        height: 55px;
+        border-bottom: 1px solid #e5e5e5;
+        font-size: 14px;
+        color: #666666;
+
+        input {
+          margin-top: 23px;
+          height: 30px;
+          width: 60%;
+        }
+        img{
+          float: right;
+          margin-top: 28px;
+          display: inline-block;
+          height: 20px;
+          width: 70px;
+          border-radius: 4px;
+        }
+        span {
+          float: right;
+          margin-top: 28px;
+          display: inline-block;
+          padding: 0 5px;
+          height: 20px;
+          line-height: 20px;
+          font-size: 12px;
+          color: #fff;
+          background: #4e4e4e;
+          border-radius: 4px;
+        }
+
+      }
+    }
+    .buy {
+      margin: 13px 15px;
+      height: 43px;
+      line-height: 43px;
+      background: #fe8d23;
+      border-radius: 5px;
+      color: #fff;
+    }
+  }
 .main{
   margin: 50px 0;
   width: 100%;
@@ -494,12 +677,12 @@ export default {
     }
   }
   .attr{
-    font-size: 12px;
+    font-size: 13px;
 
   }
   .val{
     float: right;
-    font-size: 12px;
+    font-size: 13px;
     color: #fe8d23;
   }
   .address{
