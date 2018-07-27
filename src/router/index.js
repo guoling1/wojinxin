@@ -14,6 +14,8 @@ import SelectPhone from '@/components/SelectPhone'
 import Login from '@/components/Login'
 import ChangePwd from '@/components/ChangePwd'
 import Regist from '@/components/Regist'
+import Commission from '@/components/Commission'
+import CommissionSub from '@/components/CommissionSub'
 
 Vue.use(Router)
 
@@ -91,8 +93,7 @@ export default new Router({
         title:"支付订单"
       },
       component: PayMethod
-    }
-    ,
+    },
     {
       path:'/orderSubmit',
       name:'orderSubmit',
@@ -109,27 +110,46 @@ export default new Router({
         keepAlive:false
       },
       component: SelectPhone
-    },{
+    },
+    {
       path:'/login',
       name:'login',
       meta:{
         title:"登录"
       },
       component: Login
-    },{
+    },
+    {
       path:'/changePwd',
       name:'changePwd',
       meta:{
         title:"修改密码"
       },
       component: ChangePwd
-    },{
+    },
+    {
       path:'/regist',
       name:'regist',
       meta:{
         title:"注册"
       },
       component: Regist
+    },
+    {
+      path:'/commission',
+      name:'commission',
+      meta:{
+        title:"我的佣金"
+      },
+      component: Commission
+    },
+    {
+      path:'/commissionSub',
+      name:'commissionSub',
+      meta:{
+        title:"提现"
+      },
+      component: CommissionSub
     }
   ]
 })

@@ -11,7 +11,8 @@
         <ul>
           <li v-for="(item,index) in list">
             <img src="../assets/phone.png" alt="">
-            <div class="subject">{{item.name}}</div>
+            <div class="">{{item.name}}</div>
+            <div class="subject">{{item.packageName}}</div>
             <div class="price">存款金额：<span>￥{{item.price}}</span></div>
             <div class="button" @click="toDetail(item.id)">立即办理</div>
           </li>

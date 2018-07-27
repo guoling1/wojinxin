@@ -25,9 +25,13 @@
         <span>库存：{{stock}}件</span>
       </div>
     </div>
-    <div class="format">
+    <div class="address" style="text-align: left">
+      <span class="attr">套餐</span>
+      <span style="font-size: 13px">{{productData.packageList[0].name}}</span>
+    </div>
+    <div class="address">
       <span class="attr">可选规格</span>
-      <span class="val" @click="openFormat()">{{color}}、{{memory}}、{{setMeal.name}}</span>
+      <span class="val" @click="openFormat()">{{color}}</span>
     </div>
     <div class="detail">
       <div class="subject">
@@ -136,27 +140,18 @@
     </div>
     <!--选择规格-->
     <div class="showFormat">
-      <popup :hide-on-blur="hideBlur" v-model="showFormat" style="height: 60%;overflow: auto">
+      <popup :hide-on-blur="hideBlur" v-model="showFormat" style="overflow: auto">
         <div class="top">
           <img src="../assets/phone.png" alt="" style="margin-top: 10px">
           <div class="right">
             <p class="price">￥{{productData.price}}</p>
             <p>库存：{{stock}}件</p>
           </div>
-
         </div>
         <ul>
           <li >
             <div class="subject">机身颜色</div>
-            <span :class="color==item?'active':''" v-for="item in colorList" @click="selectColor(item)">{{item}}</span>
-          </li>
-          <li>
-            <div class="subject">内存</div>
-            <span :class="memory==item?'active':''" v-for="item in memoryList" @click="selectMemory(item)">{{item}}</span>
-          </li>
-          <li class="taocan">
-            <div class="subject">合约套餐</div>
-            <span :class="setMeal==item?'active':''" v-for="item in setMealList" @click="selectSetMeal(item)">{{item.name}}</span>
+            <span :class="color==item.color?'active':''" v-for="item in productData.colorList" @click="selectColor(item)">{{item.color}}</span>
           </li>
         </ul>
         <div class="button" @click="confirmFormat()">确认</div>
@@ -185,9 +180,10 @@ export default {
         validataCode:'',
         messageCode:''
       },
-      imgSrc:'http://wojinxin.hdjincheng.cn/wofinance/servlet/validateCodeServlet',
       id:this.$route.query.id,
-      productData:{},
+      productData:{
+        packageList:[{name:''}]
+      },
       isMask:false,
       aspectRatio:0.9,
       swiperList:[],
@@ -199,11 +195,7 @@ export default {
       addressList:[],
       address:{name:'请选择'},
       colorList:["深空灰","金色","玫瑰金"],
-      color:'颜色',
-      memoryList:["16G","32G","64G","128G"],
-      memory:'内存',
-      setMealList:["3个月|59套餐","12个月|596套餐","36个月|596套餐"],
-      setMeal:'套餐',
+      color:'请选择',
       warnText:false,
       errMsg:'',
       showPrompt:false,
@@ -224,75 +216,21 @@ export default {
   methods:{
     init(){
       this.getData();
-      this.formatData();
-      this.getSwiper();
     },
     toSelectPhone(){
       this.$router.push('/selectPhone?id='+this.$route.query.id)
-    },
-    //处理规格
-    formatData(){
-      this.$axios.post("/open/api/productSpec/list",{prodectId:this.id})
-        .then(res=>{
-          let resData = res.data;
-          let colorList = [];
-          let memoryList = [];
-          for(let i=0;i<resData.length;i++){
-            colorList.push(resData[i].color);
-            memoryList.push(resData[i].memory);
-          }
-          for(let i=0;i<colorList.length;i++){
-            for (let j=i+1;j<colorList.length;j++ ){
-              if(colorList[i]==colorList[j]){
-                colorList.splice(j,1);
-                colorList.length--;
-                j--;
-              }
-            }
-          }
-          for(let i=0;i<memoryList.length;i++){
-            for (let j=i+1;j<memoryList.length;j++ ){
-              if(memoryList[i]==memoryList[j]){
-                memoryList.splice(j,1);
-                memoryList.length--;
-                j--;
-              }
-            }
-          }
-          this.colorList = colorList;
-          this.memoryList = memoryList;
-          this.productData.price = resData[0].price;
-          this.productData.sourcePrice = resData[0].sourcePrice;
-          this.deposit = resData[0].deposit;
-          this.setMeal  = this.setMealList[0];
-          this.stock = res.data[0].amount;
-            //  默认规格
-            this.color  = resData[0].color;
-            this.memory  = resData[0].memory;
-        })
-    },
-    //获取产品轮播图
-    getSwiper(){
-      this.$axios.post("/open/api/product/swiper/list",{id:this.id})
-        .then(res=>{
-          var arr=[]
-          for(let i=0;i<res.data.length;i++){
-            arr.push({img:res.data[i]})
-          }
-          this.swiperList = arr
-        })
-        .catch(err=>{
-          this.errMsg=err
-          this.warnText = true
-        })
     },
     //获取产品信息
     getData(){
       this.$axios.post("/open/api/product/get",{id:this.id})
         .then(res=>{
           this.productData = res.data;
-          this.setMealList = res.data.packageList;
-          this.setMeal  = this.setMealList[0];
+          //轮播图
+          var arr=[]
+          for(let i=0;i<res.data.swiperList.length;i++){
+            arr.push({img:res.data.swiperList[i].url})
+          }
+          this.swiperList = arr;
           this.stock = res.data.amount;
           document.getElementById("content").innerHTML = this.productData.content
           document.getElementById("content1").innerHTML = this.productData.configDetail
@@ -318,23 +256,14 @@ export default {
     //选择规格
     openFormat(){
       this.showFormat = true;
-      // this.$axios.post("/open/api/code/packages/list",{areaId:this.address.id})
-      //   .then(res=>{
-      //     this.setMealList = res.data.list;
-      //   })
     },
     selectAddress(address){
       this.address = address;
       this.showAddress = false;
     },
     selectColor(color){
-      this.color = color;
-    },
-    selectMemory(memory){
-      this.memory = memory
-    },
-    selectSetMeal(setMeal){
-      this.setMeal = setMeal
+      this.color = color.color;
+      this.stock = color.amount
     },
     selectBank(){
       //选择银行前先选择区域
@@ -359,16 +288,9 @@ export default {
         addressName:this.address.name,
         // addressId:this.address.id,
         addressId:2,
-        productName:this.productData.name,
-        setMealPrice:this.setMeal.price,
-        setMealName:this.setMeal.name,
-        price:this.productData.price,
-        busiType:this.productData.busiType,
         color:this.color,
-        memory:this.memory,
-        setMeal:this.setMeal
       }
-      if(!formData.addressId||this.$store.state.phone.phone=="请选择"){
+      if(!formData.addressId||this.$store.state.phone.phone=="请选择"||formData.color=='请选择'){
         this.showPrompt = true;
         this.promptMsg = "请补全信息"
       }else{
@@ -401,19 +323,12 @@ export default {
       }
     },
     confirmFormat(){
-      this.$axios.post('/open/api/productSpec/list',{prodectId:this.id,color:this.color,memory:this.memory})
-        .then(res=>{
-          if(res.data){
-            this.deposit = res.data[0].deposit;
-            this.productData.price = res.data[0].price;
-            this.productData.sourcePrice = res.data[0].sourcePrice;
-            this.showFormat = false;
-          }else {
-            this.showPrompt = true;
-            this.promptMsg = "暂无库存，请选择其他颜色或内存"
-          }
-        })
-
+      if(this.stock==0){
+        this.showPrompt = true;
+        this.promptMsg = "暂无库存，请选择其他颜色或内存"
+      }else {
+        this.showFormat = false;
+      }
     },
     toBuy(){
       if(!this.phoneReg.test(this.formData.phone)){
@@ -443,14 +358,14 @@ export default {
                     // addressId:this.address.id,
                     addressId:2,
                     productName:this.productData.name,
-                    setMealPrice:this.setMeal.price,
-                    setMealName:this.setMeal.name,
-                    circle:this.setMeal.circle,
+                    setMealPrice:this.productData.packageList[0].price,
+                    setMealName:this.productData.packageList[0].name,
+                    circle:this.productData.packageList[0].circle,
                     price:this.productData.price,
                     busiType:this.productData.busiType,
                     color:this.color,
-                    memory:this.memory,
-                    deposit:this.deposit,
+                    memory:this.productData.memory,
+                    deposit:this.productData.deposit,
                     phone:this.$store.state.phone.phone
                   }
                   this.showTips = false
@@ -557,34 +472,6 @@ export default {
     Popup
   },
   watch:{
-    color(cur,old){
-      this.$axios.post('/open/api/productSpec/list',{prodectId:this.id,color:this.color,memory:this.memory})
-        .then(res=>{
-          if(Array.isArray(res.data)){
-            this.deposit = res.data[0].deposit;
-            this.productData.price = res.data[0].price;
-            this.productData.sourcePrice = res.data[0].sourcePrice;
-            // this.showFormat = false;
-          }else {
-            this.showPrompt = true;
-            this.promptMsg = "暂无库存，请选择其他颜色或内存"
-          }
-        })
-    },
-    memory(cur,old){
-      this.$axios.post('/open/api/productSpec/list',{prodectId:this.id,color:this.color,memory:this.memory})
-        .then(res=>{
-          if(Array.isArray(res.data)){
-            this.deposit = res.data[0].deposit;
-            this.productData.price = res.data[0].price;
-            this.productData.sourcePrice = res.data[0].sourcePrice;
-            // this.showFormat = false;
-          }else {
-            this.showPrompt = true;
-            this.promptMsg = "暂无库存，请选择其他颜色或内存"
-          }
-        })
-    },
     '$route.query.reload':function (v) {
       if(v && !this._inactive) this.init()
     }

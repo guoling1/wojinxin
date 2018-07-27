@@ -12,7 +12,7 @@
         <img src="../assets/orderIcon.png" alt="">
         <span>我的订单</span>
       </li>
-      <li>
+      <li @click="toCommission()">
         <img src="../assets/bag.png" alt="" style="width: 20px;height: 19px">
         <span>我的佣金</span>
       </li>
@@ -71,13 +71,15 @@
         <span class="close" @click="showCode = false">
           <img src="../assets/closeWrite.png" alt="">
         </span>
-        <img src="../assets/qrcode.png" alt="" class="qrcode">
+        <!--<img src="../assets/qrcode.png" alt="" class="qrcode">-->
+        <div id="qrcode" class="qrcode"></div>
       </x-dialog>
     </div>
   </div>
 </template>
 
 <script>
+  import QRCode from 'qrcodejs2'
   const TIME_COUNT = 60;
   export default {
     name: 'My',
@@ -102,8 +104,23 @@
         this.phone = localStorage.getItem("phone")
         this.isLogin =true
       }
+
+    },
+    mounted(){
+      this.qrcode()
     },
     methods: {
+      qrcode () {
+        let qrcode = new QRCode('qrcode', {
+          width: 150,
+          height: 150, // 高度
+          text: '56663159' // 二维码内容
+          // render: 'canvas' // 设置渲染方式（有两种方式 table和canvas，默认是canvas）
+          // background: '#f0f'
+          // foreground: '#ff0'
+        })
+      }
+,
       isShowCode(){
         this.showCode = true
       },
@@ -118,6 +135,9 @@
       },
       toChangePwd(){
         this.$router.push("/changePwd")
+      },
+      toCommission(){
+        this.$router.push("/commission")
       },
       signOut(){
         this.phone = ""
