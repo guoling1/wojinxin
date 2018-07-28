@@ -28,37 +28,12 @@
       <p>您还未登录</p>
       <p>前往<router-link to="/my">个人中心</router-link>登录！</p>
     </div>
-    <!--登录框-->
-    <!--<div class="showLogin">
-      <x-dialog v-model="showLogin" class="dialog-demo">
-        <div class="top">
-          <span>手机验证登录</span>
-          <span @click="showLogin=false" class="close"></span>
-        </div>
-        <div class="content" style="padding-top: 4px">
-          <ul>
-            <li>
-              <input v-model="formData.phone" type="number" placeholder="输入手机号">
-            </li>
-            <li>
-              <input v-model="formData.validataCode" type="text" placeholder="输入验证码">
-              <img :src="imgSrc" @click="imgClick()" alt="">
-            </li>
-            <li>
-              <input v-model="formData.messageCode" type="text" placeholder="输入短信验证码">
-              <span @click="getCode()">{{count}}</span>
-            </li>
-          </ul>
-        </div>
-        <div class="buy" @click="login()">登录</div>
-        &lt;!&ndash;<p>若无账号则自动注册</p>&ndash;&gt;
-      </x-dialog>
-    </div>-->
+    <!--<login-mask v-if="isLogin" v-on:child-close="listenClose"></login-mask>-->
   </div>
 </template>
 
 <script>
-  const TIME_COUNT = 60;
+  import LoginMask from './loginMask'
 export default {
   name: 'Order',
   data () {

@@ -298,21 +298,22 @@ export default {
       }
     },
     confirmTips(){
-      if(localStorage.getItem("phone")){
+      if(localStorage.getItem("userMessage")){
         let formData = {
           addressName:"北京",
           // addressId:this.address.id,
           addressId:2,
           productName:this.productData.name,
-          setMealPrice:this.setMeal.price,
-          setMealName:this.setMeal.name,
-          circle:this.setMeal.circle,
+          setMealPrice:this.productData.packageList[0].price,
+          setMealName:this.productData.packageList[0].name,
+          circle:this.productData.packageList[0].circle,
           price:this.productData.price,
           busiType:this.productData.busiType,
           color:this.color,
-          memory:this.memory,
-          deposit:this.deposit,
-          phone:this.$store.state.phone.phone
+          memory:this.productData.memory,
+          deposit:this.productData.deposit,
+          phone:this.$store.state.phone.phone,
+          id:this.$route.query.id
         }
         this.showTips = false
         this.$router.push({path:"/shopInfor",query:formData})
@@ -338,49 +339,87 @@ export default {
         this.showPrompt = true;
         this.promptMsg = '请输入验证码'
       }else {
-        let params = {
-          mobile:this.formData.phone,
-          password:this.formData.password,
-          key: this.imgMsg.key
-        }
-        this.$axios.post("/open/oauth/login",params)
-          .then(res=>{
-            if(res.retCode=='0000'){
-              localStorage.setItem("token",res.data.token);
-              localStorage.setItem("phone",this.formData.phone);
-              this.$axios.post("/open/api/customer/save",{mobile:this.formData.phone})
-                .then(res=>{
-                  localStorage.setItem("phone",this.formData.phone)
-                  this.phone = this.formData.phone;
-                  this.showLogin = false;
-                  let formData = {
-                    addressName:"北京",
-                    // addressId:this.address.id,
-                    addressId:2,
-                    productName:this.productData.name,
-                    setMealPrice:this.productData.packageList[0].price,
-                    setMealName:this.productData.packageList[0].name,
-                    circle:this.productData.packageList[0].circle,
-                    price:this.productData.price,
-                    busiType:this.productData.busiType,
-                    color:this.color,
-                    memory:this.productData.memory,
-                    deposit:this.productData.deposit,
-                    phone:this.$store.state.phone.phone
-                  }
-                  this.showTips = false
-                  this.$router.push({path:"/shopInfor",query:formData})
-                })
-            }else {
+        this.$axios.get("/open/validate/verify", {params: {code: this.formData.validataCode, key: this.imgMsg.key}})
+          .then(res => {
+            if (res.retCode != "0000") {
               this.showPrompt = true;
-              this.promptMsg = res.retMsg
-            }
+              this.promptMsg = res.retMsg;
+              this.isImgCode = false;
+            } else {
+              this.isImgCode = true;
+              if(!this.isImgCode){
+                this.showPrompt = true;
+                this.promptMsg = '图形验证码不正确'
+              }else {
+                let params = {
+                  mobile:this.formData.phone,
+                  code:this.formData.messageCode
+                }
+                this.$axios.post("/open/oauth/smsLogin",params)
+                  .then(res=>{
+                    if(res.retCode=='0000'){
+                      localStorage.setItem('userMessage', JSON.stringify(res.data.customer));
+                      localStorage.setItem('token', JSON.stringify(res.data.token));
+                      localStorage.setItem('sessionid', JSON.stringify(res.data.sessionid));
+                      this.$store.commit('LOGIN', res.data.token);
+                      this.showLogin = false;
+                      let formData = {
+                        addressName:"北京",
+                        // addressId:this.address.id,
+                        addressId:2,
+                        productName:this.productData.name,
+                        setMealPrice:this.productData.packageList[0].price,
+                        setMealName:this.productData.packageList[0].name,
+                        circle:this.productData.packageList[0].circle,
+                        price:this.productData.price,
+                        busiType:this.productData.busiType,
+                        color:this.color,
+                        memory:this.productData.memory,
+                        deposit:this.productData.deposit,
+                        phone:this.$store.state.phone.phone,
+                        id:this.$route.query.id
+                      }
+                      this.showTips = false
+                      this.$router.push({path:"/shopInfor",query:formData})
+                      /*this.$axios.post("/open/api/customer/save",{mobile:this.formData.phone})
+                        .then(res=>{
+                          localStorage.setItem("phone",this.formData.phone)
+                          this.phone = this.formData.phone;
+                          this.showLogin = false;
+                          let formData = {
+                            addressName:"北京",
+                            // addressId:this.address.id,
+                            addressId:2,
+                            productName:this.productData.name,
+                            setMealPrice:this.productData.packageList[0].price,
+                            setMealName:this.productData.packageList[0].name,
+                            circle:this.productData.packageList[0].circle,
+                            price:this.productData.price,
+                            busiType:this.productData.busiType,
+                            color:this.color,
+                            memory:this.productData.memory,
+                            deposit:this.productData.deposit,
+                            phone:this.$store.state.phone.phone
+                          }
+                          this.showTips = false
+                          this.$router.push({path:"/shopInfor",query:formData})
+                        })*/
+                    }else {
+                      this.showPrompt = true;
+                      this.promptMsg = res.retMsg
+                    }
+                  })
+                  .catch(err=>{
+                    this.showPrompt = true;
+                    this.promptMsg = '系统异常'
+                  })
+              }}
           })
       }
     },
     //获取验证码
     getCode(){
-      this.$axios.post("/open/api/customer/smscode",{mobile:this.formData.phone})
+      this.$axios.post("/open/oauth/smscode",{mobile:this.formData.phone})
         .then(res=>{
           if(res.retCode=='0000'){
             this.messCode = res.data;

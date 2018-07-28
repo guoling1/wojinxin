@@ -28,11 +28,13 @@
         <!--<div class="button" @click="toDetail()">立即办理</div>-->
       <!--</li>-->
     <!--</ul>-->
+    <!--<login-mask v-if="isLogin" v-on:child-close="listenClose"></login-mask>-->
   </div>
 </template>
 
 <script>
   import {Swiper} from 'vux'
+  import LoginMask from './loginMask'
   export default {
     name: 'Home',
     data() {
@@ -44,13 +46,17 @@
         descMask: false,
         pageNo:1,
         pageSize:10,
-        more:true
+        more:true,
+        isLogin:false
       }
     },
     created() {
       this.getData()
     },
     methods: {
+      listenClose(val){
+        this.isLogin = val
+      },
       toDetail(id) {
         this.$store.commit("PHONE",'请选择')
         this.$router.push({path:"/homeDetail",query:{id:id,reload:new Date().getTime()}})
@@ -76,7 +82,8 @@
       }
     },
     components: {
-      Swiper
+      Swiper,
+      LoginMask
     }
   }
 </script>

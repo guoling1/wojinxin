@@ -37,7 +37,15 @@ router.beforeEach((to, from, next) => {
 // http request 拦截器
 axios.interceptors.request.use(
   config => {
+    console.log(localStorage.getItem('token'))
+    if (localStorage.getItem('token')) {  // 判断是否存在token，如果存在的话，则每个http header都加上token
+      // config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
+      // config.headers.token = localStorage.getItem('token');
+      // config.headers.tester = 1;
+      console.log(config.headers.Authorization)
+    }
     if((/\/open\/api\/order\/save/).test(config.url)){
+      // config.data=qs.stringify(config.data)
       return config;
     }else {
       config.data=qs.stringify(config.data)

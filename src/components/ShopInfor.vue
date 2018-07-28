@@ -21,7 +21,7 @@
         </li>
         <li>
           <span class="attr">所选号码：</span>
-          <span class="value">{{formData.number}}</span>
+          <span class="value">{{formData.productMobile}}</span>
         </li>
         <li>
           <span class="attr">冻结金额：</span>
@@ -124,7 +124,7 @@
       this.formData = {
         productName: this.$route.query.productName,//产品名称
         productPrice: this.$route.query.price,//产品价格
-        productMobile: this.$store.state.phone.phone,//产品手机号
+        productMobile: this.$route.query.phone,//产品手机号
         circle: this.$route.query.circle,//套餐周期
         deposit: this.$route.query.deposit,//托管金额
         areaId: this.$route.query.addressId,//区域id
@@ -136,7 +136,7 @@
         mingPinyin: '',//名拼音
         country: '中国',//国家
         agreetmentNo: '111111',//合同号
-        mobile: localStorage.getItem("phone"),//客户手机号
+        mobile: JSON.parse(localStorage.getItem("userMessage")).mobile,//客户手机号
         price: this.$route.query.setMealPrice,//价格
         busiType: this.$route.query.busiType,//业务类型
         idcardType: '身份证',//证件类型
@@ -145,7 +145,6 @@
         productColor: this.$route.query.color,
         productMemory: this.$route.query.memory,
         packageName: this.$route.query.setMealName,
-        number:this.$store.state.phone.phone
       }
     },
     methods: {
@@ -168,6 +167,9 @@
           }
         }
         params.append("remarks",this.remarks)
+        params.append("productId",this.$route.query.id)
+        this.formData.productId = this.$route.query.id;
+        this.formData.remarks = this.remarks;
         if(flag){
           this.$axios.post("/open/api/order/save", params)
             .then(res => {
