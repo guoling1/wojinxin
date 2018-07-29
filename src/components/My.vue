@@ -15,11 +15,11 @@
       <!--<li @click="toCommission()">
         <img src="../assets/bag.png" alt="" style="width: 20px;height: 19px">
         <span>我的佣金</span>
-      </li>
+      </li>-->
       <li @click="isShowCode()">
         <img src="../assets/code.png" alt="" style="width: 17.5px;height: 17.5px">
         <span>我的二维码</span>
-      </li>-->
+      </li>
       <!--<li @click="toChangePwd()" v-if="isLogin">
         &lt;!&ndash;<img src="../assets/orderIcon.png" alt="">&ndash;&gt;
         <span>修改密码</span>
@@ -39,31 +39,7 @@
     </ul>
 
     <!--登录框-->
-    <div class="showLogin">
-      <x-dialog v-model="showLogin" class="dialog-demo">
-        <div class="top">
-          <span>手机验证登录</span>
-          <span @click="showLogin=false" class="close"></span>
-        </div>
-        <div class="content" style="padding-top: 4px">
-          <ul>
-            <li>
-              <input v-model="formData.phone" type="number" placeholder="输入手机号">
-            </li>
-            <li>
-              <input v-model="formData.validataCode" @blur="validateCode()" type="text" placeholder="输入验证码">
-              <img :src="imgSrc" @click="imgClick()" alt="">
-            </li>
-            <li>
-              <input v-model="formData.messageCode" type="text" placeholder="输入短信验证码">
-              <span @click="getCode()">{{count}}</span>
-            </li>
-          </ul>
-        </div>
-        <div class="buy" @click="login()">登录</div>
-        <!--<p>若无账号则自动注册</p>-->
-      </x-dialog>
-    </div>
+    <login-mask v-if="showLogin" v-on:child-close="listenClose"></login-mask>
 
     <!--推广码-->
     <div class="showCode">
@@ -71,14 +47,17 @@
         <span class="close" @click="showCode = false">
           <img src="../assets/closeWrite.png" alt="">
         </span>
-        <!--<img src="../assets/qrcode.png" alt="" class="qrcode">-->
-        <div id="qrcode" class="qrcode"></div>
+        <img :src="codeUrl" alt="" class="qrcode">
+        <!--<div id="qrcode" class="qrcode"></div>-->
       </x-dialog>
     </div>
+
+    <toast v-model="showPrompt" position="middle" type="text" :text="promptMsg"></toast>
   </div>
 </template>
 
 <script>
+  import LoginMask from './loginMask'
   import QRCode from 'qrcodejs2'
   const TIME_COUNT = 60;
   export default {
@@ -96,11 +75,13 @@
         timer: null,
         imgSrc:'http://wojinxin.hdjincheng.cn/wofinance/servlet/validateCodeServlet',
         isLogin:false,
-        showCode:false
+        showCode:false,
+        showPrompt:false,
+        promptMsg:''
       }
     },
     created(){
-      if(localStorage.getItem("phone")){
+      if(localStorage.getItem("userMessage")){
         this.phone = JSON.parse(localStorage.getItem("userMessage")).mobile
         this.isLogin =true
       }
@@ -110,6 +91,9 @@
       this.qrcode()
     },
     methods: {
+      listenClose(val){
+        this.showLogin = val
+      },
       qrcode () {
         let qrcode = new QRCode('qrcode', {
           width: 150,
@@ -119,10 +103,25 @@
           // background: '#f0f'
           // foreground: '#ff0'
         })
-      }
-,
+      },
       isShowCode(){
-        this.showCode = true
+        if(this.isLogin){
+
+          this.$axios.post('/open/api/rcdRrcode/get',{rcdMobile:this.phone})
+            .then(res=>{
+              console.log(res)
+              if(res.retCode=='0000'){
+                this.showCode = true;
+                this.codeUrl = res.data;
+              }else {
+                this.showPrompt = true;
+                this.promptMsg = res.retMsg
+              }
+            })
+        }else {
+          this.showLogin = true
+        }
+
       },
       toLogin(){
         this.$router.push("/login")
@@ -181,6 +180,14 @@
           }, 1000)
         }
       }
+    },
+    components: {
+      LoginMask
+    },
+    watch:{
+      '$store.state.login.isLogin'(cur){
+        location.reload()
+      }
     }
   }
 </script>
@@ -205,8 +212,8 @@
       }
     }
     .qrcode{
-      margin: 71px;
-      width: 50%;
+      margin: 31px 0;
+      width: 80%;
     }
   }
   .main {

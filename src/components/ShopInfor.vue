@@ -168,12 +168,12 @@
         }
         params.append("remarks",this.remarks)
         params.append("productId",this.$route.query.id)
-        this.formData.productId = this.$route.query.id;
-        this.formData.remarks = this.remarks;
+        if(localStorage.getItem('key')){
+          params.append("qrcodeKey",localStorage.getItem('key'))
+        }
         if(flag){
           this.$axios.post("/open/api/order/save", params)
             .then(res => {
-              console.log(res)
               if(res.retCode=="0000"){
                 this.$router.push("/orderSubmit?id=" + res.data.id)
                 localStorage.setItem("productMessage",JSON.stringify(this.formData))

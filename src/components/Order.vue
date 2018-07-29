@@ -1,5 +1,6 @@
 <template>
   <div class="main">
+    <img src="../assets/empty.png" alt="" style="width: 35%;margin-top: 20%" v-if="orderList.length==0">
     <ul class="list">
       <li v-for="(item,index) in this.orderList">
         <div class="top">
@@ -24,11 +25,11 @@
         </div>
       </li>
     </ul>
-    <div v-if="showLogin" class="prompt">
+    <!--<div v-if="showLogin" class="prompt">
       <p>您还未登录</p>
       <p>前往<router-link to="/my">个人中心</router-link>登录！</p>
-    </div>
-    <!--<login-mask v-if="isLogin" v-on:child-close="listenClose"></login-mask>-->
+    </div>-->
+    <login-mask v-if="isLogin" v-on:child-close="listenClose"></login-mask>
   </div>
 </template>
 
@@ -47,18 +48,22 @@ export default {
       count: '获取验证码',
       timer: null,
       imgSrc:'http://wojinxin.hdjincheng.cn/wofinance/servlet/validateCodeServlet',
-      orderList:[]
+      orderList:[],
+      isLogin:false
     }
   },
   created(){
     //若未登陆弹出登陆框
-    if(localStorage.getItem("phone")){
+    if(localStorage.getItem("userMessage")){
       this.getData()
     }else {
-      this.showLogin = true
+      this.isLogin = true
     }
   },
   methods: {
+    listenClose(val){
+      this.isLogin = val
+    },
     login(){
       // this.validateCode()
       this.$axios.post("/open/api/customer/save",{mobile:this.formData.phone})
@@ -97,7 +102,7 @@ export default {
     },
     //获取订单列表
     getData(){
-      this.$axios.post("/open/api/order/list",{mobile:localStorage.getItem("phone")})
+      this.$axios.post("/open/api/order/list",{mobile:JSON.parse(localStorage.getItem("userMessage")).mobile})
         .then(res=>{
           this.orderList = res.data.list;
         })
@@ -108,7 +113,14 @@ export default {
     toDetail(id){
       this.$router.push({path:'/orderDetail',query:{id:id}})
     }
-
+  },
+  components: {
+    LoginMask
+  },
+  watch:{
+    '$store.state.login.isLogin'(cur){
+      this.getData()
+    }
   }
 }
 </script>

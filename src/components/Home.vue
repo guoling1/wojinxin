@@ -10,9 +10,9 @@
                 :show-desc-mask="descMask"></swiper>
         <ul>
           <li v-for="(item,index) in list">
-            <img src="../assets/phone.png" alt="">
+            <img :src="item.swiperList[0].url" alt="" style="width: 140px;height: 140px">
             <div class="">{{item.name}}</div>
-            <div class="subject">{{item.packageName}}</div>
+            <div class="subject" style="font-size: 14px;margin-top: 5px">{{item.packageName}}</div>
             <div class="price">存款金额：<span>￥{{item.price}}</span></div>
             <div class="button" @click="toDetail(item.id)">立即办理</div>
           </li>
@@ -52,6 +52,16 @@
     },
     created() {
       this.getData()
+      if(this.$route.query.key){
+        localStorage.setItem('key',this.$route.query.key)
+      }else{
+        localStorage.removeItem('key')
+      }
+      if(this.$route.query.bk==1){
+        localStorage.setItem('bk',1)
+      }else{
+        localStorage.removeItem('bk')
+      }
     },
     methods: {
       listenClose(val){

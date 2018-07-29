@@ -53,7 +53,8 @@ export default {
       phoneReg:/^1[3|4|5|7|8][0-9]{9}$/,
       imgMsg:{},
       messCode:'',
-      isImgCode:false
+      isImgCode:false,
+      url:''
     }
   },
   created(){
@@ -107,13 +108,19 @@ export default {
                   mobile:this.formData.phone,
                   code:this.formData.messageCode
                 }
-                this.$axios.post("/open/oauth/smsLogin",params)
+                if(localStorage.getItem('bk')==1){
+                  this.url = '/open/oauth/rcdLogin'
+                }else {
+                  this.url = '/open/oauth/smsLogin'
+                }
+                this.$axios.post(this.url,params)
                   .then(res=>{
                     if(res.retCode=='0000'){
                       localStorage.setItem('userMessage', JSON.stringify(res.data.customer));
                       localStorage.setItem('token', JSON.stringify(res.data.token));
                       localStorage.setItem('sessionid', JSON.stringify(res.data.sessionid));
                       this.$store.commit('LOGIN', res.data.token);
+                      this.showLogin = false;
                     }else {
                       this.showPrompt = true;
                       this.promptMsg = res.retMsg

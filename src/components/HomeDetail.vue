@@ -47,7 +47,7 @@
       </div>
     </div>
     <div class="end">
-      <input type="number" placeholder="推荐人手机号(选填)">
+      <input type="number" placeholder="推荐人手机号(选填)" v-model="rcdMobile">
       <div class="button" @click="confirm()">确认</div>
     </div>
 
@@ -207,7 +207,8 @@ export default {
       phoneReg:/^1[3|4|5|7|8][0-9]{9}$/,
       imgMsg:{},
       messCode:'',
-      isImgCode:false
+      isImgCode:false,
+      rcdMobile:''
     }
   },
   created(){
@@ -216,6 +217,12 @@ export default {
   methods:{
     init(){
       this.getData();
+      if(localStorage.getItem('key')){
+        this.$axios.post('/open/api/rcdUser/get',{qrcodeKey:localStorage.getItem('key')})
+          .then(res=>{
+            this.rcdMobile = res.data.rcdMobile;
+          })
+      }
     },
     toSelectPhone(){
       this.$router.push('/selectPhone?id='+this.$route.query.id)
@@ -354,6 +361,11 @@ export default {
                 let params = {
                   mobile:this.formData.phone,
                   code:this.formData.messageCode
+                }
+                if(localStorage.getItem('bk')==1){
+                  this.url = '/open/oauth/rcdLogin'
+                }else {
+                  this.url = '/open/oauth/smsLogin'
                 }
                 this.$axios.post("/open/oauth/smsLogin",params)
                   .then(res=>{
