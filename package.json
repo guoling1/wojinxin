@@ -16,7 +16,7 @@
     "axios": "^0.18.0",
     "less": "^3.0.4",
     "less-loader": "^4.1.0",
-    "qrcodejs2": "^0.0.2",
+    "qrcodejs2": "0.0.2",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",

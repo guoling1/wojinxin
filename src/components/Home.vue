@@ -12,22 +12,14 @@
           <li v-for="(item,index) in list">
             <img :src="item.swiperList[0].url" alt="" style="width: 140px;height: 140px">
             <div class="">{{item.name}}</div>
-            <div class="subject" style="font-size: 14px;margin-top: 5px">{{item.packageName}}</div>
+            <!--<div class="subject" style="font-size: 14px;margin-top: 5px">{{item.packageName}}</div>-->
+            <div class="subject">套餐：{{item.packageList[0].price}}<span>X{{item.packageList[0].circle}}期</span></div>
             <div class="price">存款金额：<span>￥{{item.price}}</span></div>
             <div class="button" @click="toDetail(item.id)">立即办理</div>
           </li>
         </ul>
         <div style="margin: 17px;" @click="loadMore()" v-if="more">点击加载更多</div>
       </div>
-
-    <!--<ul>-->
-      <!--<li v-for="index in 5">-->
-        <!--<img src="../assets/phone.png" alt="">-->
-        <!--<div class="subject">iphone X</div>-->
-        <!--<div class="price">存款金额：<span>￥6400</span></div>-->
-        <!--<div class="button" @click="toDetail()">立即办理</div>-->
-      <!--</li>-->
-    <!--</ul>-->
     <!--<login-mask v-if="isLogin" v-on:child-close="listenClose"></login-mask>-->
   </div>
 </template>
@@ -99,7 +91,7 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="less">
+<style scoped lang="less" type="text/less">
   .main {
     margin: 50px 0 0;
     padding-bottom: 50px;
@@ -120,6 +112,7 @@
 
   li {
     margin-top: 15px;
+    font-size: 14px;
     padding-bottom: 15px;
     width: 48.5%;
     /*height: 272px;*/
@@ -134,15 +127,26 @@
   }
 
   .subject {
-    height: 42px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    /*height: 42px;*/
     /*line-height: 42px;*/
+    span{
+      font-size: 12px;
+      padding: 0 5px;
+      background: #fe8d23;
+      border-radius: 12px;
+      color: #fff;
+      margin-left: 5px;
+    }
   }
 
   .price {
 
   span {
     font-weight: bold;
-    color: #cb5762;
+    /*color: #cb5762;*/
   }
 
   }

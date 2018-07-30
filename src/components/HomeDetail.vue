@@ -25,13 +25,17 @@
         <span>库存：{{stock}}件</span>
       </div>
     </div>
-    <div class="address" style="text-align: left">
-      <span class="attr">套餐</span>
-      <span style="font-size: 13px">{{productData.packageList[0].name}}</span>
-    </div>
-    <div class="address">
-      <span class="attr">可选规格</span>
-      <span class="val" @click="openFormat()">{{color}}</span>
+    <!--<div class="address" style="text-align: left">-->
+      <!--<span class="attr">套餐</span>-->
+      <!--<span style="font-size: 13px">{{productData.packageList[0].name}}</span>-->
+    <!--</div>-->
+    <div class="select">
+      <span class="attr">规格</span>
+      <div>
+        <span class="selectColor">{{productData.packageList[0].name}}fdgfgfgdfg</span>
+        <span class="color" @click="openFormat()">{{color}}</span>
+      </div>
+
     </div>
     <div class="detail">
       <div class="subject">
@@ -39,12 +43,8 @@
         <span>图文详情</span>
         <i></i>
       </div>
-      <div class="detail" id="content">
-        dddsv
-      </div>
-      <div class="detail" id="content1">
-        dddsv
-      </div>
+      <div class="detail" id="content"></div>
+      <div class="detail" id="content1"></div>
     </div>
     <div class="end">
       <input type="number" placeholder="推荐人手机号(选填)" v-model="rcdMobile">
@@ -142,7 +142,7 @@
     <div class="showFormat">
       <popup :hide-on-blur="hideBlur" v-model="showFormat" style="overflow: auto">
         <div class="top">
-          <img src="../assets/phone.png" alt="" style="margin-top: 10px">
+          <img :src="swiperList[0].img" alt="" style="margin-top: 10px">
           <div class="right">
             <p class="price">￥{{productData.price}}</p>
             <p>库存：{{stock}}件</p>
@@ -185,7 +185,7 @@ export default {
         packageList:[{name:''}]
       },
       isMask:false,
-      aspectRatio:0.9,
+      aspectRatio:1,
       swiperList:[],
       showAddress:false,
       showBank:false,
@@ -229,7 +229,8 @@ export default {
     },
     //获取产品信息
     getData(){
-      this.$axios.post("/open/api/product/get",{id:this.id})
+      console.log(this.$route.query.id)
+      this.$axios.post("/open/api/product/get",{id:this.$route.query.id})
         .then(res=>{
           this.productData = res.data;
           //轮播图
@@ -239,8 +240,12 @@ export default {
           }
           this.swiperList = arr;
           this.stock = res.data.amount;
-          document.getElementById("content").innerHTML = this.productData.content
-          document.getElementById("content1").innerHTML = this.productData.configDetail
+          if(this.productData.content){
+            document.getElementById("content").innerHTML = this.productData.content
+          }
+          if(this.productData.configDetail){
+            document.getElementById("content1").innerHTML = this.productData.configDetail
+          }
         })
         .catch(err=>{
           this.errMsg=err
@@ -629,6 +634,34 @@ export default {
     line-height: 40px;
     text-align: left;
     border-bottom: 1px dashed #d7d7d7;
+  }
+  .select{
+    margin: 5px 15px 0;
+    text-align: left;
+    div{
+      display: inline-block;
+      width: 85%;
+      vertical-align: top;
+    }
+    .selectColor,.color{
+      display: inline-block;
+      width: 100%;
+      background: #fe8d23;
+      border-radius: 3px;
+      padding: 0 8px;
+      color: #fff;
+      font-size: 14px;
+      overflow: hidden;white-space: nowrap;text-overflow: ellipsis;
+    }
+    .color{
+      /*margin-left: 30px;*/
+      /*background: #fe8d23;*/
+      /*border-radius: 3px;*/
+      /*padding: 0 8px;*/
+      /*color: #fff;*/
+      /*font-size: 14px;*/
+      width: auto;
+    }
   }
   .bank{
     margin: 0 15px;

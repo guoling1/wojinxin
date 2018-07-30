@@ -12,10 +12,10 @@
         <img src="../assets/orderIcon.png" alt="">
         <span>我的订单</span>
       </li>
-      <!--<li @click="toCommission()">
+      <li @click="toCommission()">
         <img src="../assets/bag.png" alt="" style="width: 20px;height: 19px">
         <span>我的佣金</span>
-      </li>-->
+      </li>
       <li @click="isShowCode()">
         <img src="../assets/code.png" alt="" style="width: 17.5px;height: 17.5px">
         <span>我的二维码</span>
