@@ -31,9 +31,10 @@
     <!--</div>-->
     <div class="select">
       <span class="attr">规格</span>
-      <div>
+      <div @click="openFormat()">
         <span class="selectColor">{{productData.packageList[0].name}}fdgfgfgdfg</span>
-        <span class="color" @click="openFormat()">{{color}}</span>
+        <span class="color" >{{color}}</span>
+        <img src="../assets/more.png" alt="">
       </div>
 
     </div>
@@ -639,9 +640,17 @@ export default {
     margin: 5px 15px 0;
     text-align: left;
     div{
+      position: relative;
       display: inline-block;
       width: 85%;
       vertical-align: top;
+      img{
+        position: absolute;
+        right: -13px;
+        top: 15px;
+        width: 4px;
+        height: 17px;
+      }
     }
     .selectColor,.color{
       display: inline-block;
