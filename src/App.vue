@@ -2,7 +2,7 @@
   <div id="app" class="flex-box-column flexBox">
     <div class="title">
       <div class="back" v-if="this.$route.name=='home'">
-        <!--<span>登录</span>-->
+        <span @click="isLogin =true" style="color: #fe8d23" v-if="isBank">登录</span>
       </div>
       <div class="back" @click="back()" v-if="this.$route.name!='home'">
         <img src="./assets/back.png" alt="">
@@ -13,20 +13,31 @@
     <keep-alive include="Home">
       <router-view />
     </keep-alive>
-
+    <login-mask v-if="isLogin" v-on:child-close="listenClose"></login-mask>
   </div>
 </template>
 
 <script>
+  import LoginMask from './components/loginMask'
 export default {
   name: 'App',
   data(){
     return {
       title:'沃金信',
-      keepAlive:''
+      keepAlive:'',
+      isLogin:false,
+      isBank:false
+    }
+  },
+  created(){
+    if(localStorage.getItem('bk')==1&&!localStorage.getItem('userMessage')){
+      this.isBank = true
     }
   },
   methods: {
+    listenClose(val){
+      this.isLogin = val
+    },
     back(){
       this.$router.go(-1)
     }
@@ -36,6 +47,9 @@ export default {
       this.title = cur.meta.title
       this.keepAlive = cur.meta.keepAlive
     },
+  },
+  components: {
+    LoginMask
   }
 }
 </script>

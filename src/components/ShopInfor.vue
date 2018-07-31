@@ -52,6 +52,11 @@
           <input type="text" placeholder="名拼音" v-model="formData.mingPinyin" disabled style="background: #fff">
         </li>
         <li>
+          <span>性别</span>
+          <input type="radio" value="男" name="sex" v-model="formData.sex">男
+          <input type="radio" value="女" name="sex" v-model="formData.sex" style="margin-left: 25px">女
+        </li>
+        <li>
           <span>手机号</span>
           <input type="text" placeholder="这里输入手机号" v-model="formData.mobile" style="background: #fff" disabled>
         </li>
@@ -84,6 +89,7 @@
 
 <script>
   import PINYIN from './pinyin'
+  import { PopupRadio } from 'vux'
   export default {
     name: 'ShopInfo',
     data() {
@@ -113,10 +119,12 @@
           productMemory: '',//内存
           productColor: '',//颜色
           setMeal: "",//所选号码
+          sex:'男'
         },
+        sex:'男',
         remarks: '',//备注
         showPrompt: false,
-        promptMsg: ''
+        promptMsg: '',
       }
     },
     created() {
@@ -145,6 +153,7 @@
         productColor: this.$route.query.color,
         productMemory: this.$route.query.memory,
         packageName: this.$route.query.setMealName,
+        sex:'男'
       }
     },
     methods: {
@@ -171,6 +180,13 @@
         if(localStorage.getItem('key')){
           params.append("qrcodeKey",localStorage.getItem('key'))
         }
+        /*if(localStorage.getItem('bankMsg')){
+          params.append('cid',JSON.parse(localStorage.getItem('bankMsg')).cid);
+          params.append('outerSource',JSON.parse(localStorage.getItem('bankMsg')).outerSource);
+          params.append('outerid',JSON.parse(localStorage.getItem('bankMsg')).outerid);
+          params.append('rec_no',JSON.parse(localStorage.getItem('bankMsg')).rec_no);
+          params.append('source',JSON.parse(localStorage.getItem('bankMsg')).source)
+        }*/
         if(flag){
           this.$axios.post("/open/api/order/save", params)
             .then(res => {
@@ -259,13 +275,24 @@
     }
 
   }
+    },
+    components: {
+      PopupRadio
     }
-
   }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less" type="text/less">
+  .weui-cell{
+    padding: 0;
+  }
+  .vux-cell-bd.vux-cell-primary,.vux-cell-bd.vux-cell-primary p{
+    display: contents !important;
+    background: red;
+    flex: none !important;
+    width: 53px;
+  }
   .main {
     margin: 50px 0 0;
     width: 100%;

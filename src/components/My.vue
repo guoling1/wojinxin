@@ -77,7 +77,8 @@
         isLogin:false,
         showCode:false,
         showPrompt:false,
-        promptMsg:''
+        promptMsg:'',
+        codeUrl:''
       }
     },
     created(){

@@ -3,8 +3,22 @@
     <swiper :list="swiperList" :aspect-ratio="aspectRatio" :auto="!isMask" :loop="!isMask" dots-position="center" :show-desc-mask="isMask"></swiper>
     <div class="productMessage">
       <p class="name">{{productData.name}}</p>
-      <p class="price">预存金额<span>￥{{productData.price}}</span></p>
+      <p class="price">现价<span>￥{{productData.price}}</span></p>
       <p class="oldPrice">市场价：￥{{productData.sourcePrice}}</p>
+    </div>
+    <div class="priceList">
+      <div>
+        <p>存款金额</p>
+        <p class="num">￥{{productData.deposit}}</p>
+      </div>
+      <div>
+        <p>月消费金额</p>
+        <p class="num">￥{{productData.consumePrice}}</p>
+      </div>
+      <div>
+        <p>合约期</p>
+        <p class="num">{{productData.packageList[0].circle}}月</p>
+      </div>
     </div>
     <div class="address">
       <span class="attr">归属地区</span>
@@ -25,14 +39,10 @@
         <span>库存：{{stock}}件</span>
       </div>
     </div>
-    <!--<div class="address" style="text-align: left">-->
-      <!--<span class="attr">套餐</span>-->
-      <!--<span style="font-size: 13px">{{productData.packageList[0].name}}</span>-->
-    <!--</div>-->
     <div class="select">
       <span class="attr">规格</span>
       <div @click="openFormat()">
-        <span class="selectColor">{{productData.packageList[0].name}}fdgfgfgdfg</span>
+        <!--<span class="selectColor">{{productData.packageList[0].name}}</span>-->
         <span class="color" >{{color}}</span>
         <img src="../assets/more.png" alt="">
       </div>
@@ -44,8 +54,8 @@
         <span>图文详情</span>
         <i></i>
       </div>
-      <div class="detail" id="content"></div>
-      <div class="detail" id="content1"></div>
+      <div class="detail" id="content" v-html="productData.content"></div>
+      <div class="detail" id="content1" v-html="productData.configDetail"></div>
     </div>
     <div class="end">
       <input type="number" placeholder="推荐人手机号(选填)" v-model="rcdMobile">
@@ -187,7 +197,7 @@ export default {
       },
       isMask:false,
       aspectRatio:1,
-      swiperList:[],
+      swiperList:[{img:''}],
       showAddress:false,
       showBank:false,
       showTips:false,
@@ -206,7 +216,9 @@ export default {
       stock:"",
       selectPhone:'请选择',
       phoneReg:/^1[3|4|5|7|8][0-9]{9}$/,
-      imgMsg:{},
+      imgMsg:{
+        img:''
+      },
       messCode:'',
       isImgCode:false,
       rcdMobile:''
@@ -230,7 +242,6 @@ export default {
     },
     //获取产品信息
     getData(){
-      console.log(this.$route.query.id)
       this.$axios.post("/open/api/product/get",{id:this.$route.query.id})
         .then(res=>{
           this.productData = res.data;
@@ -241,12 +252,12 @@ export default {
           }
           this.swiperList = arr;
           this.stock = res.data.amount;
-          if(this.productData.content){
+          /*if(this.productData.content){
             document.getElementById("content").innerHTML = this.productData.content
           }
           if(this.productData.configDetail){
             document.getElementById("content1").innerHTML = this.productData.configDetail
-          }
+          }*/
         })
         .catch(err=>{
           this.errMsg=err
@@ -538,6 +549,26 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less" type="text/less">
+  .priceList{
+    margin-bottom: 5px;
+    div{
+      display: inline-block;
+      width: 30%;
+      border-right: 1px solid #fe8d23;
+      font-size: 12px;
+      color: #666;
+      .num{
+        margin-top: 9px;
+        font-size: 13px;
+        color: #333;
+        font-weight: bold;
+      }
+    }
+    div:nth-child(3){
+      border-right: none;
+    }
+
+  }
   .regist{
     margin: 50px 0;
     width: 100%;
@@ -627,6 +658,7 @@ export default {
   .val{
     float: right;
     font-size: 13px;
+    font-weight: bold;
     color: #fe8d23;
   }
   .address{
@@ -647,7 +679,7 @@ export default {
       img{
         position: absolute;
         right: -13px;
-        top: 15px;
+        /*top: 15px;*/
         width: 4px;
         height: 17px;
       }

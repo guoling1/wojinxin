@@ -41,7 +41,6 @@ axios.interceptors.request.use(
       config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
       config.headers.token = localStorage.getItem('token');
       config.headers.tester = 1;
-      console.log(config.headers.Authorization)
     }
     if((/\/open\/api\/order\/save/).test(config.url)){
       // config.data=qs.stringify(config.data)

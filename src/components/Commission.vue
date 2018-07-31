@@ -61,20 +61,6 @@
         <td>1%</td>
         <td>80</td>
       </tr>
-      <tr>
-        <td>2018-5-5</td>
-        <td>802828</td>
-        <td>8000</td>
-        <td>1%</td>
-        <td>80</td>
-      </tr>
-      <tr>
-        <td>2018-5-5</td>
-        <td>802828</td>
-        <td>8000</td>
-        <td>1%</td>
-        <td>80</td>
-      </tr>
     </table>
 
     <!--<toast v-model="warnText" type="warn" :text=errMsg></toast>
@@ -92,10 +78,17 @@ export default {
     }
   },
   created(){
+    this.getIncome()
   },
   methods:{
     onItemClick(index){
       this.tab = index
+    },
+    getIncome(){
+      this.$axios.post('/open/api/rcdcash/list',{mobile:JSON.parse(localStorage.getItem('userMessage')).mobile})
+        .then(res=>{
+
+        })
     }
   },
   components: {

@@ -54,6 +54,11 @@
       }else{
         localStorage.removeItem('bk')
       }
+      if(this.$route.query.cid){
+        localStorage.setItem('bankMsg',JSON.stringify(this.$route.query))
+      }else {
+        localStorage.removeItem('bankMsg')
+      }
     },
     methods: {
       listenClose(val){
@@ -66,13 +71,25 @@
       getData(){
         this.$axios.post("/open/api/product/list",{sellFlag:1,areaId: 2,pageNo:this.pageNo,pageSize:this.pageSize})
           .then(res=>{
+            for(let i=0;i<res.data.list.length;i++){
+
+              if(!res.data.list[i].swiperList){
+                console.log(i)
+                res.data.list[i].swiperList=[{url:''}]
+              }
+              if(!res.data.list[i].packageList){
+                console.log(i)
+                res.data.list[i].packageList=[{price:'',circle:''}]
+              }
+              console.log(res.data.list[i].swiperList)
+
+            }
             this.list = res.data.list;
             if(res.data.list.length<this.pageSize){
               this.more = false
             }else {
               this.pageNo+=1;
             }
-
           })
       },
       loadMore(){
