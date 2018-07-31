@@ -16,6 +16,7 @@ import ChangePwd from '@/components/ChangePwd'
 import Regist from '@/components/Regist'
 import Commission from '@/components/Commission'
 import CommissionSub from '@/components/CommissionSub'
+import CustomOrder from '@/components/CustomOrder'
 
 Vue.use(Router)
 
@@ -85,6 +86,14 @@ export default new Router({
         title:"支付订单"
       },
       component: WritePhone
+    },
+    {
+      path:'/customOrder',
+      name:'customOrder',
+      meta:{
+        title:"支付订单"
+      },
+      component: CustomOrder
     },
     {
       path:'/payMethod',

@@ -54,7 +54,7 @@
         <th>比例</th>
         <th>金额</th>
       </tr>
-      <tr>
+      <tr v-for="item in incomeData">
         <td>2018-5-5</td>
         <td>802828</td>
         <td>8000</td>
@@ -87,7 +87,7 @@ export default {
     getIncome(){
       this.$axios.post('/open/api/rcdcash/list',{mobile:JSON.parse(localStorage.getItem('userMessage')).mobile})
         .then(res=>{
-
+          this.incomeData = res.data.list
         })
     }
   },

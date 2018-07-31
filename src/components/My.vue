@@ -12,6 +12,10 @@
         <img src="../assets/orderIcon.png" alt="">
         <span>我的订单</span>
       </li>
+      <li @click="toCustomOrder()">
+        <img src="../assets/orderIcon.png" alt="">
+        <span>客户订单</span>
+      </li>
       <li @click="toCommission()">
         <img src="../assets/bag.png" alt="" style="width: 20px;height: 19px">
         <span>我的佣金</span>
@@ -132,6 +136,9 @@
       },
       toOrder() {
         this.$router.push("/order")
+      },
+      toCustomOrder() {
+        this.$router.push("/customOrder")
       },
       toChangePwd(){
         this.$router.push("/changePwd")
