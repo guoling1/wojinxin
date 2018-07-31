@@ -50,9 +50,7 @@
         localStorage.removeItem('key')
       }
       if(this.$route.query.bk==1){
-        localStorage.setItem('bk',1)
-      }else{
-        localStorage.removeItem('bk')
+        sessionStorage.setItem('bk',1)
       }
       if(this.$route.query.cid){
         localStorage.setItem('bankMsg',JSON.stringify(this.$route.query))

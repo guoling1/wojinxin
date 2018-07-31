@@ -12,11 +12,11 @@
         <img src="../assets/orderIcon.png" alt="">
         <span>我的订单</span>
       </li>
-      <li @click="toCustomOrder()">
+      <li @click="toCustomOrder()" v-if="isHide">
         <img src="../assets/orderIcon.png" alt="">
         <span>客户订单</span>
       </li>
-      <li @click="toCommission()">
+      <li @click="toCommission()" v-if="isHide">
         <img src="../assets/bag.png" alt="" style="width: 20px;height: 19px">
         <span>我的佣金</span>
       </li>
@@ -24,13 +24,13 @@
         <img src="../assets/code.png" alt="" style="width: 17.5px;height: 17.5px">
         <span>我的二维码</span>
       </li>
+      <li @click="signOut()" v-if="isLogin">
+        <!--<img src="../assets/orderIcon.png" alt="">-->
+        <span>退出登录</span>
+      </li>
       <!--<li @click="toChangePwd()" v-if="isLogin">
         &lt;!&ndash;<img src="../assets/orderIcon.png" alt="">&ndash;&gt;
         <span>修改密码</span>
-      </li>
-      <li @click="signOut()" v-if="isLogin">
-        &lt;!&ndash;<img src="../assets/orderIcon.png" alt="">&ndash;&gt;
-        <span>退出登录</span>
       </li>
       <li v-if="!isLogin" @click="toLogin()">
         &lt;!&ndash;<img src="../assets/orderIcon.png" alt="">&ndash;&gt;
@@ -82,7 +82,8 @@
         showCode:false,
         showPrompt:false,
         promptMsg:'',
-        codeUrl:''
+        codeUrl:'',
+        isHide:false
       }
     },
     created(){
@@ -90,7 +91,9 @@
         this.phone = JSON.parse(localStorage.getItem("userMessage")).mobile
         this.isLogin =true
       }
-
+      if(sessionStorage.getItem('bk')==1){
+        this.isHide = true
+      }
     },
     mounted(){
       this.qrcode()

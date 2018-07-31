@@ -108,7 +108,7 @@ export default {
                   mobile:this.formData.phone,
                   code:this.formData.messageCode
                 }
-                if(localStorage.getItem('bk')==1){
+                if(sessionStorage.getItem('bk')==1){
                   this.url = '/open/oauth/rcdLogin'
                 }else {
                   this.url = '/open/oauth/smsLogin'

@@ -180,13 +180,13 @@
         if(localStorage.getItem('key')){
           params.append("qrcodeKey",localStorage.getItem('key'))
         }
-        /*if(localStorage.getItem('bankMsg')){
+        if(localStorage.getItem('bankMsg')){
           params.append('cid',JSON.parse(localStorage.getItem('bankMsg')).cid);
           params.append('outerSource',JSON.parse(localStorage.getItem('bankMsg')).outerSource);
           params.append('outerid',JSON.parse(localStorage.getItem('bankMsg')).outerid);
           params.append('rec_no',JSON.parse(localStorage.getItem('bankMsg')).rec_no);
           params.append('source',JSON.parse(localStorage.getItem('bankMsg')).source)
-        }*/
+        }
         if(flag){
           this.$axios.post("/open/api/order/save", params)
             .then(res => {
