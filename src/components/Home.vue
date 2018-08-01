@@ -13,8 +13,8 @@
             <img :src="item.swiperList[0].url" alt="" style="width: 140px;height: 140px">
             <div class="">{{item.name}}</div>
             <!--<div class="subject" style="font-size: 14px;margin-top: 5px">{{item.packageName}}</div>-->
-            <div class="subject">套餐：{{item.packageList[0].price}}<span>X{{item.packageList[0].circle}}期</span></div>
-            <div class="price">存款金额：<span>￥{{item.price}}</span></div>
+            <div class="subject">套餐：{{item.consumePrice}}<span>X{{item.circle}}期</span></div>
+            <div class="price">存款金额：<span>￥{{item.deposit}}</span></div>
             <div class="button" @click="toDetail(item.id)">立即办理</div>
           </li>
         </ul>
@@ -33,7 +33,8 @@
       return {
         aspectRatio:1.146,
         list: [],
-        swiperList: [{img: require('../assets/banner.png')}],
+        // swiperList: [{img: require('../assets/banner.png')}],
+        swiperList: [{img: 'http://wojinxin.hdjincheng.cn/res/images/prod/8e12dd25b11543a18fec7bc5930f6d6b.png'}],
         showDots: false,
         descMask: false,
         pageNo:1,
@@ -43,22 +44,44 @@
       }
     },
     created() {
+      var url = location.href
+      function formatUrl(url){
+        var reg=/(?:[?&]+)([^&]+)=([^&#]+)/g; //三个分组，并且不匹配第一个分组
+        var data={};
+        function fn(str,pro,value){
+          data[decodeURIComponent(pro)]=decodeURIComponent(value);
+        }
+        url.replace(reg,fn);
+        return data;
+      }
+      var data=formatUrl(url);
       this.getData()
-      if(this.$route.query.key){
-        localStorage.setItem('key',this.$route.query.key)
+      if(data.key){
+        localStorage.setItem('key',data.key)
       }else{
         localStorage.removeItem('key')
       }
-      if(this.$route.query.bk==1){
+      if(data.bk==1){
         sessionStorage.setItem('bk',1)
+        this.$store.commit('BK')
       }
-      if(this.$route.query.cid){
-        localStorage.setItem('bankMsg',JSON.stringify(this.$route.query))
+      if(data.cid){
+        localStorage.setItem('bankMsg',JSON.stringify(data))
       }else {
         localStorage.removeItem('bankMsg')
       }
+      this.getSwiper()
     },
     methods: {
+      getSwiper(){
+        this.$axios.post("/open/api/index/swiper/list")
+          .then(res=>{
+            for(let i=0;i<res.data.length;i++){
+              res.data[i].img = res.data[i].url
+            }
+            this.swiperList = res.data
+          })
+      },
       listenClose(val){
         this.isLogin = val
       },

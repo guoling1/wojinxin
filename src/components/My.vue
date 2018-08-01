@@ -25,7 +25,7 @@
         <span>我的二维码</span>
       </li>
       <li @click="signOut()" v-if="isLogin">
-        <!--<img src="../assets/orderIcon.png" alt="">-->
+        <img src="../assets/退出登录.png" alt="" style="width: 20px">
         <span>退出登录</span>
       </li>
       <!--<li @click="toChangePwd()" v-if="isLogin">
@@ -153,6 +153,7 @@
         this.phone = ""
         localStorage.clear();
         this.isLogin = false
+        this.$store.commit('LOGOUT')
 
       },
       login(){

@@ -2,7 +2,7 @@
   <div id="app" class="flex-box-column flexBox">
     <div class="title">
       <div class="back" v-if="this.$route.name=='home'">
-        <span @click="isLogin =true" style="color: #fe8d23" v-if="isBank">登录</span>
+        <span @click="isLogin =true" style="color: #fe8d23" v-if="!$store.state.login.isLogin&&$store.state.login.bk==1">登录</span>
       </div>
       <div class="back" @click="back()" v-if="this.$route.name!='home'">
         <img src="./assets/back.png" alt="">
@@ -10,9 +10,9 @@
       </div>
       <h1>{{title}}</h1>
     </div>
-    <keep-alive include="Home">
+    <!--<keep-alive include="HomeDetail">-->
       <router-view />
-    </keep-alive>
+    <!--</keep-alive>-->
     <login-mask v-if="isLogin" v-on:child-close="listenClose"></login-mask>
   </div>
 </template>
@@ -30,7 +30,7 @@ export default {
     }
   },
   created(){
-    if(localStorage.getItem('bk')==1&&!localStorage.getItem('userMessage')){
+    if(sessionStorage.getItem('bk')==1&&!localStorage.getItem('userMessage')){
       this.isBank = true
     }
   },
@@ -46,7 +46,7 @@ export default {
     $route:function (cur) {
       this.title = cur.meta.title
       this.keepAlive = cur.meta.keepAlive
-    },
+    }
   },
   components: {
     LoginMask

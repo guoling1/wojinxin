@@ -9,7 +9,7 @@
         </div>
         <div class="content">
           <div class="left">
-            <img src="../assets/phone.png" alt="">
+            <img :src="item.swiperList[0].url" alt="">
           </div>
           <div class="right">
             <p class="color">机身颜色：{{item.productColor}}</p>
@@ -104,6 +104,11 @@ export default {
     getData(){
       this.$axios.post("/open/api/order/list",{mobile:JSON.parse(localStorage.getItem("userMessage")).mobile})
         .then(res=>{
+          for(let i=0;i<res.data.list.length;i++){
+            if(!res.data.list[i].swiperList){
+              res.data.list[i].swiperList=[{url:''}]
+            }
+          }
           this.orderList = res.data.list;
         })
         .catch(error => {

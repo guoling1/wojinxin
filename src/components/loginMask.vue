@@ -127,6 +127,7 @@ export default {
                     }
                   })
                   .catch(err=>{
+                    console.log(err)
                     this.showPrompt = true;
                     this.promptMsg = '系统异常'
                   })

@@ -6,9 +6,13 @@ export default {
     user:JSON.parse(localStorage.getItem("userMessage")),
     token: null,
     title:'',
-    messageNum:0
+    messageNum:0,
+    bk:0
   },
   mutations:{
+    BK:(state,data)=>{
+      state.bk = 1
+    },
     USER:(state,data)=>{
       state.user = data;
     },

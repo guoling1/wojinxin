@@ -17,7 +17,7 @@
       </div>
       <div>
         <p>合约期</p>
-        <p class="num">{{productData.packageList[0].circle}}月</p>
+        <p class="num">{{productData.circle}}月</p>
       </div>
     </div>
     <div class="address">
@@ -178,7 +178,7 @@
   import {Swiper,Popup,TransferDom} from 'vux'
   const TIME_COUNT = 60;
 export default {
-  name: 'Home',
+  name: 'HomeDetail',
   data () {
     return {
       hideBlur:false,
@@ -225,10 +225,16 @@ export default {
     }
   },
   created(){
+    window.scrollTo(0,0)
     this.init();
   },
   methods:{
     init(){
+      window.scrollTo(0,0)
+      if(localStorage.getItem('color')){
+        this.color = localStorage.getItem('color')
+        localStorage.removeItem('color')
+      }
       this.getData();
       if(localStorage.getItem('key')){
         this.$axios.post('/open/api/rcdUser/get',{qrcodeKey:localStorage.getItem('key')})
@@ -238,6 +244,7 @@ export default {
       }
     },
     toSelectPhone(){
+      localStorage.setItem('color',this.color)
       this.$router.push('/selectPhone?id='+this.$route.query.id)
     },
     //获取产品信息
@@ -468,7 +475,6 @@ export default {
         })
     },
     login(){
-
       if(!this.phoneReg.test(this.formData.phone)){
         this.showPrompt = true;
         this.promptMsg = '请输入正确的手机号'
@@ -541,6 +547,7 @@ export default {
   },
   watch:{
     '$route.query.reload':function (v) {
+      console.log(v)
       if(v && !this._inactive) this.init()
     }
   }

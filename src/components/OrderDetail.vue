@@ -26,7 +26,7 @@
       </div>
       <div class="content">
         <div class="left">
-          <img src="../assets/phone.png" alt="">
+          <img :src="orderMsg.swiperList[0].url" alt="">
         </div>
         <div class="right">
           <p class="color">机身颜色：{{orderMsg.productColor}}</p>
@@ -52,6 +52,9 @@
     created() {
       this.$axios.post("/open/api/order/get", {id: this.$route.query.id})
         .then(res => {
+            if(!res.data.swiperList){
+              res.data.swiperList=[{url:''}]
+            }
           this.orderMsg = res.data;
         })
     },
