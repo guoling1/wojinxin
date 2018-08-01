@@ -5,17 +5,18 @@
       <div class="card">
         <p>账户余额（元）</p>
         <p class="price">1600</p>
-        <router-link to="/commissionSub"><div>提现</div></router-link>
+        <div @click="tixian()">提现</div>
+        <!--<router-link to="/commissionSub"><div>提现</div></router-link>-->
       </div>
     </div>
     <div>
       <tab :line-width="1" custom-bar-width="60px" bar-active-color="#fe8d23">
-        <tab-item selected @on-item-click="onItemClick">提现明细</tab-item>
-        <tab-item @on-item-click="onItemClick">收入明细</tab-item>
+        <tab-item  @on-item-click="onItemClick">提现明细</tab-item>
+        <tab-item selected @on-item-click="onItemClick">收入明细</tab-item>
       </tab>
     </div>
     <ul v-if="tab==0" class="withdraw">
-      <li>
+      <!--<li>
         <div class="top">
           <span class="left">提现</span>
           <span class="right">-150</span>
@@ -44,37 +45,40 @@
           <span class="left">2018-06-21</span>
           <span class="right">待审核</span>
         </div>
-      </li>
+      </li>-->
     </ul>
     <table v-if="tab==1" class="income">
       <tr>
-        <th>时间</th>
-        <th>订单尾号</th>
-        <th>止付金额</th>
-        <th>比例</th>
-        <th>金额</th>
+        <th>名称</th>
+        <th>订单号</th>
+        <th>银行订单号</th>
+        <th>冻结金额</th>
+        <th>推荐金</th>
       </tr>
       <tr v-for="item in incomeData">
-        <td>2018-5-5</td>
-        <td>802828</td>
-        <td>8000</td>
-        <td>1%</td>
-        <td>80</td>
+        <td>{{item.name}}</td>
+        <td>{{item.orderNo}}</td>
+        <td>{{item.bankOrderNo}}</td>
+        <td>{{item.deposit}}</td>
+        <td>{{item.money}}</td>
       </tr>
     </table>
 
     <!--<toast v-model="warnText" type="warn" :text=errMsg></toast>
     <toast v-model="showPrompt" position="middle" type="text" :text="promptMsg"></toast>-->
+    <toast v-model="showPrompt" position="middle" type="text" :text="promptMsg"></toast>
   </div>
 </template>
 
 <script>
-  import { Tab, TabItem } from 'vux'
+  import { Tab, TabItem,Popup } from 'vux'
 export default {
   name: 'commisson',
   data () {
     return {
-      tab:0
+      tab:1,
+      showPrompt:false,
+      promptMsg:'',
     }
   },
   created(){
@@ -89,6 +93,10 @@ export default {
         .then(res=>{
           this.incomeData = res.data.list
         })
+    },
+    tixian(){
+      this.showPrompt = true;
+      this.promptMsg = '暂未开放'
     }
   },
   components: {
