@@ -1,20 +1,20 @@
 <template>
   <div class="main">
-    <!--<div class="top">
+    <div class="top">
       <img src="../assets/bg.png" alt="">
       <div class="card">
         <p>账户余额（元）</p>
-        <p class="price">1600</p>
+        <p class="price">{{totalPrice}}</p>
         <div @click="tixian()">提现</div>
-        &lt;!&ndash;<router-link to="/commissionSub"><div>提现</div></router-link>&ndash;&gt;
+        <!--<router-link to="/commissionSub"><div>提现</div></router-link>-->
       </div>
-    </div>-->
-    <!--<div>
+    </div>
+    <div>
       <tab :line-width="1" custom-bar-width="60px" bar-active-color="#fe8d23">
         <tab-item  @on-item-click="onItemClick">提现明细</tab-item>
         <tab-item selected @on-item-click="onItemClick">收入明细</tab-item>
       </tab>
-    </div>-->
+    </div>
     <ul v-if="tab==0" class="withdraw">
       <!--<li>
         <div class="top">
@@ -79,14 +79,22 @@ export default {
       tab:1,
       showPrompt:false,
       promptMsg:'',
+      totalPrice:0
     }
   },
   created(){
     this.getIncome()
+    this.getPrice()
   },
   methods:{
     onItemClick(index){
       this.tab = index
+    },
+    getPrice(){
+      this.$axios.post('/open/api/rcdcash/balance',{mobile:JSON.parse(localStorage.getItem('userMessage')).mobile})
+        .then(res=>{
+          this.totalPrice = res.data.retObject
+        })
     },
     getIncome(){
       this.$axios.post('/open/api/rcdcash/list',{mobile:JSON.parse(localStorage.getItem('userMessage')).mobile})

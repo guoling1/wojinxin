@@ -69,6 +69,10 @@
           <span class="attr">手机号码：</span>
           <span class="value">{{orderMsg.mobile}}</span>
         </li>
+        <li>
+          <span class="attr">邮箱：</span>
+          <span class="value">{{orderMsg.email}}</span>
+        </li>
       </ul>
     </div>
     <div class="button" @click="submit()">订单支付</div>

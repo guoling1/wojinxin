@@ -29,6 +29,15 @@
       <span class="attr">手机号</span>
       <span class="val" @click="toSelectPhone()">{{$store.state.phone.phone}}</span>
     </div>
+    <div class="select">
+      <span class="attr">颜色</span>
+      <span class="val" @click="openFormat()">{{color}}</span>
+      <!--<div @click="openFormat()">
+        &lt;!&ndash;<span class="selectColor">{{productData.packageList[0].name}}</span>&ndash;&gt;
+        <span class="color" >{{color}}</span>
+        <img src="../assets/more.png" alt="">
+      </div>-->
+    </div>
     <div class="bank">
       <!--<div class="top">-->
         <!--<span class="attr">存款银行</span>-->
@@ -38,15 +47,6 @@
         <span>总销量：{{productData.sellAmount}}件</span>
         <span>库存：{{stock}}件</span>
       </div>
-    </div>
-    <div class="select">
-      <span class="attr">规格</span>
-      <div @click="openFormat()">
-        <!--<span class="selectColor">{{productData.packageList[0].name}}</span>-->
-        <span class="color" >{{color}}</span>
-        <img src="../assets/more.png" alt="">
-      </div>
-
     </div>
     <div class="detail">
       <div class="subject">
@@ -335,9 +335,9 @@ export default {
           // addressId:this.address.id,
           addressId:2,
           productName:this.productData.name,
-          setMealPrice:this.productData.packageList[0].price,
-          setMealName:this.productData.packageList[0].name,
-          circle:this.productData.packageList[0].circle,
+          setMealPrice:this.productData.price,
+          setMealName:this.productData.name,
+          circle:this.productData.circle,
           price:this.productData.price,
           busiType:this.productData.busiType,
           color:this.color,
@@ -404,9 +404,9 @@ export default {
                         // addressId:this.address.id,
                         addressId:2,
                         productName:this.productData.name,
-                        setMealPrice:this.productData.packageList[0].price,
-                        setMealName:this.productData.packageList[0].name,
-                        circle:this.productData.packageList[0].circle,
+                        setMealPrice:this.productData.price,
+                        setMealName:this.productData.name,
+                        circle:this.productData.circle,
                         price:this.productData.price,
                         busiType:this.productData.busiType,
                         color:this.color,
@@ -659,12 +659,12 @@ export default {
     }
   }
   .attr{
-    font-size: 13px;
+    font-size: 15px;
 
   }
   .val{
     float: right;
-    font-size: 13px;
+    font-size: 15px;
     font-weight: bold;
     color: #fe8d23;
   }
@@ -676,6 +676,7 @@ export default {
     border-bottom: 1px dashed #d7d7d7;
   }
   .select{
+    font-size: 15px;
     margin: 5px 15px 0;
     text-align: left;
     div{
@@ -698,7 +699,7 @@ export default {
       border-radius: 3px;
       padding: 0 8px;
       color: #fff;
-      font-size: 14px;
+      font-size: 15px;
       overflow: hidden;white-space: nowrap;text-overflow: ellipsis;
     }
     .color{

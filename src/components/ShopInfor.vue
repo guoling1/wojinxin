@@ -37,7 +37,7 @@
       <ul>
         <li>
           <span>开户银行</span>
-          <input type="text" v-model="formData.bank">
+          <input type="text" v-model="formData.bank" disabled style="background: #fff">
         </li>
         <li>
           <span>客户姓名</span>
@@ -77,6 +77,10 @@
           <input type="text" placeholder="这里输入详细地址" v-model="formData.address">
         </li>
         <li>
+          <span>邮箱</span>
+          <input type="email" placeholder="这里输入邮箱" v-model="formData.email">
+        </li>
+        <li>
           <span>备注</span>
           <input type="text" placeholder="这里输入备注" v-model="remarks">
         </li>
@@ -89,7 +93,8 @@
 
 <script>
   import PINYIN from './pinyin'
-  import { PopupRadio } from 'vux'
+  import {PopupRadio} from 'vux'
+
   export default {
     name: 'ShopInfo',
     data() {
@@ -119,9 +124,10 @@
           productMemory: '',//内存
           productColor: '',//颜色
           setMeal: "",//所选号码
-          sex:'男'
+          sex: '男',
+          email: ''
         },
-        sex:'男',
+        sex: '男',
         remarks: '',//备注
         showPrompt: false,
         promptMsg: '',
@@ -153,15 +159,15 @@
         productColor: this.$route.query.color,
         productMemory: this.$route.query.memory,
         packageName: this.$route.query.setMealName,
-        sex:'男'
+        sex: '男',
+        email: ''
       }
     },
     methods: {
-      changePY(){
+      changePY() {
         var pyList = this.CC2PY(this.formData.customerName)
-        this.formData.xingPinyin = pyList[0].substring(0,1).toUpperCase()+pyList[0].substring(1);
-        this.formData.mingPinyin = pyList.slice(1).join('').substring(0,1).toUpperCase()+pyList.slice(1).join('').substring(1);
-        console.log(this.formData.xingPinyin)
+        this.formData.xingPinyin = pyList[0].substring(0, 1).toUpperCase() + pyList[0].substring(1);
+        this.formData.mingPinyin = pyList.slice(1).join('').substring(0, 1).toUpperCase() + pyList.slice(1).join('').substring(1);
       },
       submit() {
         let params = new FormData;
@@ -170,30 +176,30 @@
           params.append(i, this.formData[i])
         }
         for (var i in this.formData) {
-          if(this.formData[i]==""){
+          if (this.formData[i] == "") {
             flag = false
             break;
           }
         }
-        params.append("remarks",this.remarks)
-        params.append("productId",this.$route.query.id)
-        if(localStorage.getItem('key')){
-          params.append("qrcodeKey",localStorage.getItem('key'))
+        params.append("remarks", this.remarks)
+        params.append("productId", this.$route.query.id)
+        if (localStorage.getItem('key')) {
+          params.append("qrcodeKey", localStorage.getItem('key'))
         }
-        if(localStorage.getItem('bankMsg')){
-          params.append('cid',JSON.parse(localStorage.getItem('bankMsg')).cid);
-          params.append('outerSource',JSON.parse(localStorage.getItem('bankMsg')).outerSource);
-          params.append('outerid',JSON.parse(localStorage.getItem('bankMsg')).outerid);
-          params.append('rec_no',JSON.parse(localStorage.getItem('bankMsg')).rec_no);
-          params.append('source',JSON.parse(localStorage.getItem('bankMsg')).source)
+        if (localStorage.getItem('bankMsg')) {
+          params.append('cid', JSON.parse(localStorage.getItem('bankMsg')).cid);
+          params.append('outerSource', JSON.parse(localStorage.getItem('bankMsg')).outerSource);
+          params.append('outerid', JSON.parse(localStorage.getItem('bankMsg')).outerid);
+          params.append('rec_no', JSON.parse(localStorage.getItem('bankMsg')).rec_no);
+          params.append('source', JSON.parse(localStorage.getItem('bankMsg')).source)
         }
-        if(flag){
+        if (flag) {
           this.$axios.post("/open/api/order/save", params)
             .then(res => {
-              if(res.retCode=="0000"){
+              if (res.retCode == "0000") {
                 this.$router.push("/orderSubmit?id=" + res.data.id)
-                localStorage.setItem("productMessage",JSON.stringify(this.formData))
-              }else {
+                localStorage.setItem("productMessage", JSON.stringify(this.formData))
+              } else {
                 this.showPrompt = true;
                 this.promptMsg = res.retMsg
               }
@@ -202,7 +208,7 @@
               this.errMsg = err
               this.warnText = true
             })
-        }else {
+        } else {
           this.showPrompt = true;
           this.promptMsg = '请补全信息'
         }
@@ -210,71 +216,71 @@
       },
       CC2PY(l1) {
 
-    var l2 = l1.length;
+        var l2 = l1.length;
 
-    var I1 = [];
+        var I1 = [];
 
-    var reg = new RegExp('[a-zA-Z0-9\- ]');
+        var reg = new RegExp('[a-zA-Z0-9\- ]');
 
-    for (var i = 0; i < l2; i++) {
+        for (var i = 0; i < l2; i++) {
 
-      var val = l1.substr(i, 1);
+          var val = l1.substr(i, 1);
 
-      var name = this.arraySearch(val, PINYIN.pinyin);
+          var name = this.arraySearch(val, PINYIN.pinyin);
 
-      if (reg.test(val)) {
+          if (reg.test(val)) {
 
-        I1 .push(val) ;
+            I1.push(val);
 
-      } else if (name !== false) {
+          } else if (name !== false) {
 
-        I1.push(name);
+            I1.push(name);
 
-      }
+          }
 
-    }
+        }
 
-    // I1 = I1.replace(/ /g, '-');
-    //
-    // while (I1.indexOf('--') > 0) {
-    //
-    //     I1 = I1.replace('--', '-');
-    //
-    // }
+        // I1 = I1.replace(/ /g, '-');
+        //
+        // while (I1.indexOf('--') > 0) {
+        //
+        //     I1 = I1.replace('--', '-');
+        //
+        // }
 
-    return I1;
+        return I1;
 
-  },
-      arraySearch (l1, l2) {
+      },
+      arraySearch(l1, l2) {
 
-    for (var name in PINYIN.pinyin) {
+        for (var name in PINYIN.pinyin) {
 
-      if (PINYIN.pinyin[name].indexOf(l1) != -1) {
+          if (PINYIN.pinyin[name].indexOf(l1) != -1) {
 
-        return this.ucfirst(name);
+            return this.ucfirst(name);
 
-        break;
+            break;
 
-      }
+          }
 
-    }
+        }
 
-    return false;
+        return false;
 
-  },
+      },
       ucfirst(l1) {
 
-    if (l1.length > 0) {
+        if (l1.length > 0) {
 
-      var first = l1.substr(0, 1);
+          var first = l1.substr(0, 1);
 
-      var spare = l1.substr(1, l1.length);
+          var spare = l1.substr(1, l1.length);
 
-      return first + spare;
+          return first + spare;
 
-    }
+        }
 
-  }
+      }
     },
     components: {
       PopupRadio
@@ -284,15 +290,17 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less" type="text/less">
-  .weui-cell{
+  .weui-cell {
     padding: 0;
   }
-  .vux-cell-bd.vux-cell-primary,.vux-cell-bd.vux-cell-primary p{
+
+  .vux-cell-bd.vux-cell-primary, .vux-cell-bd.vux-cell-primary p {
     display: contents !important;
     background: red;
     flex: none !important;
     width: 53px;
   }
+
   .main {
     margin: 50px 0 0;
     width: 100%;

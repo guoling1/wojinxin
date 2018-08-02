@@ -4,7 +4,7 @@
       <ul>
         <li>
           <span class="attr">订单金额：</span>
-          <span class="value">￥{{orderMsg.productPrice}}</span>
+          <span class="value">￥{{orderMsg.deposit}}</span>
         </li>
         <li>
           <span class="attr">商品名称：</span>
