@@ -91,7 +91,7 @@ export default new Router({
       path:'/customOrder',
       name:'customOrder',
       meta:{
-        title:"支付订单"
+        title:"客户订单"
       },
       component: CustomOrder
     },
@@ -140,7 +140,7 @@ export default new Router({
       path:'/regist',
       name:'regist',
       meta:{
-        title:"注册"
+        title:"登录"
       },
       component: Regist
     },

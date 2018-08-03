@@ -13,7 +13,7 @@
         <span @click="getCode()">{{count}}</span>
       </li>
     </ul>
-    <div class="buy" @click="login()">注册</div>
+    <div class="buy" @click="login()">登录</div>
     <toast v-model="showPrompt" position="middle" type="text" :text="promptMsg" width="60%"></toast>
   </div>
 </template>
@@ -89,11 +89,18 @@
                       mobile:this.formData.phone,
                       code:this.formData.messageCode
                     }
-                    this.$axios.post("/open/api/customer/save",params)
+                    if(sessionStorage.getItem('bk')==1){
+                      this.url = '/open/oauth/rcdLogin'
+                    }else {
+                      this.url = '/open/oauth/smsLogin'
+                    }
+                    this.$axios.post(this.url,params)
                       .then(res=>{
                         if(res.retCode=='0000'){
-                          // localStorage.setItem("token",res.data.token);
-                          // localStorage.setItem("phone",this.formData.phone);
+                          localStorage.setItem('userMessage', JSON.stringify(res.data.customer));
+                          localStorage.setItem('token', JSON.stringify(res.data.token));
+                          localStorage.setItem('sessionid', JSON.stringify(res.data.sessionid));
+                          this.$store.commit('LOGIN', res.data.token);
                           this.$router.go(-1)
                         }else {
                           this.showPrompt = true;

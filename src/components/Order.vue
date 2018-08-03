@@ -105,7 +105,7 @@ export default {
       this.$axios.post("/open/api/order/list",{mobile:JSON.parse(localStorage.getItem("userMessage")).mobile})
         .then(res=>{
           for(let i=0;i<res.data.list.length;i++){
-            if(!res.data.list[i].swiperList){
+            if(!res.data.list[i].swiperList||res.data.list[i].swiperList.length==0){
               res.data.list[i].swiperList=[{url:''}]
             }
           }

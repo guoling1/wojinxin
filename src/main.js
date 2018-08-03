@@ -40,6 +40,7 @@ axios.interceptors.request.use(
     if (localStorage.getItem('token')) {  // 判断是否存在token，如果存在的话，则每个http header都加上token
       config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
       config.headers.token = localStorage.getItem('token');
+      // config.headers.sessionid = localStorage.getItem('sessionid');
       config.headers.tester = 1;
     }
     if((/\/open\/api\/order\/save/).test(config.url)){
@@ -60,6 +61,12 @@ axios.interceptors.response.use(
     let {status,data} = response;
     if(status == 200) {
       response.data = data.retObject||data;
+      if(data.retCode=='1006'){
+        router.replace({
+          path: '/regist',
+          query: {redirect: router.currentRoute.fullPath}
+        })
+      }
     }
     response.retMsg = data.retMsg;
     response.retCode = data.retCode;

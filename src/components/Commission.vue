@@ -50,14 +50,12 @@
     <table v-if="tab==1" class="income">
       <tr>
         <th>名称</th>
-        <th>订单号</th>
         <th>银行订单号</th>
         <th>冻结金额</th>
         <th>推荐金</th>
       </tr>
       <tr v-for="item in incomeData">
         <td>{{item.name}}</td>
-        <td>{{item.orderNo}}</td>
         <td>{{item.bankOrderNo}}</td>
         <td>{{item.deposit}}</td>
         <td>{{item.money}}</td>
@@ -79,7 +77,8 @@ export default {
       tab:1,
       showPrompt:false,
       promptMsg:'',
-      totalPrice:0
+      totalPrice:0,
+      incomeData:[]
     }
   },
   created(){
@@ -93,7 +92,7 @@ export default {
     getPrice(){
       this.$axios.post('/open/api/rcdcash/balance',{mobile:JSON.parse(localStorage.getItem('userMessage')).mobile})
         .then(res=>{
-          this.totalPrice = res.data.retObject
+          this.totalPrice = res.data
         })
     },
     getIncome(){
