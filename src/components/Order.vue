@@ -116,7 +116,7 @@ export default {
         })
     },
     toDetail(id){
-      this.$router.push({path:'/orderDetail',query:{id:id}})
+      this.$router.push({path:'/orderDetail',query:{id:id,type:2}})
     }
   },
   components: {

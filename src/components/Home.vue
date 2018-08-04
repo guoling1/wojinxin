@@ -44,6 +44,61 @@
       }
     },
     created() {
+      if(this.GLOBAL.isKDApp){
+        aladdin.header.config({
+          //导航头部背景颜色
+          backgroundColor: '#ffffff',
+          //是否显示导航头部底部线条
+          underlineVisible: false,
+          //是否显示左区域按钮
+          leftVisible: true,
+          //是否显示右区域按钮
+          rightVisible: true,
+          //导航头部中间区域，
+          middle: [{
+            //类型（text、image、search等）
+            type: 'text',
+            //标题 页面title，自定义
+            title: '沃金信',
+            //文字颜色
+            // textColor: '#f37937',
+            textColor: '#333',
+            //文字大小
+            fontSize: 18,
+            //背景颜色
+            backgroundColor: '#ffffff',
+            //回调事件
+            click: function () {
+              //do something
+            }
+          }],
+          //左区域
+          left: [{
+            //图标
+            //icon: '/navBar/images/navBar/scan@2x.png',
+            //图标颜色
+            //tintColor: '#999999',
+            //背景颜色
+            //backgroundColor: '#ffffff',
+            //是否显示小红点
+            //badge: false,
+            //回调事件
+            click: function () {
+              //do something
+            }
+          }],
+          //右区域
+          right: [{
+            //图标
+            //icon: '/navBar/images/navBar/customer@2x.png',
+            //回调事件
+            //click: function () {
+            //do something
+            //}
+          }]}, function (err, param) {
+          //设置导航栏回调
+        });
+      }
       var url = location.href
       function formatUrl(url){
         var reg=/(?:[?&]+)([^&]+)=([^&#]+)/g; //三个分组，并且不匹配第一个分组
@@ -87,7 +142,11 @@
       },
       toDetail(id) {
         this.$store.commit("PHONE",'请选择')
-        this.$router.push({path:"/homeDetail",query:{id:id,reload:new Date().getTime()}})
+        if(this.GLOBAL.isKDApp){
+          window.aladdin.navigator.forward({url:'http://wojinxin.hdjincheng.cn/#/homeDetail?id='+id+'&reload='+new Date().getTime()});
+        }else {
+          this.$router.push({path:"/homeDetail",query:{id:id,reload:new Date().getTime()}})
+        }
       },
       getData(){
         this.$axios.post("/open/api/product/list",{sellFlag:1,areaId: 2,pageNo:this.pageNo,pageSize:this.pageSize})

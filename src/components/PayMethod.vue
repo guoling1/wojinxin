@@ -45,7 +45,7 @@ export default {
   },
   methods:{
     getData(){
-      this.$axios.post("/open/api/order/get",{id:this.$route.query.id})
+      this.$axios.post("/open/api/order/detail/get",{id:this.$route.query.id})
         .then(res=>{
           this.orderMsg = res.data;
         })

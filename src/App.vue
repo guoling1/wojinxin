@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="flex-box-column flexBox">
-    <div class="title">
+    <div v-if="GLOBAL.isKDApp==false" class="title">
       <div class="back" v-if="this.$route.name=='home'">
         <span @click="isLogin =true" style="color: #fe8d23" v-if="!$store.state.login.isLogin&&$store.state.login.bk==1">登录</span>
       </div>
@@ -11,7 +11,7 @@
       <h1>{{title}}</h1>
     </div>
     <!--<keep-alive include="HomeDetail">-->
-      <router-view />
+      <router-view :style="GLOBAL.isKDApp==true?'marginTop: -50px':'marginTop:0'" />
     <!--</keep-alive>-->
     <login-mask v-if="isLogin" v-on:child-close="listenClose"></login-mask>
   </div>
@@ -30,6 +30,7 @@ export default {
     }
   },
   created(){
+    console.log(this.GLOBAL.isKDApp)
     if(sessionStorage.getItem('bk')==1&&!localStorage.getItem('userMessage')){
       this.isBank = true
     }

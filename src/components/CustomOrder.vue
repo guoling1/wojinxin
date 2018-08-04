@@ -21,7 +21,7 @@
         </div>
         <div class="bottom">
           <div class="state">订单状态：{{item.payStatus}}</div>
-          <!--<div class="button" @click="toDetail(item.id)">查看详情</div>-->
+          <div class="button" @click="toDetail(item.id)">查看详情</div>
         </div>
       </li>
     </ul>
@@ -117,7 +117,7 @@ export default {
         })
     },
     toDetail(id){
-      this.$router.push({path:'/orderDetail',query:{id:id}})
+      this.$router.push({path:'/orderDetail',query:{id:id,type:1}})
     }
   },
   components: {

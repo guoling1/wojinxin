@@ -37,7 +37,7 @@
         </div>
       </div>
     </div>
-    <div class="button" @click="submit()" v-if="orderMsg.payStatus=='待支付'">立即付款</div>
+    <div class="button" @click="submit()" v-if="isPay">立即付款</div>
   </div>
 </template>
 
@@ -46,16 +46,20 @@
     name: 'OrderDetail',
     data() {
       return {
-        orderMsg:{}
+        orderMsg:{},
+        isPay:false
       }
     },
     created() {
-      this.$axios.post("/open/api/order/get", {id: this.$route.query.id})
+      this.$axios.post("/open/api/order/detail/get", {id: this.$route.query.id})
         .then(res => {
             if(!res.data.swiperList){
               res.data.swiperList=[{url:''}]
             }
           this.orderMsg = res.data;
+          if(this.orderMsg.payStatus=='待支付'&&(this.$route.query.type==2)){
+            this.isPay = true
+          }
         })
     },
     methods:{

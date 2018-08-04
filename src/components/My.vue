@@ -20,7 +20,7 @@
         <img src="../assets/bag.png" alt="" style="width: 20px;height: 19px">
         <span>我的佣金</span>
       </li>
-      <li @click="isShowCode()">
+      <li @click="isShowCode()" v-if="isHide">
         <img src="../assets/code.png" alt="" style="width: 17.5px;height: 17.5px">
         <span>我的二维码</span>
       </li>
