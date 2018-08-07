@@ -27,7 +27,7 @@
     </div>
     <div class="address">
       <span class="attr">手机号</span>
-      <span class="val" @click="toSelectPhone()">{{$store.state.phone.phone}}</span>
+      <span class="val" @click="toSelectPhone()">{{phone}}</span>
     </div>
     <div class="select">
       <span class="attr">颜色</span>
@@ -221,7 +221,8 @@ export default {
       },
       messCode:'',
       isImgCode:false,
-      rcdMobile:''
+      rcdMobile:'',
+      phone:''
     }
   },
   created(){
@@ -256,7 +257,7 @@ export default {
         //左区域
         left: [{
           //图标
-          icon: require('../assets/back.png'),
+          //icon: '/navBar/images/navBar/scan@2x.png',
           //图标颜色
           //tintColor: '#999999',
           //背景颜色
@@ -296,6 +297,11 @@ export default {
           .then(res=>{
             this.rcdMobile = res.data.rcdMobile;
           })
+      }
+      if(localStorage.getItem('selectPhone')){
+        this.phone = localStorage.getItem('selectPhone')
+      }else {
+        this.phone = '请选择'
       }
     },
     toSelectPhone(){
@@ -380,7 +386,7 @@ export default {
         addressId:2,
         color:this.color,
       }
-      if(!formData.addressId||this.$store.state.phone.phone=="请选择"||formData.color=='请选择'){
+      if(!formData.addressId||this.phone=="请选择"||formData.color=='请选择'){
         this.showPrompt = true;
         this.promptMsg = "请补全信息"
       }else{
@@ -402,12 +408,12 @@ export default {
           color:this.color,
           memory:this.productData.memory,
           deposit:this.productData.deposit,
-          phone:this.$store.state.phone.phone,
+          phone:this.phone,
           id:this.$route.query.id
         }
         this.showTips = false;
         if(this.GLOBAL.isKDApp){
-          window.aladdin.navigator.forward({url:'http://wojinxin.hdjincheng.cn/#/shopInfor?addressName=北京&addressId=2&productName='+this.productData.name+'&setMealPrice='+this.productData.price+'&setMealName='+this.productData.name+'&circle='+this.productData.circle+'&price='+this.productData.price+'&busiType='+this.productData.busiType+'&color='+this.color+'&memory='+this.productData.memory+'&deposit='+this.productData.deposit+'&phone='+this.$store.state.phone.phone+'&id='+this.$route.query.id});
+          window.aladdin.navigator.forward({url:'http://wojinxin.hdjincheng.cn/#/shopInfor?addressName=北京&addressId=2&productName='+this.productData.name+'&setMealPrice='+this.productData.price+'&setMealName='+this.productData.name+'&circle='+this.productData.circle+'&price='+this.productData.price+'&busiType='+this.productData.busiType+'&color='+this.color+'&memory='+this.productData.memory+'&deposit='+this.productData.deposit+'&phone='+this.phone+'&id='+this.$route.query.id});
         }else{
           this.$router.push({path:"/shopInfor",query:formData})
         }
@@ -475,12 +481,12 @@ export default {
                         color:this.color,
                         memory:this.productData.memory,
                         deposit:this.productData.deposit,
-                        phone:this.$store.state.phone.phone,
+                        phone:this.phone,
                         id:this.$route.query.id
                       }
                       this.showTips = false;
                       if(this.GLOBAL.isKDApp){
-                        window.aladdin.navigator.forward({url:'http://wojinxin.hdjincheng.cn/#/shopInfor?addressName=北京&addressId=2&productName='+this.productData.name+'&setMealPrice='+this.productData.price+'&setMealName='+this.productData.name+'&circle='+this.productData.circle+'&price='+this.productData.price+'&busiType='+this.productData.busiType+'&color='+this.color+'&memory='+this.productData.memory+'&deposit='+this.productData.deposit+'&phone='+this.$store.state.phone.phone+'&id='+this.$route.query.id});
+                        window.aladdin.navigator.forward({url:'http://wojinxin.hdjincheng.cn/#/shopInfor?addressName=北京&addressId=2&productName='+this.productData.name+'&setMealPrice='+this.productData.price+'&setMealName='+this.productData.name+'&circle='+this.productData.circle+'&price='+this.productData.price+'&busiType='+this.productData.busiType+'&color='+this.color+'&memory='+this.productData.memory+'&deposit='+this.productData.deposit+'&phone='+this.phone+'&id='+this.$route.query.id});
                       }else{
                         this.$router.push({path:"/shopInfor",query:formData})
                       }
@@ -502,7 +508,7 @@ export default {
                             color:this.color,
                             memory:this.productData.memory,
                             deposit:this.productData.deposit,
-                            phone:this.$store.state.phone.phone
+                            phone:this.phone
                           }
                           this.showTips = false
                           this.$router.push({path:"/shopInfor",query:formData})

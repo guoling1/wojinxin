@@ -34,7 +34,7 @@ export default {
           //类型（text、image、search等）
           type: 'text',
           //标题 页面title，自定义
-          title: '详情',
+          title: '手机号选择',
           //文字颜色
           // textColor: '#f37937',
           textColor: '#333',
@@ -50,7 +50,7 @@ export default {
         //左区域
         left: [{
           //图标
-          icon: require('../assets/back.png'),
+          //icon: '/navBar/images/navBar/scan@2x.png',
           //图标颜色
           //tintColor: '#999999',
           //背景颜色
@@ -99,7 +99,7 @@ export default {
         })
     },
     submit(){
-      // localStorage.setItem("selectPhone",this.selectNum)
+      localStorage.setItem("selectPhone",this.selectNum)
       this.$store.commit("PHONE",this.selectNum)
       if(this.GLOBAL.isKDApp){
         window.aladdin.navigator.forward({url:'http://wojinxin.hdjincheng.cn/#/homeDetail?id='+this.$route.query.id});

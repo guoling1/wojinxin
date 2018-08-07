@@ -84,7 +84,7 @@
             //badge: false,
             //回调事件
             click: function () {
-              //do something
+              window.aladdin.navigator.back();
             }
           }],
           //右区域
@@ -142,6 +142,7 @@
       },
       toDetail(id) {
         this.$store.commit("PHONE",'请选择')
+        localStorage.removeItem('selectPhone');
         if(this.GLOBAL.isKDApp){
           window.aladdin.navigator.forward({url:'http://wojinxin.hdjincheng.cn/#/homeDetail?id='+id+'&reload='+new Date().getTime()});
         }else {
