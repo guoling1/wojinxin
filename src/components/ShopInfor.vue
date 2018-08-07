@@ -197,8 +197,12 @@
           this.$axios.post("/open/api/order/save", params)
             .then(res => {
               if (res.retCode == "0000") {
-                this.$router.push("/orderSubmit?id=" + res.data.id)
                 localStorage.setItem("productMessage", JSON.stringify(this.formData))
+                if(this.GLOBAL.isKDApp){
+                  window.aladdin.navigator.forward({url:'http://wojinxin.hdjincheng.cn/#/orderSubmit?id='+res.data.id});
+                }else{
+                  this.$router.push("/orderSubmit?id=" + res.data.id)
+                }
               } else {
                 this.showPrompt = true;
                 this.promptMsg = res.retMsg

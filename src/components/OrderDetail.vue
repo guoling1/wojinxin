@@ -77,7 +77,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less" type="text/less">
   .main {
-    margin: 50px 0;
+    /*margin: 50px 0;*/
     width: 100%;
     padding-bottom: 50px;
     text-align: left;

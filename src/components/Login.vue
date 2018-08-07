@@ -57,7 +57,12 @@
                 if(res.retCode=='0000'){
                   localStorage.setItem("token",res.data.token);
                   localStorage.setItem("phone",this.formData.phone);
-                  this.$router.push("/my")
+                  if(this.GLOBAL.isKDApp){
+                    window.aladdin.navigator.forward({url:'http://wojinxin.hdjincheng.cn/#/my'});
+                  }else{
+                    this.$router.push("/my")
+                  }
+
                 }else {
                   this.showPrompt = true;
                   this.promptMsg = res.retMsg

@@ -104,7 +104,6 @@ export default {
     getData(){
       this.$axios.post("/open/api/order/list",{rcdMobile:JSON.parse(localStorage.getItem("userMessage")).mobile})
         .then(res=>{
-          console.log(res)
           for(let i=0;i<res.data.list.length;i++){
             if(!res.data.list[i].swiperList||res.data.list[i].swiperList.length==0){
               res.data.list[i].swiperList=[{url:''}]
@@ -117,7 +116,11 @@ export default {
         })
     },
     toDetail(id){
-      this.$router.push({path:'/orderDetail',query:{id:id,type:1}})
+      if(this.GLOBAL.isKDApp){
+        window.aladdin.navigator.forward({url:'http://wojinxin.hdjincheng.cn/#/orderDetail?id='+id+'&type=1'});
+      }else{
+        this.$router.push({path:'/orderDetail',query:{id:id,type:1}})
+      }
     }
   },
   components: {

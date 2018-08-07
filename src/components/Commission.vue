@@ -92,7 +92,6 @@ export default {
     getPrice(){
       this.$axios.post('/open/api/rcdcash/balance',{mobile:JSON.parse(localStorage.getItem('userMessage')).mobile})
         .then(res=>{
-          console.log(res)
           this.totalPrice = res.data
         })
     },

@@ -132,22 +132,47 @@
 
       },
       toLogin(){
-        this.$router.push("/login")
+        if(this.GLOBAL.isKDApp){
+          window.aladdin.navigator.forward({url:'http://wojinxin.hdjincheng.cn/#/login'});
+        }else{
+          this.$router.push("/login")
+        }
+
       },
       toRegist(){
-        this.$router.push("./regist")
+        if(this.GLOBAL.isKDApp){
+          window.aladdin.navigator.forward({url:'http://wojinxin.hdjincheng.cn/#/regist'});
+        }else{
+          this.$router.push("./regist")
+        }
       },
       toOrder() {
-        this.$router.push("/order")
+        if(this.GLOBAL.isKDApp){
+          window.aladdin.navigator.forward({url:'http://wojinxin.hdjincheng.cn/#/order'});
+        }else{
+          this.$router.push("/order")
+        }
       },
       toCustomOrder() {
-        this.$router.push("/customOrder")
+        if(this.GLOBAL.isKDApp){
+          window.aladdin.navigator.forward({url:'http://wojinxin.hdjincheng.cn/#/customOrder'});
+        }else{
+          this.$router.push("/customOrder")
+        }
       },
       toChangePwd(){
-        this.$router.push("/changePwd")
+        if(this.GLOBAL.isKDApp){
+          window.aladdin.navigator.forward({url:'http://wojinxin.hdjincheng.cn/#/changePwd'});
+        }else{
+          this.$router.push("/changePwd")
+        }
       },
       toCommission(){
-        this.$router.push("/commission")
+        if(this.GLOBAL.isKDApp){
+          window.aladdin.navigator.forward({url:'http://wojinxin.hdjincheng.cn/#/commission'});
+        }else{
+          this.$router.push("/commission")
+        }
       },
       signOut(){
         this.phone = ""
@@ -229,7 +254,7 @@
     }
   }
   .main {
-    margin: 50px 0;
+    /*margin: 50px 0;*/
     width: 100%;
     padding-bottom: 50px;
 

@@ -52,7 +52,12 @@ export default {
   },
   methods:{
     submit(){
-      this.$router.push('/orderDetail')
+      if(this.GLOBAL.isKDApp){
+        window.aladdin.navigator.forward({url:'http://wojinxin.hdjincheng.cn/#/orderDetail'});
+      }else{
+        this.$router.push('/orderDetail')
+      }
+
     }
   }
 }

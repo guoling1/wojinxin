@@ -133,7 +133,11 @@ export default {
       this.showSubmit = true;
     },
     pay(){
-      this.$router.push({path:"/payMethod",query:{orderNo:this.orderMsg.orderNo,id:this.$route.query.id}})
+      if(this.GLOBAL.isKDApp){
+        window.aladdin.navigator.forward({url:'http://wojinxin.hdjincheng.cn/#/payMethod?orderNo='+this.orderMsg.orderNo+'&id='+this.$route.query.id});
+      }else{
+        this.$router.push({path:"/payMethod",query:{orderNo:this.orderMsg.orderNo,id:this.$route.query.id}})
+      }
     }
   },
   components:{

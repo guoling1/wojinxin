@@ -299,8 +299,12 @@ export default {
       }
     },
     toSelectPhone(){
-      localStorage.setItem('color',this.color)
-      this.$router.push('/selectPhone?id='+this.$route.query.id)
+      localStorage.setItem('color',this.color);
+      if(this.GLOBAL.isKDApp){
+        window.aladdin.navigator.forward({url:'http://wojinxin.hdjincheng.cn/#/selectPhone?id='+this.$route.query.id});
+      }else{
+        this.$router.push('/selectPhone?id='+this.$route.query.id)
+      }
     },
     //获取产品信息
     getData(){
@@ -401,8 +405,12 @@ export default {
           phone:this.$store.state.phone.phone,
           id:this.$route.query.id
         }
-        this.showTips = false
-        this.$router.push({path:"/shopInfor",query:formData})
+        this.showTips = false;
+        if(this.GLOBAL.isKDApp){
+          window.aladdin.navigator.forward({url:'http://wojinxin.hdjincheng.cn/#/shopInfor?addressName=北京&addressId=2&productName='+this.productData.name+'&setMealPrice='+this.productData.price+'&setMealName='+this.productData.name+'&circle='+this.productData.circle+'&price='+this.productData.price+'&busiType='+this.productData.busiType+'&color='+this.color+'&memory='+this.productData.memory+'&deposit='+this.productData.deposit+'&phone='+this.$store.state.phone.phone+'&id='+this.$route.query.id});
+        }else{
+          this.$router.push({path:"/shopInfor",query:formData})
+        }
       }else {
         this.showTips = false;
         this.showLogin = true;
@@ -470,8 +478,12 @@ export default {
                         phone:this.$store.state.phone.phone,
                         id:this.$route.query.id
                       }
-                      this.showTips = false
-                      this.$router.push({path:"/shopInfor",query:formData})
+                      this.showTips = false;
+                      if(this.GLOBAL.isKDApp){
+                        window.aladdin.navigator.forward({url:'http://wojinxin.hdjincheng.cn/#/shopInfor?addressName=北京&addressId=2&productName='+this.productData.name+'&setMealPrice='+this.productData.price+'&setMealName='+this.productData.name+'&circle='+this.productData.circle+'&price='+this.productData.price+'&busiType='+this.productData.busiType+'&color='+this.color+'&memory='+this.productData.memory+'&deposit='+this.productData.deposit+'&phone='+this.$store.state.phone.phone+'&id='+this.$route.query.id});
+                      }else{
+                        this.$router.push({path:"/shopInfor",query:formData})
+                      }
                       /*this.$axios.post("/open/api/customer/save",{mobile:this.formData.phone})
                         .then(res=>{
                           localStorage.setItem("phone",this.formData.phone)

@@ -45,7 +45,7 @@
       methods:{
         //获取验证码
         getCode(){
-          this.$axios.post("/open/api/customer/smscode",{mobile:this.formData.phone})
+          this.$axios.post("/open/oauth/smscode",{mobile:this.formData.phone})
             .then(res=>{
               if(res.retCode=='0000'){
                 this.messCode = res.data;
@@ -61,6 +61,9 @@
                     }
                   }, 1000)
                 }
+              } else {
+                this.showPrompt = true;
+                this.promptMsg = res.retMsg
               }
             })
         },
@@ -101,7 +104,17 @@
                           localStorage.setItem('token', JSON.stringify(res.data.token));
                           localStorage.setItem('sessionid', JSON.stringify(res.data.sessionid));
                           this.$store.commit('LOGIN', res.data.token);
-                          this.$router.go(-1)
+                          if(this.GLOBAL.isKDApp){
+                            window.aladdin.navigator.back();
+                          }else{
+                            if(this.GLOBAL.isKDApp){
+                              window.aladdin.navigator.back();
+                            }else{
+                              this.$router.go(-1)
+                            }
+
+                          }
+
                         }else {
                           this.showPrompt = true;
                           this.promptMsg = res.retMsg

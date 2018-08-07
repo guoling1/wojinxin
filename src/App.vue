@@ -11,7 +11,7 @@
       <h1>{{title}}</h1>
     </div>
     <!--<keep-alive include="HomeDetail">-->
-      <router-view :style="GLOBAL.isKDApp==true?'marginTop: -50px':'marginTop:0'" />
+      <router-view :style="GLOBAL.isKDApp==true?'marginTop: -50px':'marginTop:50px'" />
     <!--</keep-alive>-->
     <login-mask v-if="isLogin" v-on:child-close="listenClose"></login-mask>
   </div>
