@@ -77,7 +77,7 @@
         showLogin: false,
         count: '获取验证码',
         timer: null,
-        imgSrc:'http://wojinxin.hdjincheng.cn/wofinance/servlet/validateCodeServlet',
+        imgSrc:'http://www.wojinxin.com/wofinance/servlet/validateCodeServlet',
         isLogin:false,
         showCode:false,
         showPrompt:false,
@@ -133,7 +133,7 @@
       },
       toLogin(){
         if(this.GLOBAL.isKDApp){
-          window.aladdin.navigator.forward({url:'http://wojinxin.hdjincheng.cn/#/login'});
+          window.aladdin.navigator.forward({url:'http://www.wojinxin.com/#/login'});
         }else{
           this.$router.push("/login")
         }
@@ -141,35 +141,35 @@
       },
       toRegist(){
         if(this.GLOBAL.isKDApp){
-          window.aladdin.navigator.forward({url:'http://wojinxin.hdjincheng.cn/#/regist'});
+          window.aladdin.navigator.forward({url:'http://www.wojinxin.com/#/regist'});
         }else{
           this.$router.push("./regist")
         }
       },
       toOrder() {
         if(this.GLOBAL.isKDApp){
-          window.aladdin.navigator.forward({url:'http://wojinxin.hdjincheng.cn/#/order'});
+          window.aladdin.navigator.forward({url:'http://www.wojinxin.com/#/order'});
         }else{
           this.$router.push("/order")
         }
       },
       toCustomOrder() {
         if(this.GLOBAL.isKDApp){
-          window.aladdin.navigator.forward({url:'http://wojinxin.hdjincheng.cn/#/customOrder'});
+          window.aladdin.navigator.forward({url:'http://www.wojinxin.com/#/customOrder'});
         }else{
           this.$router.push("/customOrder")
         }
       },
       toChangePwd(){
         if(this.GLOBAL.isKDApp){
-          window.aladdin.navigator.forward({url:'http://wojinxin.hdjincheng.cn/#/changePwd'});
+          window.aladdin.navigator.forward({url:'http://www.wojinxin.com/#/changePwd'});
         }else{
           this.$router.push("/changePwd")
         }
       },
       toCommission(){
         if(this.GLOBAL.isKDApp){
-          window.aladdin.navigator.forward({url:'http://wojinxin.hdjincheng.cn/#/commission'});
+          window.aladdin.navigator.forward({url:'http://www.wojinxin.com/#/commission'});
         }else{
           this.$router.push("/commission")
         }
@@ -193,7 +193,7 @@
       },
       //点击图片重新获取验证码
       imgClick(){
-        this.imgSrc = "http://wojinxin.hdjincheng.cn/wofinance/servlet/validateCodeServlet?"+Math.random();
+        this.imgSrc = "http://www.wojinxin.com/wofinance/servlet/validateCodeServlet?"+Math.random();
       },
       //验证图形验证码
       validateCode(){

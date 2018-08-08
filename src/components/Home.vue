@@ -34,7 +34,7 @@
         aspectRatio:1.146,
         list: [],
         // swiperList: [{img: require('../assets/banner.png')}],
-        swiperList: [{img: 'http://wojinxin.hdjincheng.cn/res/images/prod/8e12dd25b11543a18fec7bc5930f6d6b.png'}],
+        swiperList: [{img: 'http://www.wojinxin.com/res/images/prod/8e12dd25b11543a18fec7bc5930f6d6b.png'}],
         showDots: false,
         descMask: false,
         pageNo:1,
@@ -144,7 +144,7 @@
         this.$store.commit("PHONE",'请选择')
         localStorage.removeItem('selectPhone');
         if(this.GLOBAL.isKDApp){
-          window.aladdin.navigator.forward({url:'http://wojinxin.hdjincheng.cn/#/homeDetail?id='+id+'&reload='+new Date().getTime()});
+          window.aladdin.navigator.forward({url:'http://www.wojinxin.com/#/homeDetail?id='+id+'&reload='+new Date().getTime()});
         }else {
           this.$router.push({path:"/homeDetail",query:{id:id,reload:new Date().getTime()}})
         }

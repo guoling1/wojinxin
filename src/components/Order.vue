@@ -47,7 +47,7 @@ export default {
       showLogin: false,
       count: '获取验证码',
       timer: null,
-      imgSrc:'http://wojinxin.hdjincheng.cn/wofinance/servlet/validateCodeServlet',
+      imgSrc:'http://www.wojinxin.com/wofinance/servlet/validateCodeServlet',
       orderList:[],
       isLogin:false
     }
@@ -131,7 +131,7 @@ export default {
     },
     //点击图片重新获取验证码
     imgClick(){
-      this.imgSrc = "http://wojinxin.hdjincheng.cn/wofinance/servlet/validateCodeServlet?"+Math.random();
+      this.imgSrc = "http://www.wojinxin.com/wofinance/servlet/validateCodeServlet?"+Math.random();
     },
     //验证图形验证码
     validateCode(){

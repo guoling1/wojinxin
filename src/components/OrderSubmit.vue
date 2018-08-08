@@ -188,7 +188,7 @@ export default {
     },
     pay(){
       if(this.GLOBAL.isKDApp){
-        window.aladdin.navigator.forward({url:'http://wojinxin.hdjincheng.cn/#/payMethod?orderNo='+this.orderMsg.orderNo+'&id='+this.$route.query.id});
+        window.aladdin.navigator.forward({url:'http://www.wojinxin.com/#/payMethod?orderNo='+this.orderMsg.orderNo+'&id='+this.$route.query.id});
       }else{
         this.$router.push({path:"/payMethod",query:{orderNo:this.orderMsg.orderNo,id:this.$route.query.id}})
       }

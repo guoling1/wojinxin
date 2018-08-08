@@ -225,6 +225,7 @@
         this.formData.mingPinyin = pyList.slice(1).join('').substring(0, 1).toUpperCase() + pyList.slice(1).join('').substring(1);
       },
       submit() {
+        this.formData.idcard=this.formData.idcard.toUpperCase()
         let params = new FormData;
         let flag = true;
         for (var i in this.formData) {
@@ -254,7 +255,7 @@
               if (res.retCode == "0000") {
                 localStorage.setItem("productMessage", JSON.stringify(this.formData))
                 if(this.GLOBAL.isKDApp){
-                  window.aladdin.navigator.forward({url:'http://wojinxin.hdjincheng.cn/#/orderSubmit?id='+res.data.id});
+                  window.aladdin.navigator.forward({url:'http://www.wojinxin.com/#/orderSubmit?id='+res.data.id});
                 }else{
                   this.$router.push("/orderSubmit?id=" + res.data.id)
                 }
