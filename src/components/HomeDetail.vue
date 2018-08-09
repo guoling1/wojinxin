@@ -54,8 +54,8 @@
         <span>图文详情</span>
         <i></i>
       </div>
-      <div class="detail" id="content" v-html="productData.content"></div>
-      <div class="detail" id="content1" v-html="productData.configDetail"></div>
+      <div class="detail" id="content" v-html="productData.content" style="font-size: 0"></div>
+      <div class="detail" id="content1" v-html="productData.configDetail" style="font-size: 0"></div>
     </div>
     <div class="end">
       <input type="number" placeholder="推荐人手机号(选填)" v-model="rcdMobile">
@@ -650,9 +650,9 @@ export default {
 
   }
   .regist{
-    margin: 50px 0;
+    /*margin: 50px 0;*/
     width: 100%;
-    padding-bottom: 50px;
+    /*padding-bottom: 50px;*/
     .top{
       background: #444c59;
       color:#fff;
@@ -707,7 +707,7 @@ export default {
     }
   }
 .main{
-  margin: 50px 0;
+  margin: 50px 0 0;
   width: 100%;
   padding-bottom: 50px;
   .productMessage{

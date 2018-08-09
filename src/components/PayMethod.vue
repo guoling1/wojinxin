@@ -106,7 +106,13 @@ export default {
         })
     },
     submit(){
-      this.$axios.post("/open/api/aotoLoginURL",{orderNo:this.$route.query.orderNo})
+      let koudai;
+      if(this.GLOBAL.isKDApp){
+        koudai=1;
+      }else {
+        koudai=0;
+      }
+      this.$axios.post("/open/api/aotoLoginURL",{orderNo:this.$route.query.orderNo,koudai:koudai})
         .then(res=>{
           window.location.href=res.data;
         })
