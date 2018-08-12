@@ -241,6 +241,10 @@
         params.append("productId", this.$route.query.id)
         if (localStorage.getItem('key')) {
           params.append("qrcodeKey", localStorage.getItem('key'))
+          params.append("key", localStorage.getItem('key'))
+        }
+        if (localStorage.getItem('ext')) {
+          params.append("ext", localStorage.getItem('ext'))
         }
         if (localStorage.getItem('bankMsg')) {
           params.append('cid', JSON.parse(localStorage.getItem('bankMsg')).cid);

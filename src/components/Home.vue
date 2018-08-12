@@ -120,10 +120,25 @@
         sessionStorage.setItem('bk',1)
         this.$store.commit('BK')
       }
+      if(data.ext){
+        localStorage.setItem('ext',data.ext)
+        // this.$store.commit('BK')
+      }else {
+        localStorage.setItem('ext',0)
+        localStorage.setItem('key','384af3af0dd948cfbeda2290146fa835')
+      }
       if(data.cid){
         localStorage.setItem('bankMsg',JSON.stringify(data))
       }else {
-        localStorage.removeItem('bankMsg')
+        let dataPrams={
+          source:'sa0000595',
+          outerSource:'os0003354',
+          outerid:'ou0000686',
+          cid:'ci0000001',
+          rec_no:'ZHANGLEIBJ'
+        }
+        // localStorage.removeItem('bankMsg')
+        localStorage.setItem('bankMsg',JSON.stringify(dataPrams))
       }
       this.getSwiper()
     },
