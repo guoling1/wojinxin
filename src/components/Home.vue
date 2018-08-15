@@ -168,7 +168,7 @@
         this.$axios.post("/open/api/product/list",{sellFlag:1,areaId: 2,pageNo:this.pageNo,pageSize:this.pageSize})
           .then(res=>{
             for(let i=0;i<res.data.list.length;i++){
-              if(!res.data.list[i].swiperList){
+              if(!res.data.list[i].swiperList||res.data.list[i].swiperList.length==0){
                 res.data.list[i].swiperList=[{url:''}]
               }
               if(!res.data.list[i].packageList){
@@ -186,6 +186,14 @@
       loadMore(){
         this.$axios.post("/open/api/product/list",{sellFlag:1,areaId: 2,pageNo:this.pageNo,pageSize:this.pageSize})
           .then(res=>{
+            for(let i=0;i<res.data.list.length;i++){
+              if(!res.data.list[i].swiperList||res.data.list[i].swiperList.length==0){
+                res.data.list[i].swiperList=[{url:''}]
+              }
+              if(!res.data.list[i].packageList){
+                res.data.list[i].packageList=[{price:'',circle:''}]
+              }
+            }
             this.list = this.list.concat(res.data.list)
             this.pageNo+=1;
           })
