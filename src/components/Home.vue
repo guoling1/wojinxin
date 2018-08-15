@@ -176,7 +176,7 @@
               }
             }
             this.list = res.data.list;
-            if(res.data.list.length<this.pageSize){
+            if(res.data.last==res.data.totalPage){
               this.more = false
             }else {
               this.pageNo+=1;
@@ -195,7 +195,11 @@
               }
             }
             this.list = this.list.concat(res.data.list)
-            this.pageNo+=1;
+            if(res.data.last==res.data.totalPage){
+              this.more = false
+            }else {
+              this.pageNo+=1;
+            }
           })
       }
     },
