@@ -70,8 +70,7 @@ export default {
           //标题 页面title，自定义
           title: '订单',
           //文字颜色
-          // textColor: '#f37937',
-          textColor: '#333',
+          textColor: '#f37937',
           //文字大小
           fontSize: 18,
           //背景颜色

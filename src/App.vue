@@ -23,7 +23,7 @@ export default {
   name: 'App',
   data(){
     return {
-      title:'沃金信',
+      title:'中国联通',
       keepAlive:'',
       isLogin:false,
       isBank:false

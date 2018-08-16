@@ -8,7 +8,7 @@
     </div>
     <div class="priceList">
       <div>
-        <p>存款金额</p>
+        <p>担保金额</p>
         <p class="num">￥{{productData.deposit}}</p>
       </div>
       <div>
@@ -243,8 +243,7 @@ export default {
           //标题 页面title，自定义
           title: '详情',
           //文字颜色
-          // textColor: '#f37937',
-          textColor: '#333',
+          textColor: '#f37937',
           //文字大小
           fontSize: 18,
           //背景颜色

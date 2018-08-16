@@ -31,7 +31,7 @@ export default new Router({
       		path:'/home',
       		name:'home',
           meta:{
-            title:"沃金信",
+            title:"中国联通",
             keepAlive:false
           },
       		component:Home
@@ -40,7 +40,7 @@ export default new Router({
           path:'/order',
           name:'order',
           meta:{
-            title:"沃金信"
+            title:"中国联通"
           },
           component:Order
         },
@@ -48,7 +48,7 @@ export default new Router({
           path:'/my',
           name:'my',
           meta:{
-            title:"沃金信"
+            title:"中国联通"
           },
           component:My
         },
@@ -75,7 +75,7 @@ export default new Router({
       path:'/shopInfor',
       name:'shopInfor',
       meta:{
-        title:"沃金信"
+        title:"中国联通"
       },
       component: ShopInfor
     },

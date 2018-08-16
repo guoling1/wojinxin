@@ -14,7 +14,7 @@
             <div class="">{{item.name}}</div>
             <!--<div class="subject" style="font-size: 14px;margin-top: 5px">{{item.packageName}}</div>-->
             <div class="subject">套餐：{{item.consumePrice}}<span>X{{item.circle}}期</span></div>
-            <div class="price">存款金额：<span>￥{{item.deposit}}</span></div>
+            <div class="price">担保金额：<span>￥{{item.deposit}}</span></div>
             <div class="button" @click="toDetail(item.id)">立即办理</div>
           </li>
         </ul>
@@ -59,10 +59,9 @@
             //类型（text、image、search等）
             type: 'text',
             //标题 页面title，自定义
-            title: '沃金信',
+            title: '中国联通',
             //文字颜色
-            // textColor: '#f37937',
-            textColor: '#333',
+            textColor: '#f37937',
             //文字大小
             fontSize: 18,
             //背景颜色
