@@ -47,7 +47,7 @@ export default {
       showLogin: false,
       count: '获取验证码',
       timer: null,
-      imgSrc:'http://www.wojinxin.com/wofinance/servlet/validateCodeServlet',
+      imgSrc:'http://test.hdjincheng.cn/wofinance/servlet/validateCodeServlet',
       orderList:[],
       isLogin:false
     }
@@ -130,7 +130,7 @@ export default {
     },
     //点击图片重新获取验证码
     imgClick(){
-      this.imgSrc = "http://www.wojinxin.com/wofinance/servlet/validateCodeServlet?"+Math.random();
+      this.imgSrc = "http://test.hdjincheng.cn/wofinance/servlet/validateCodeServlet?"+Math.random();
     },
     //验证图形验证码
     validateCode(){
@@ -171,7 +171,7 @@ export default {
     },
     toDetail(id){
       if(this.GLOBAL.isKDApp){
-        window.aladdin.navigator.forward({url:'http://www.wojinxin.com/#/orderDetail?id='+id+'&type=1'});
+        window.aladdin.navigator.forward({url:'http://test.hdjincheng.cn/#/orderDetail?id='+id+'&type=1'});
       }else{
         this.$router.push({path:'/orderDetail',query:{id:id,type:1}})
       }

@@ -231,7 +231,7 @@
           params.append(i, this.formData[i])
         }
         for (var i in this.formData) {
-          if (this.formData[i] == "") {
+          if (this.formData[i] === "") {
             flag = false
             break;
           }
@@ -258,7 +258,7 @@
               if (res.retCode == "0000") {
                 localStorage.setItem("productMessage", JSON.stringify(this.formData))
                 if(this.GLOBAL.isKDApp){
-                  window.aladdin.navigator.forward({url:'http://www.wojinxin.com/#/orderSubmit?id='+res.data.id});
+                  window.aladdin.navigator.forward({url:'http://test.hdjincheng.cn/#/orderSubmit?id='+res.data.id});
                 }else{
                   this.$router.push("/orderSubmit?id=" + res.data.id)
                 }

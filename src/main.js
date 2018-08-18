@@ -13,7 +13,7 @@ Vue.component('xDialog',XDialog);
 Vue.config.productionTip = false;
 
 import axios from 'axios'
-axios.defaults.baseURL = "http://www.wojinxin.com/wofinance";
+axios.defaults.baseURL = "http://test.hdjincheng.cn/wofinance";
 axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded';
 Vue.prototype.$axios= axios;
 

@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="flex-box-column flexBox">
+  <div id="app" class="flex-box-column flexBox" style="background: #fff">
     <div v-if="GLOBAL.isKDApp==false" class="title">
       <div class="back" v-if="this.$route.name=='home'">
         <span @click="isLogin =true" style="color: #fe8d23" v-if="!$store.state.login.isLogin&&$store.state.login.bk==1">登录</span>
