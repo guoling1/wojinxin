@@ -306,7 +306,7 @@ export default {
     toSelectPhone(){
       localStorage.setItem('color',this.color);
       if(this.GLOBAL.isKDApp){
-        window.aladdin.navigator.forward({url:'http://test.hdjincheng.cn/#/selectPhone?id='+this.$route.query.id});
+        window.aladdin.navigator.forward({url:'http://www.wojinxin.com/#/selectPhone?id='+this.$route.query.id});
       }else{
         this.$router.push('/selectPhone?id='+this.$route.query.id)
       }
@@ -412,7 +412,7 @@ export default {
         }
         this.showTips = false;
         if(this.GLOBAL.isKDApp){
-          window.aladdin.navigator.forward({url:'http://test.hdjincheng.cn/#/shopInfor?addressName=北京&addressId=2&productName='+this.productData.name+'&setMealPrice='+this.productData.price+'&setMealName='+this.productData.name+'&circle='+this.productData.circle+'&price='+this.productData.price+'&busiType='+this.productData.busiType+'&color='+this.color+'&memory='+this.productData.memory+'&deposit='+this.productData.deposit+'&phone='+this.phone+'&id='+this.$route.query.id});
+          window.aladdin.navigator.forward({url:'http://www.wojinxin.com/#/shopInfor?addressName=北京&addressId=2&productName='+this.productData.name+'&setMealPrice='+this.productData.price+'&setMealName='+this.productData.name+'&circle='+this.productData.circle+'&price='+this.productData.price+'&busiType='+this.productData.busiType+'&color='+this.color+'&memory='+this.productData.memory+'&deposit='+this.productData.deposit+'&phone='+this.phone+'&id='+this.$route.query.id});
         }else{
           this.$router.push({path:"/shopInfor",query:formData})
         }
@@ -485,7 +485,7 @@ export default {
                       }
                       this.showTips = false;
                       if(this.GLOBAL.isKDApp){
-                        window.aladdin.navigator.forward({url:'http://test.hdjincheng.cn/#/shopInfor?addressName=北京&addressId=2&productName='+this.productData.name+'&setMealPrice='+this.productData.price+'&setMealName='+this.productData.name+'&circle='+this.productData.circle+'&price='+this.productData.price+'&busiType='+this.productData.busiType+'&color='+this.color+'&memory='+this.productData.memory+'&deposit='+this.productData.deposit+'&phone='+this.phone+'&id='+this.$route.query.id});
+                        window.aladdin.navigator.forward({url:'http://www.wojinxin.com/#/shopInfor?addressName=北京&addressId=2&productName='+this.productData.name+'&setMealPrice='+this.productData.price+'&setMealName='+this.productData.name+'&circle='+this.productData.circle+'&price='+this.productData.price+'&busiType='+this.productData.busiType+'&color='+this.color+'&memory='+this.productData.memory+'&deposit='+this.productData.deposit+'&phone='+this.phone+'&id='+this.$route.query.id});
                       }else{
                         this.$router.push({path:"/shopInfor",query:formData})
                       }

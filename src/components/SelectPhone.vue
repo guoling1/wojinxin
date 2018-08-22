@@ -101,7 +101,7 @@ export default {
       localStorage.setItem("selectPhone",this.selectNum)
       this.$store.commit("PHONE",this.selectNum)
       if(this.GLOBAL.isKDApp){
-        window.aladdin.navigator.forward({url:'http://test.hdjincheng.cn/#/homeDetail?id='+this.$route.query.id});
+        window.aladdin.navigator.forward({url:'http://www.wojinxin.com/#/homeDetail?id='+this.$route.query.id});
       }else{
         this.$router.push("/homeDetail?id="+this.$route.query.id)
       }

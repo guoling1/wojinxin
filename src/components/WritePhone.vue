@@ -53,7 +53,7 @@ export default {
   methods:{
     submit(){
       if(this.GLOBAL.isKDApp){
-        window.aladdin.navigator.forward({url:'http://test.hdjincheng.cn/#/orderDetail'});
+        window.aladdin.navigator.forward({url:'http://www.wojinxin.com/#/orderDetail'});
       }else{
         this.$router.push('/orderDetail')
       }
