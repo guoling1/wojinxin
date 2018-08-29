@@ -306,7 +306,14 @@
         //   localStorage.removeItem('color')
         // }
         if(this.$route.query.productColor){
-          this.color = this.$route.query.productColor
+          if(this.$route.query.productColor=='null'){
+            this.color = "请选择"
+          }else {
+            this.color = this.$route.query.productColor
+          }
+        }
+        if(this.$route.query.number){
+          this.phone = this.$route.query.number
         }
         this.getData();
         if (localStorage.getItem('key')) {
@@ -315,11 +322,11 @@
               this.rcdMobile = res.data.rcdMobile;
             })
         }
-        if (localStorage.getItem('selectPhone')) {
-          this.phone = localStorage.getItem('selectPhone')
-        } else {
-          this.phone = '请选择'
-        }
+        // if (localStorage.getItem('selectPhone')) {
+        //   this.phone = localStorage.getItem('selectPhone')
+        // } else {
+        //   this.phone = '请选择'
+        // }
         if(this.$route.query.checkCode!="0000"){
           this.errMsg = "不能办理"
           this.warnText = true
@@ -336,8 +343,7 @@
         if(this.color=='请选择'){
           color=''
         }else {
-          color = 'red';
-          // color = this.color;
+          color = this.color;
         }
         let params = {
           netMode: num,
