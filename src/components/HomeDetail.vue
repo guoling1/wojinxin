@@ -236,7 +236,7 @@
         messCode: '',
         isImgCode: false,
         rcdMobile: '',
-        phone: ''
+        phone: '请选择'
       }
     },
     created() {
