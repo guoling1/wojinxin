@@ -38,6 +38,7 @@
       </div>
     </div>
     <div class="button" @click="submit()" v-if="isPay">立即付款</div>
+    <div class="button" @click="toLogistics(orderMsg.expressCode)" v-if="orderMsg.payStatus=='已发货'">查看物流</div>
   </div>
 </template>
 
@@ -117,6 +118,14 @@
         })
     },
     methods:{
+      toLogistics(number){
+        this.$router.push({path:'/logistics',query:{expressCode:number}})
+        if(this.GLOBAL.isKDApp){
+          window.aladdin.navigator.forward({url:'http://test.hdjincheng.cn/#/logistics?expressCode='+number});
+        }else {
+          this.$router.push({path:"/logistics",query:{expressCode:number}})
+        }
+      },
       submit(){
         let koudai;
         if(this.GLOBAL.isKDApp){
