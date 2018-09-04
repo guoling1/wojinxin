@@ -45,11 +45,11 @@
         </li>
         <li>
           <span>姓拼音</span>
-          <input type="text" placeholder="姓拼音" v-model="formData.xingPinyin" disabled style="background: #fff">
+          <input type="text" placeholder="姓拼音" v-model="formData.xingPinyin" style="background: #fff">
         </li>
         <li>
           <span>名拼音</span>
-          <input type="text" placeholder="名拼音" v-model="formData.mingPinyin" disabled style="background: #fff">
+          <input type="text" placeholder="名拼音" v-model="formData.mingPinyin" style="background: #fff">
         </li>
         <li>
           <span>性别</span>
