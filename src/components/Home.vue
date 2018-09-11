@@ -130,11 +130,11 @@
         localStorage.setItem('bankMsg',JSON.stringify(data))
       }else {
         let dataPrams={
-          source:'sa0000595',
-          outerSource:'os0003354',
-          outerid:'ou0000686',
+          source:'sa0001187',
+          outerSource:'os0003740',
+          outerid:'ou0000692',
           cid:'ci0000001',
-          rec_no:'ZHANGLEIBJ'
+          rec_no:'ZHOUSHIWAN258'
         }
         // localStorage.removeItem('bankMsg')
         localStorage.setItem('bankMsg',JSON.stringify(dataPrams))
