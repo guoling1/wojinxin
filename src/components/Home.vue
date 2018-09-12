@@ -134,7 +134,7 @@
           outerSource:'os0003740',
           outerid:'ou0000692',
           cid:'ci0000001',
-          rec_no:'ZHOUSHIWAN258'
+          rec_no:'ZHANGLEIBJ'
         }
         // localStorage.removeItem('bankMsg')
         localStorage.setItem('bankMsg',JSON.stringify(dataPrams))
@@ -164,7 +164,7 @@
         }
       },
       getData(){
-        this.$axios.post("/open/api/product/list",{sellFlag:1,areaId: 2,pageNo:this.pageNo,pageSize:this.pageSize})
+        this.$axios.post("/open/api/product/list",{sellFlag:1,areaId: 1655,pageNo:this.pageNo,pageSize:this.pageSize})
           .then(res=>{
             for(let i=0;i<res.data.list.length;i++){
               if(!res.data.list[i].swiperList||res.data.list[i].swiperList.length==0){
@@ -183,7 +183,7 @@
           })
       },
       loadMore(){
-        this.$axios.post("/open/api/product/list",{sellFlag:1,areaId: 2,pageNo:this.pageNo,pageSize:this.pageSize})
+        this.$axios.post("/open/api/product/list",{sellFlag:1,areaId: 1655,pageNo:this.pageNo,pageSize:this.pageSize})
           .then(res=>{
             for(let i=0;i<res.data.list.length;i++){
               if(!res.data.list[i].swiperList||res.data.list[i].swiperList.length==0){

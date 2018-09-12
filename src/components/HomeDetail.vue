@@ -22,7 +22,7 @@
     </div>
     <div class="address">
       <span class="attr">归属地区</span>
-      <span class="val">北京</span>
+      <span class="val">郑州</span>
       <!--<span class="val" @click="openAddress()">{{address.name}}</span>-->
     </div>
     <div class="address">
@@ -382,7 +382,7 @@ export default {
       let formData = {
         addressName:this.address.name,
         // addressId:this.address.id,
-        addressId:2,
+        addressId:1655,
         color:this.color,
       }
       if(!formData.addressId||this.phone=="请选择"||formData.color=='请选择'){
@@ -395,9 +395,9 @@ export default {
     confirmTips(){
       if(localStorage.getItem("userMessage")){
         let formData = {
-          addressName:"北京",
+          addressName:"郑州",
           // addressId:this.address.id,
-          addressId:2,
+          addressId:1655,
           productName:this.productData.name,
           setMealPrice:this.productData.price,
           setMealName:this.productData.name,
@@ -412,7 +412,7 @@ export default {
         }
         this.showTips = false;
         if(this.GLOBAL.isKDApp){
-          window.aladdin.navigator.forward({url:'http://www.wojinxin.com/#/shopInfor?addressName=北京&addressId=2&productName='+this.productData.name+'&setMealPrice='+this.productData.price+'&setMealName='+this.productData.name+'&circle='+this.productData.circle+'&price='+this.productData.price+'&busiType='+this.productData.busiType+'&color='+this.color+'&memory='+this.productData.memory+'&deposit='+this.productData.deposit+'&phone='+this.phone+'&id='+this.$route.query.id});
+          window.aladdin.navigator.forward({url:'http://www.wojinxin.com/#/shopInfor?addressName=郑州&addressId=1655&productName='+this.productData.name+'&setMealPrice='+this.productData.price+'&setMealName='+this.productData.name+'&circle='+this.productData.circle+'&price='+this.productData.price+'&busiType='+this.productData.busiType+'&color='+this.color+'&memory='+this.productData.memory+'&deposit='+this.productData.deposit+'&phone='+this.phone+'&id='+this.$route.query.id});
         }else{
           this.$router.push({path:"/shopInfor",query:formData})
         }
@@ -468,9 +468,9 @@ export default {
                       this.$store.commit('LOGIN', res.data.token);
                       this.showLogin = false;
                       let formData = {
-                        addressName:"北京",
+                        addressName:"郑州",
                         // addressId:this.address.id,
-                        addressId:2,
+                        addressId:1655,
                         productName:this.productData.name,
                         setMealPrice:this.productData.price,
                         setMealName:this.productData.name,
@@ -485,7 +485,7 @@ export default {
                       }
                       this.showTips = false;
                       if(this.GLOBAL.isKDApp){
-                        window.aladdin.navigator.forward({url:'http://www.wojinxin.com/#/shopInfor?addressName=北京&addressId=2&productName='+this.productData.name+'&setMealPrice='+this.productData.price+'&setMealName='+this.productData.name+'&circle='+this.productData.circle+'&price='+this.productData.price+'&busiType='+this.productData.busiType+'&color='+this.color+'&memory='+this.productData.memory+'&deposit='+this.productData.deposit+'&phone='+this.phone+'&id='+this.$route.query.id});
+                        window.aladdin.navigator.forward({url:'http://www.wojinxin.com/#/shopInfor?addressName=郑州&addressId=1655&productName='+this.productData.name+'&setMealPrice='+this.productData.price+'&setMealName='+this.productData.name+'&circle='+this.productData.circle+'&price='+this.productData.price+'&busiType='+this.productData.busiType+'&color='+this.color+'&memory='+this.productData.memory+'&deposit='+this.productData.deposit+'&phone='+this.phone+'&id='+this.$route.query.id});
                       }else{
                         this.$router.push({path:"/shopInfor",query:formData})
                       }
@@ -495,9 +495,9 @@ export default {
                           this.phone = this.formData.phone;
                           this.showLogin = false;
                           let formData = {
-                            addressName:"北京",
+                            addressName:"郑州",
                             // addressId:this.address.id,
-                            addressId:2,
+                            addressId:1655,
                             productName:this.productData.name,
                             setMealPrice:this.productData.packageList[0].price,
                             setMealName:this.productData.packageList[0].name,
