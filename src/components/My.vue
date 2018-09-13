@@ -77,7 +77,7 @@
         showLogin: false,
         count: '获取验证码',
         timer: null,
-        imgSrc:'http://www.wojinxin.com/zhengzhou/servlet/validateCodeServlet',
+        imgSrc:'http://zzpa.wojinxin.com/zhengzhou/servlet/validateCodeServlet',
         isLogin:false,
         showCode:false,
         showPrompt:false,
@@ -193,7 +193,7 @@
       },
       //点击图片重新获取验证码
       imgClick(){
-        this.imgSrc = "http://www.wojinxin.com/zhengzhou/servlet/validateCodeServlet?"+Math.random();
+        this.imgSrc = "http://zzpa.wojinxin.com/zhengzhou/servlet/validateCodeServlet?"+Math.random();
       },
       //验证图形验证码
       validateCode(){

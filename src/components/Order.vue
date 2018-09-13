@@ -47,7 +47,7 @@ export default {
       showLogin: false,
       count: '获取验证码',
       timer: null,
-      imgSrc:'http://www.wojinxin.com/zhengzhou/servlet/validateCodeServlet',
+      imgSrc:'http://zzpa.wojinxin.com/zhengzhou/servlet/validateCodeServlet',
       orderList:[],
       isLogin:false
     }
@@ -130,7 +130,7 @@ export default {
     },
     //点击图片重新获取验证码
     imgClick(){
-      this.imgSrc = "http://www.wojinxin.com/zhengzhou/servlet/validateCodeServlet?"+Math.random();
+      this.imgSrc = "http://zzpa.wojinxin.com/zhengzhou/servlet/validateCodeServlet?"+Math.random();
     },
     //验证图形验证码
     validateCode(){
