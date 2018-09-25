@@ -58,7 +58,7 @@
                   localStorage.setItem("token",res.data.token);
                   localStorage.setItem("phone",this.formData.phone);
                   if(this.GLOBAL.isKDApp){
-                    window.aladdin.navigator.forward({url:'http://www.wojinxin.com/#/my'});
+                    window.aladdin.navigator.forward({url:'http://test.hdjincheng.cn/#/my'});
                   }else{
                     this.$router.push("/my")
                   }

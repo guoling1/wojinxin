@@ -4,6 +4,7 @@ import MainMenu from '@/components/MainMenu'
 import Home from '@/components/Home'
 import Order from '@/components/Order'
 import OrderDetail from '@/components/OrderDetail'
+import Logistics from '@/components/Logistics'
 import My from '@/components/My'
 import HomeDetail from '@/components/HomeDetail'
 import ShopInfor from '@/components/ShopInfor'
@@ -59,6 +60,13 @@ export default new Router({
             title:"订单详情"
           },
           component:OrderDetail
+        },{
+          path:'/logistics',
+          name:'logistics',
+          meta:{
+            title:"物流信息"
+          },
+          component:Logistics
         },
       ]
     },
