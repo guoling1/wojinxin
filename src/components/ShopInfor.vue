@@ -193,6 +193,7 @@
         productName: this.$route.query.productName,//产品名称
         productPrice: this.$route.query.price,//产品价格
         productMobile: this.$route.query.phone,//产品手机号
+        number: this.$route.query.phone,
         circle: this.$route.query.circle,//套餐周期
         deposit: this.$route.query.deposit,//托管金额
         areaId: this.$route.query.addressId,//区域id
