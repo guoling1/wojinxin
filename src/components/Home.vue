@@ -158,9 +158,9 @@
         this.$store.commit("PHONE",'请选择')
         localStorage.removeItem('selectPhone');
         if(this.GLOBAL.isKDApp){
-          window.aladdin.navigator.forward({url:'http://test.hdjincheng.cn/#/homeDetail?id='+id+'&reload='+new Date().getTime()+'&areaId=2&proproductColor=&checkCode=0000&number='});
+          window.aladdin.navigator.forward({url:'http://test.hdjincheng.cn/#/homeDetail?id='+id+'&reload='+new Date().getTime()+'&areaId=1655&proproductColor=&checkCode=0000&number='});
         }else {
-          this.$router.push({path:"/homeDetail",query:{id:id,reload:new Date().getTime(),areaId:2,productColor:'',checkCode:'0000',number:''}})
+          this.$router.push({path:"/homeDetail",query:{id:id,reload:new Date().getTime(),areaId:1655,productColor:'',checkCode:'0000',number:''}})
         }
       },
       getData(){
