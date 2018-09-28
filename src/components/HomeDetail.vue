@@ -235,7 +235,9 @@
         messCode: '',
         isImgCode: false,
         rcdMobile: '',
-        phone: '请选择'
+        phone: '请选择',
+        netMode:'',
+        zhanyeStatus:''
       }
     },
     created() {
@@ -313,6 +315,12 @@
         }
         if(this.$route.query.number){
           this.phone = this.$route.query.number
+        }
+        if(this.$route.query.netMode){
+          this.netMode = this.$route.query.netMode
+        }
+        if(this.$route.query.zhanyeStatus){
+          this.zhanyeStatus = this.$route.query.zhanyeStatus
         }
         this.getData();
         if (localStorage.getItem('key')) {
@@ -495,11 +503,13 @@
           memory: this.productData.memory,
           deposit: this.productData.deposit,
           phone: this.phone,
-          id: this.$route.query.id
+          id: this.$route.query.id,
+          netMode: this.netMode,
+          zhanyeStatus: this.zhanyeStatus
         }
         this.showTips = false;
         if(this.GLOBAL.isKDApp) {
-          window.aladdin.navigator.forward({url:'http://www.wojinxin.com/#/shopInfor?addressName=郑州&addressId=1655&productName='+this.productData.name+'&setMealPrice='+this.productData.price+'&setMealName='+this.productData.name+'&circle='+this.productData.circle+'&price='+this.productData.price+'&busiType='+this.productData.busiType+'&color='+this.color+'&memory='+this.productData.memory+'&deposit='+this.productData.deposit+'&phone='+this.phone+'&id='+this.$route.query.id});
+          window.aladdin.navigator.forward({url:'http://www.wojinxin.com/#/shopInfor?addressName=郑州&addressId=1655&productName='+this.productData.name+'&setMealPrice='+this.productData.price+'&setMealName='+this.productData.name+'&circle='+this.productData.circle+'&price='+this.productData.price+'&busiType='+this.productData.busiType+'&color='+this.color+'&memory='+this.productData.memory+'&deposit='+this.productData.deposit+'&phone='+this.phone+'&id='+this.$route.query.id+'&netMode='+this.netMode+'&zhanyeStatus='+this.zhanyeStatus});
         }else{
           this.$router.push({path:"/shopInfor",query:formData})
         }
@@ -568,11 +578,13 @@
                         memory:this.productData.memory,
                         deposit:this.productData.deposit,
                         phone:this.phone,
-                        id:this.$route.query.id
+                        id:this.$route.query.id,
+                        netMode: this.netMode,
+                        zhanyeStatus: this.zhanyeStatus
                       }
                       this.showTips = false;
                       if(this.GLOBAL.isKDApp){
-                        window.aladdin.navigator.forward({url:'http://www.wojinxin.com/#/shopInfor?addressName=郑州&addressId=1655&productName='+this.productData.name+'&setMealPrice='+this.productData.price+'&setMealName='+this.productData.name+'&circle='+this.productData.circle+'&price='+this.productData.price+'&busiType='+this.productData.busiType+'&color='+this.color+'&memory='+this.productData.memory+'&deposit='+this.productData.deposit+'&phone='+this.phone+'&id='+this.$route.query.id});
+                        window.aladdin.navigator.forward({url:'http://www.wojinxin.com/#/shopInfor?addressName=郑州&addressId=1655&productName='+this.productData.name+'&setMealPrice='+this.productData.price+'&setMealName='+this.productData.name+'&circle='+this.productData.circle+'&price='+this.productData.price+'&busiType='+this.productData.busiType+'&color='+this.color+'&memory='+this.productData.memory+'&deposit='+this.productData.deposit+'&phone='+this.phone+'&id='+this.$route.query.id+'&netMode='+this.netMode+'&zhanyeStatus='+this.zhanyeStatus});
                       }else{
                         this.$router.push({path:"/shopInfor",query:formData})
                       }
