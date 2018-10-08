@@ -357,7 +357,7 @@
           // mobile:'',
           productId:this.id,
           productColor: color,
-          areaCode: '2'
+          areaCode: '1655'
         }
         this.$axios.post("/open/busi/netQueryParams", params)
           .then(res => {
