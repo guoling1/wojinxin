@@ -67,7 +67,7 @@
       <input type="number" placeholder="推荐人手机号(选填)" v-model="rcdMobile">
       <div class="button" @click="confirm()">确认</div>
     </div>
-    <actionsheet v-model="showhs" :menus="menus" show-cancel @on-click-menu="click5"></actionsheet>
+    <actionsheet v-model="showhs" :menus="menus" @on-click-menu="click5"></actionsheet>
     <!--选择地区-->
     <div>
       <popup v-model="showAddress" position="right" style="overflow: auto">
@@ -192,7 +192,7 @@
         showhs:false,
         menus:{
           menu1: '新用户',
-          menu2: '老用户'
+          // menu2: '老用户'
         },
         hideBlur: false,
         /*formData:{
@@ -373,6 +373,7 @@
                 form.appendChild(input)
               }
               document.getElementsByTagName('html')[0].appendChild(form)
+              form.style.display = 'none'
               form.submit();
             }
             // var data = JSON.parse(res.data);
@@ -395,7 +396,7 @@
             //   }
             //   return newObj;//返回排好序的新对象
             // }
-            standardPost('http://60.10.25.233:443/jkzyApp/woJXController/index.shtml', {msg:res.data})
+            standardPost('https://jkzy.10010.com:8083/jkzyApp/woJXController/index.shtml', {msg:res.data})
           })
       },
       toSelectPhone() {
