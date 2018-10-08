@@ -39,16 +39,24 @@
     </div>
     <div class="button" @click="submit()" v-if="isPay">立即付款</div>
     <div class="button" @click="toLogistics(orderMsg.expressCode)" v-if="orderMsg.payStatus=='已发货'">查看物流</div>
+
+    <toast v-model="warnText" type="warn" :text=errMsg></toast>
+    <toast v-model="showPrompt" position="middle" type="text" :text="promptMsg"></toast>
   </div>
 </template>
 
 <script>
+  import {Popup} from 'vux'
   export default {
     name: 'OrderDetail',
     data() {
       return {
         orderMsg:{},
-        isPay:false
+        isPay:false,
+        warnText: false,
+        errMsg: '',
+        showPrompt: false,
+        promptMsg: ''
       }
     },
     created() {
@@ -127,19 +135,31 @@
         }
       },
       submit(){
-        let koudai;
-        if(this.GLOBAL.isKDApp){
-          koudai=1;
-        }else {
-          koudai=0;
-        }
-        this.$axios.post("/open/api/aotoLoginURL",{orderNo:this.orderMsg.orderNo,koudai:koudai})
-          .then(res=>{
-            window.location.href=res.data;
+        this.$axios.post("/open/api/order/detail/get", {id: this.$route.query.id})
+          .then(res => {
+            this.orderMsg = res.data;
+            if(this.orderMsg.status=='已取消'){
+              this.showPrompt = true;
+              this.promptMsg = '订单已取消，请重新下单'
+            }else {
+              let koudai;
+              if(this.GLOBAL.isKDApp){
+                koudai=1;
+              }else {
+                koudai=0;
+              }
+              this.$axios.post("/open/api/aotoLoginURL",{orderNo:this.orderMsg.orderNo,koudai:koudai})
+                .then(res=>{
+                  window.location.href=res.data;
+                })
+              // this.$router.push("/writePhone")
+            }
           })
-        // this.$router.push("/writePhone")
       }
-    }
+    },
+    components: {
+      Popup
+    },
   }
 </script>
 
