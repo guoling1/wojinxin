@@ -396,7 +396,7 @@
             //   }
             //   return newObj;//返回排好序的新对象
             // }
-            standardPost('https://jkzy.10010.com:8083/jkzyApp/woJXController/index.shtml', {msg:res.data})
+            standardPost('http://60.10.25.233:443/jkzyApp/woJXController/index.shtml', {msg:res.data})
           })
       },
       toSelectPhone() {
