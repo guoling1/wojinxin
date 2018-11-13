@@ -68,6 +68,21 @@
           <span>证件号码</span>
           <input type="text" placeholder="这里输入证件号码" v-model="formData.idcard">
         </li>
+        <li class="cardPhoto">
+          <span>身份证正面</span>
+          <img id="cardFaceImg" src="../assets/idcardface.png" alt="" @click="uploadClick('cardFace')">
+          <input accept="image/*" type="file" @change="getFile($event,'cardFace','cardFaceImg','picFile')" id="cardFace" style="display: none">
+        </li>
+        <li class="cardPhoto">
+          <span>身份证背面</span>
+          <img id="cardBackImg" src="../assets/idcardback.png" alt="" @click="uploadClick('cardBack')">
+          <input accept="image/*" type="file" @change="getFile($event,'cardBack','cardBackImg','picFile2')" id="cardBack" style="display: none">
+        </li>
+        <li class="cardPhoto">
+          <span>手持身份证</span>
+          <img id="cardHandImg" src="../assets/idcardhand.png" alt="" @click="uploadClick('cardHand')">
+          <input accept="image/*" type="file" @change="getFile($event,'cardHand','cardHandImg','picFile3')" id="cardHand" style="display: none">
+        </li>
         <!--<li>
           <span>收货地址</span>
           <input type="text" placeholder="选择省市区">
@@ -86,6 +101,7 @@
         </li>
       </ul>
     </div>
+    <p class="tips">温馨提示：请当月激活号卡，套餐次月生效，建议尽量使用wifi避免产生额外费用。</p>
     <div class="button" @click="submit()">提交订单</div>
     <toast v-model="showPrompt" position="middle" type="text" :text="promptMsg"></toast>
   </div>
@@ -125,16 +141,20 @@
           productColor: '',//颜色
           setMeal: "",//所选号码
           sex: '男',
-          email: ''
+          email: '',
+
         },
         sex: '男',
         remarks: '',//备注
         showPrompt: false,
         promptMsg: '',
+        picFile: '',
+        picFile2: '',
+        picFile3: ''
       }
     },
     created() {
-      if(this.GLOBAL.isKDApp){
+      if (this.GLOBAL.isKDApp) {
         aladdin.header.config({
           //导航头部背景颜色
           backgroundColor: '#ffffff',
@@ -184,7 +204,8 @@
             //click: function () {
             //do something
             //}
-          }]}, function (err, param) {
+          }]
+        }, function (err, param) {
           //设置导航栏回调
         });
       }
@@ -214,7 +235,10 @@
         productMemory: this.$route.query.memory,
         packageName: this.$route.query.setMealName,
         sex: '男',
-        email: ''
+        email: '',
+        picFile: '',
+        picFile2: '',
+        picFile3: ''
       }
     },
     methods: {
@@ -223,8 +247,20 @@
         this.formData.xingPinyin = pyList[0].substring(0, 1).toUpperCase() + pyList[0].substring(1);
         this.formData.mingPinyin = pyList.slice(1).join('').substring(0, 1).toUpperCase() + pyList.slice(1).join('').substring(1);
       },
+      uploadClick(id) {
+        document.getElementById(id).click()
+      },
+      getFile(event, type, type64, name) {
+        let files = event.target.files || event.dataTransfer.files;
+        document.getElementById(type64).src = URL.createObjectURL(files[0])
+        for (var i in this.formData) {
+          if (i == name) {
+            this.formData[i] = files[0]
+          }
+        }
+      },
       submit() {
-        this.formData.idcard=this.formData.idcard.toUpperCase()
+        this.formData.idcard = this.formData.idcard.toUpperCase()
         let params = new FormData;
         let flag = true;
         for (var i in this.formData) {
@@ -253,13 +289,18 @@
           params.append('source', JSON.parse(localStorage.getItem('bankMsg')).source)
         }
         if (flag) {
-          this.$axios.post("/open/api/order/save", params)
+          this.$axios.post("/open/api/order/save", params, {
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+            }
+          )
             .then(res => {
               if (res.retCode == "0000") {
                 localStorage.setItem("productMessage", JSON.stringify(this.formData))
-                if(this.GLOBAL.isKDApp){
-                  window.aladdin.navigator.forward({url:'http://www.wojinxin.com/#/orderSubmit?id='+res.data.id});
-                }else{
+                if (this.GLOBAL.isKDApp) {
+                  window.aladdin.navigator.forward({url: 'http://www.wojinxin.com/#/orderSubmit?id=' + res.data.id});
+                } else {
                   this.$router.push("/orderSubmit?id=" + res.data.id)
                 }
               } else {
@@ -272,6 +313,7 @@
               this.warnText = true
             })
         } else {
+          console.log(this.formData)
           this.showPrompt = true;
           this.promptMsg = '请补全信息'
         }
@@ -411,13 +453,30 @@
           border-bottom: 1px solid #e5e5e5;
           span {
             display: inline-block;
-            width: 106px;
+            /*width: 106px;*/
+            width: 25%;
+          }
+        }
+        li.cardPhoto {
+          height: inherit;
+          img {
+            width: 55%;
+            vertical-align: text-top;
+            margin-bottom: 10px;
           }
         }
       }
     }
+    .tips {
+      padding: 0 15px;
+      font-size: 12px;
+      text-align: left;
+      margin-top: 10px;
+      line-height: 16px;
+      color: #ff0000;
+    }
     .button {
-      margin-top: 37px;
+      margin-top: 15px;
       height: 48px;
       line-height: 48px;
       color: #fff;
