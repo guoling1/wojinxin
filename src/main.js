@@ -65,12 +65,12 @@ axios.interceptors.response.use(
     if(status == 200) {
       // response.data = data.retObject||data;
       response.data = data.retObject;
-      if(data.retCode=='1006'){
-        router.replace({
-          path: '/regist',
-          query: {redirect: router.currentRoute.fullPath}
-        })
-      }
+      // if(data.retCode=='1006'){
+      //   router.replace({
+      //     path: '/regist',
+      //     query: {redirect: router.currentRoute.fullPath}
+      //   })
+      // }
     }
     response.retMsg = data.retMsg;
     response.retCode = data.retCode;

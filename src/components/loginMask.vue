@@ -85,7 +85,11 @@ export default {
         })
     },
     login(){
-      if(!this.phoneReg.test(this.formData.phone)){
+      localStorage.setItem('userMessage', JSON.stringify({phone:this.formData.phone}));
+      localStorage.setItem("phone",this.formData.phone)
+      this.$store.commit('LOGIN', '11');
+      this.showLogin = false;
+      /*if(!this.phoneReg.test(this.formData.phone)){
         this.showPrompt = true;
         this.promptMsg = '请输入正确的手机号'
       }else if(this.formData.messageCode==''){
@@ -132,7 +136,7 @@ export default {
                   })
               }}
           })
-      }
+      }*/
 
     },
     //点击图片重新获取验证码

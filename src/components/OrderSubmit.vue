@@ -183,7 +183,7 @@ export default {
         })
     },
     submit(){
-      this.showSubmit = true;
+      // this.showSubmit = true;
     },
     pay(){
       if(this.GLOBAL.isKDApp){

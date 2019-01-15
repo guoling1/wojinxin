@@ -289,7 +289,7 @@
           params.append('source', JSON.parse(localStorage.getItem('bankMsg')).source)
         }
         if (flag) {
-          this.$axios.post("/open/api/order/save", params, {
+          /*this.$axios.post("/open/api/order/save", params, {
               headers: {
                 'Content-Type': 'multipart/form-data'
               }
@@ -311,7 +311,7 @@
             .catch(err => {
               this.errMsg = err
               this.warnText = true
-            })
+            })*/
         } else {
           console.log(this.formData)
           this.showPrompt = true;

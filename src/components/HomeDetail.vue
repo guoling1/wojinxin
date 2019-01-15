@@ -431,7 +431,27 @@ export default {
       }
     },
     toBuy(){
-      if(!this.phoneReg.test(this.formData.phone)){
+      localStorage.setItem('userMessage', JSON.stringify({phone:this.formData.phone}));
+      localStorage.setItem("phone",this.formData.phone)
+      this.phone = this.formData.phone;
+      let formData = {
+        addressName:"北京",
+        // addressId:this.address.id,
+        addressId:2,
+        productName:this.productData.name,
+        setMealPrice:this.productData.price,
+        setMealName:this.productData.name,
+        circle:this.productData.circle,
+        price:this.productData.price,
+        busiType:this.productData.busiType,
+        color:this.color,
+        memory:this.productData.memory,
+        deposit:this.productData.deposit,
+        phone:this.phone,
+        id:this.$route.query.id
+      }
+      this.$router.push({path:"/shopInfor",query:formData})
+      /*if(!this.phoneReg.test(this.formData.phone)){
         this.showPrompt = true;
         this.promptMsg = '请输入正确的手机号'
       }else if(this.formData.messageCode==''){
@@ -489,7 +509,7 @@ export default {
                       }else{
                         this.$router.push({path:"/shopInfor",query:formData})
                       }
-                      /*this.$axios.post("/open/api/customer/save",{mobile:this.formData.phone})
+                      /!*this.$axios.post("/open/api/customer/save",{mobile:this.formData.phone})
                         .then(res=>{
                           localStorage.setItem("phone",this.formData.phone)
                           this.phone = this.formData.phone;
@@ -511,7 +531,7 @@ export default {
                           }
                           this.showTips = false
                           this.$router.push({path:"/shopInfor",query:formData})
-                        })*/
+                        })*!/
                     }else {
                       this.showPrompt = true;
                       this.promptMsg = res.retMsg
@@ -523,7 +543,7 @@ export default {
                   })
               }}
           })
-      }
+      }*/
     },
     //获取验证码
     getCode(){
